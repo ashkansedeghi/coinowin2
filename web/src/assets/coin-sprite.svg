@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <symbol id="coin-btc" viewBox="0 0 32 32">
+    <circle cx="16" cy="16" r="16" fill="#f7931a" />
+    <text x="16" y="20" text-anchor="middle" font-size="14" font-family="Inter, sans-serif" fill="#0b0f10">₿</text>
+  </symbol>
+  <symbol id="coin-eth" viewBox="0 0 32 32">
+    <circle cx="16" cy="16" r="16" fill="#3c3c3d" />
+    <text x="16" y="20" text-anchor="middle" font-size="14" font-family="Inter, sans-serif" fill="#fff">Ξ</text>
+  </symbol>
+  <symbol id="coin-sol" viewBox="0 0 32 32">
+    <circle cx="16" cy="16" r="16" fill="#14f195" />
+    <text x="16" y="20" text-anchor="middle" font-size="13" font-family="Inter, sans-serif" fill="#0b0f10">SOL</text>
+  </symbol>
+  <symbol id="coin-bnb" viewBox="0 0 32 32">
+    <circle cx="16" cy="16" r="16" fill="#f3ba2f" />
+    <text x="16" y="20" text-anchor="middle" font-size="13" font-family="Inter, sans-serif" fill="#0b0f10">BNB</text>
+  </symbol>
+  <symbol id="coin-xrp" viewBox="0 0 32 32">
+    <circle cx="16" cy="16" r="16" fill="#23292f" />
+    <text x="16" y="20" text-anchor="middle" font-size="13" font-family="Inter, sans-serif" fill="#fff">XRP</text>
+  </symbol>
+  <symbol id="coin-ada" viewBox="0 0 32 32">
+    <circle cx="16" cy="16" r="16" fill="#0033ad" />
+    <text x="16" y="20" text-anchor="middle" font-size="13" font-family="Inter, sans-serif" fill="#fff">ADA</text>
+  </symbol>
+  <symbol id="coin-doge" viewBox="0 0 32 32">
+    <circle cx="16" cy="16" r="16" fill="#c2a633" />
+    <text x="16" y="20" text-anchor="middle" font-size="13" font-family="Inter, sans-serif" fill="#0b0f10">Ð</text>
+  </symbol>
+  <symbol id="coin-ton" viewBox="0 0 32 32">
+    <circle cx="16" cy="16" r="16" fill="#0098ea" />
+    <text x="16" y="20" text-anchor="middle" font-size="13" font-family="Inter, sans-serif" fill="#fff">TON</text>
+  </symbol>
+  <symbol id="coin-trx" viewBox="0 0 32 32">
+    <circle cx="16" cy="16" r="16" fill="#ff0026" />
+    <text x="16" y="20" text-anchor="middle" font-size="13" font-family="Inter, sans-serif" fill="#fff">TRX</text>
+  </symbol>
+  <symbol id="coin-dot" viewBox="0 0 32 32">
+    <circle cx="16" cy="16" r="16" fill="#e6007a" />
+    <text x="16" y="20" text-anchor="middle" font-size="13" font-family="Inter, sans-serif" fill="#fff">DOT</text>
+  </symbol>
+  <symbol id="coin-usdt" viewBox="0 0 32 32">
+    <circle cx="16" cy="16" r="16" fill="#26a17b" />
+    <text x="16" y="20" text-anchor="middle" font-size="13" font-family="Inter, sans-serif" fill="#fff">USDT</text>
+  </symbol>
+</svg>

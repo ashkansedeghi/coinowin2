@@ -1,0 +1,16 @@
+{
+  "name": "Ava Trader",
+  "email": "ava.trader@coino.win",
+  "tier": "Pro",
+  "wallet": [
+    {"symbol": "USDT", "name": "Tether", "balance": 125000.5, "available": 118000.3, "locked": 7000.2, "icon": "usdt"},
+    {"symbol": "BTC", "name": "Bitcoin", "balance": 2.45, "available": 1.95, "locked": 0.5, "icon": "btc"},
+    {"symbol": "ETH", "name": "Ethereum", "balance": 42.8, "available": 40.1, "locked": 2.7, "icon": "eth"},
+    {"symbol": "SOL", "name": "Solana", "balance": 380.3, "available": 320.3, "locked": 60, "icon": "sol"}
+  ],
+  "orders": [
+    {"id": "ORD-1001", "symbol": "BTCUSDT", "type": "limit", "side": "buy", "price": 65000, "qty": 0.5, "status": "open", "createdAt": 1699993600000},
+    {"id": "ORD-1002", "symbol": "ETHUSDT", "type": "market", "side": "sell", "qty": 10, "status": "filled", "createdAt": 1699997200000},
+    {"id": "ORD-1003", "symbol": "SOLUSDT", "type": "limit", "side": "buy", "price": 150, "qty": 50, "status": "open", "createdAt": 1700000800000}
+  ]
+}

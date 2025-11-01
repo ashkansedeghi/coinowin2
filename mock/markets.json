@@ -1,0 +1,12 @@
+[
+  {"symbol":"BTCUSDT","base":"BTC","quote":"USDT","last":67123.45,"chgPct":1.24,"vol":12345.6},
+  {"symbol":"ETHUSDT","base":"ETH","quote":"USDT","last":3567.2,"chgPct":-0.82,"vol":9876.5},
+  {"symbol":"SOLUSDT","base":"SOL","quote":"USDT","last":172.35,"chgPct":3.12,"vol":5432.1},
+  {"symbol":"BNBUSDT","base":"BNB","quote":"USDT","last":605.1,"chgPct":0.45,"vol":3123},
+  {"symbol":"XRPUSDT","base":"XRP","quote":"USDT","last":0.62,"chgPct":-1.11,"vol":81234},
+  {"symbol":"ADAUSDT","base":"ADA","quote":"USDT","last":0.512,"chgPct":2.56,"vol":61234},
+  {"symbol":"DOGEUSDT","base":"DOGE","quote":"USDT","last":0.148,"chgPct":1.77,"vol":71234},
+  {"symbol":"TONUSDT","base":"TON","quote":"USDT","last":5.12,"chgPct":-0.35,"vol":4234},
+  {"symbol":"TRXUSDT","base":"TRX","quote":"USDT","last":0.139,"chgPct":0.91,"vol":51234},
+  {"symbol":"DOTUSDT","base":"DOT","quote":"USDT","last":9.87,"chgPct":-2.2,"vol":31234}
+]
