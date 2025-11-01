@@ -1,0 +1,131 @@
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
+
+const resources = {
+  en: {
+    translation: {
+      markets: 'Markets',
+      spot: 'Spot',
+      wallet: 'Wallet',
+      orders: 'Orders',
+      settings: 'Settings',
+      support: 'Support',
+      search: 'Search markets',
+      topGainers: 'Top gainers',
+      topLosers: 'Top losers',
+      volume: 'Volume',
+      price: 'Price',
+      type: 'Type',
+      change: '24h %',
+      lastPrice: 'Last price',
+      offline: 'Offline Demo — No Real Trading',
+      welcome: 'Welcome back',
+      buy: 'Buy',
+      sell: 'Sell',
+      market: 'Market',
+      limit: 'Limit',
+      amount: 'Amount',
+      total: 'Total',
+      submit: 'Submit order',
+      invalidQty: 'Enter a valid amount',
+      openOrders: 'Open Orders',
+      orderHistory: 'Order History',
+      tradeHistory: 'Trade History',
+      exportCsv: 'Export CSV',
+      status: 'Status',
+      date: 'Date',
+      close: 'Close',
+      theme: 'Theme',
+      language: 'Language',
+      currency: 'Currency',
+      dark: 'Dark',
+      light: 'Light',
+      english: 'English',
+      persian: 'Persian',
+      faqTitle: 'Frequently asked questions',
+      deposit: 'Deposit',
+      withdraw: 'Withdraw',
+      available: 'Available',
+      locked: 'Locked',
+      balance: 'Balance',
+      portfolioValue: 'Portfolio value',
+      recentTrades: 'Recent trades',
+      orderBook: 'Order book',
+      walletAssets: 'Wallet assets',
+      timeframe: 'Timeframe',
+      time: 'Time',
+      chooseMarket: 'Choose a market to get started',
+      networkNotice: 'All data shown are mock and never leave this device.'
+    }
+  },
+  fa: {
+    translation: {
+      markets: 'بازارها',
+      spot: 'معاملات لحظه‌ای',
+      wallet: 'کیف پول',
+      orders: 'سفارش‌ها',
+      settings: 'تنظیمات',
+      support: 'پشتیبانی',
+      search: 'جستجوی بازارها',
+      topGainers: 'بیشترین رشد',
+      topLosers: 'بیشترین افت',
+      volume: 'حجم',
+      price: 'قیمت',
+      type: 'نوع',
+      change: '٪۲۴ ساعته',
+      lastPrice: 'آخرین قیمت',
+      offline: 'نسخه آفلاین — بدون معامله واقعی',
+      welcome: 'خوش‌آمدید',
+      buy: 'خرید',
+      sell: 'فروش',
+      market: 'بازار',
+      limit: 'محدود',
+      amount: 'مقدار',
+      total: 'مجموع',
+      submit: 'ثبت سفارش',
+      invalidQty: 'مقدار معتبر وارد کنید',
+      openOrders: 'سفارش‌های باز',
+      orderHistory: 'تاریخچه سفارش',
+      tradeHistory: 'تاریخچه معامله',
+      exportCsv: 'خروجی CSV',
+      status: 'وضعیت',
+      date: 'تاریخ',
+      close: 'بستن',
+      theme: 'پوسته',
+      language: 'زبان',
+      currency: 'ارز',
+      dark: 'تیره',
+      light: 'روشن',
+      english: 'انگلیسی',
+      persian: 'فارسی',
+      faqTitle: 'سوالات پرتکرار',
+      deposit: 'واریز',
+      withdraw: 'برداشت',
+      available: 'در دسترس',
+      locked: 'مسدود شده',
+      balance: 'تراز',
+      portfolioValue: 'ارزش پرتفو',
+      recentTrades: 'معاملات اخیر',
+      orderBook: 'دفتر سفارش',
+      walletAssets: 'دارایی‌ها',
+      timeframe: 'بازه',
+      time: 'زمان',
+      chooseMarket: 'برای شروع یک بازار انتخاب کنید',
+      networkNotice: 'تمام داده‌ها موک بوده و از دستگاه خارج نمی‌شوند.'
+    }
+  }
+};
+
+export const initI18n = () => {
+  if (!i18n.isInitialized) {
+    i18n.use(initReactI18next).init({
+      resources,
+      fallbackLng: 'en',
+      lng: 'en',
+      interpolation: { escapeValue: false }
+    });
+  }
+  return i18n;
+};
+
+export default i18n;
