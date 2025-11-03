@@ -2,30 +2,27 @@
 
 CoinoWin is a fully offline rebrand of the OPEX Web App experience. The interface emulates a professional exchange (Binance/OKX style) using local mock data only—no network calls are performed at runtime.
 
-## Getting started
+## Offline bundle
+
+The repository now ships with a prebuilt single-file experience: `index-standalone.html`.
+
+### How to open
+
+- **Double click** the file (`file:///` URL) or
+- Serve it from a lightweight static server, e.g. `python -m http.server 8080` and visit <http://127.0.0.1:8080/index-standalone.html>.
+
+Everything—fonts, icons, styles, scripts, and mock datasets—is embedded directly inside the HTML file. No additional assets or external CDNs are required.
+
+## Development (optional)
+
+If you want to work on the React source, the usual Vite workflow is still available:
 
 ```bash
 npm install
 npm run dev
 ```
 
-The dev server runs with Vite and uses the mock API layer located in `web/src/lib/api.mock.ts`.
-
-## Building
-
-```bash
-npm run build
-```
-
-The production bundle is emitted into `dist/`.
-
-## Standalone offline build
-
-```bash
-npm run build:standalone
-```
-
-This command builds the Vite bundle and then inlines all CSS, JS, and icon assets into a single `index-standalone.html` file. The repository ships with a placeholder file that is replaced the first time you execute the command. Opening the regenerated file from disk renders the complete CoinoWin UI offline.
+The dev server uses the mock API layer located in `web/src/lib/api.mock.ts`.
 
 ## Project structure
 
