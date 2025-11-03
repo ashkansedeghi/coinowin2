@@ -2,40 +2,62 @@
 <html lang="fa" dir="rtl">
   <head>
     <!-- BUILD 30a3d4d @ 2025-11-03T12:20:18Z -->
+    <!-- Offline UI inspired by open-source exchange layouts (MIT-based). -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       http-equiv="Content-Security-Policy"
       content="default-src 'self' data: blob: 'unsafe-inline'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline' data:; script-src 'self' 'unsafe-inline' data:; connect-src 'self' data: blob:;"
     />
-    <title>CoinoWin — حالت آفلاین</title>
+    <title>Coinowin — نسخهٔ آفلاین کامل</title>
     <style>
       :root {
-        color-scheme: dark;
+        color-scheme: dark light;
+        --brand-primary: #1fd6c9;
+        --brand-secondary: #3b82f6;
         --bg: #070b11;
         --bg-soft: #0e151f;
-        --bg-elevated: #111c2b;
-        --fg: #f7f8fa;
-        --fg-muted: #a8b3c5;
-        --accent: #34d399;
-        --accent-soft: rgba(52, 211, 153, 0.12);
-        --danger: #f87171;
-        --border: rgba(148, 163, 184, 0.16);
-        --font-sans: 'BYekan', 'Vazirmatn', 'Segoe UI', 'Tahoma', system-ui, sans-serif;
+        --bg-elevated: rgba(15, 23, 42, 0.8);
+        --fg: #f7f9fc;
+        --fg-muted: #9aa7c2;
+        --border: rgba(148, 163, 184, 0.18);
+        --positive: #22c55e;
+        --negative: #ef4444;
+        --warning: #f59e0b;
+        --shadow: 0 24px 60px rgba(8, 15, 27, 0.35);
+        --font-sans: 'Vazirmatn', 'BYekan', 'Segoe UI', Tahoma, sans-serif;
       }
-      @font-face {
-        font-family: 'BYekan';
-        font-style: normal;
-        font-weight: 400;
-        font-display: swap;
-        src: local('BYekan'), local('Vazirmatn');
+      :root[data-theme='light'] {
+        --bg: #f4f6fb;
+        --bg-soft: #ffffff;
+        --bg-elevated: rgba(255, 255, 255, 0.88);
+        --fg: #0f172a;
+        --fg-muted: #52607a;
+        --border: rgba(15, 23, 42, 0.12);
+        --shadow: 0 24px 64px rgba(15, 23, 42, 0.12);
+      }
+      :root[data-font='vazir'] {
+        --font-sans: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
+      }
+      :root[data-font='byekan'] {
+        --font-sans: 'BYekan', 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
       }
       @font-face {
         font-family: 'Vazirmatn';
         font-style: normal;
         font-weight: 400;
         font-display: swap;
-        src: local('Vazirmatn');
+        src: url('data:font/woff2;base64,d09GMgABAAAAADnYABIAAAABfAAAAFQAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAGxgAAGxgC0hEAAE2AiQDhxgEIAhHg7YJCwkAATYCJAMHGAQgCEeDud27YkMgADNlmQItB4f7s/m/zj/37m9n3P7u7s7szOzkO8wEA2khSWFAyZDJRiRyAEAAiqCAMgqCAIrGCEsChP6gFmFvQg6AIso/ob1AxEoM5YSkMvML5SPJvya1DOQDnIGAcBgZBGDSAKBQiHgCZW4DLxFG4FEdAoIkDnh6KHS5k8oVQBKsWGYBPuzf7Jd4wGJrgYQSLeA1fyA9sBJCMFJoEkaBrF2M4bHITv4phLcAZba/FBRJx0dPdI1WkcrgbqVq1ZsGfT3XZr3Ddvp0fXB0xv1jZfPvdp8+u+q9+vy+Uz0ntHOnr5w5eqp6vvXp3dvrH1n/xvcv+dhwC6OSpqgTRBMKME4UyVKA3f/9NJjWlSPmIaxKFXjLoXyVXfnE1TDVJaQdOnXj+7SvWm6fPt03UjnCbiwDKWyBVcgXH+/X7VpWS9hvM0aznpLY0YaUyGexaiRrxsvq9A9fmJFO0iE2aSpd5nsyg84dchDOQOfnUf7mFHgB7EPv+y96Jr4zuCxB3PT8tAtH1yhJex7dO2rU9/abfntdO1aWRamhSKycFpH3RWHhmwm3Lx2uTp681Ps9Pt7e3W9vbz+VIBYfaWWA6u1ph9XVV3dWrjF66EoHap6ZpDwR0w2Qrj6X09n51++unV/73ePr9y9d7B7A7OhBiYjUnNjr0HADgJ8TZnY80Scn95cyUiVIiGAWVIgAPlgBjA0Q7RhmD1ahSxn8KCTEfIuGPgVsr+KmEP8bDLBwHcjgDU0tBSKCiok1ME8I4elUml2SuW7d6EMB6lKp1IFRhhwA6UFx3g46qOO8OUjFUYxWmCSBqxxrEUBls4SV+lVCKN4Ki+VMzrh3Ml7clTdxzMB4A0vMTwDM1LhFXYp1tZm9DT4dBjeyUxK7dZ5mhP/HhjA2iKNaDxGAIXRwgRCzG6OBqALnB4e8xUZSBQiKMBvsD8Tr6MKKZXYXd9mc/FErk7LFIwNPH6bXpZC85xW+0xySUrWpppQwPZdJFnxwkuhmfCRiG9nixgs1IKTTKy4tCSguDCAfgEGR2dDr7BDi4kfwCQdXNrAAgjmHgKwBnp29oSMJ2B1fQUMJXTf//9YuxzEex1PzGfUuU8r5b1KmqaYi/PVZ9CclNKcZlHCJrSAgSeigW8ZyPO1iFFofoKu0u+jbukUd2JWnD4jp3wIu7B0nHuTkNnVJ8JqQKQoybgixFyWmc35R5kRDlArUk9XwTzJ8422LdEziLqBiXNcD99hBRVVVi7btIzRzMp6FV6xWY9ob12kwqqYJ0HZ6GJoxjPZwIu7hmsAxPua5i7D8BvPqslIqjQCAAAAAA=') format('woff2');
+      }
+      @font-face {
+        font-family: 'BYekan';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url('data:font/woff2;base64,d09GMgABAAAAAEMwABIAAAAAa0AAAE+AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAGxgAAGxgC0hEAAE2AiQDhxgEIAhHg7YJCwkAATYCJAMHGAQgCEeDud27YkMgADXtqQItB4f7s/m/zj/37m9n3P7u7s7szOzkO8wEAWkhRWFAyZDJRiRyAEAAiqCEMgqCEIrGCEsChP6gFmFvQg6AIso/ob1AxEoM5YS0MvML5SPJvya1DOQDnIGAcBgZBGDSAKBQiHgCZW4DLxFG4FEdAoIkDnh6KHS5k8oVQBKsWGYBPuzf7Jd4wGJrgYQSLeA1fyA9sBJCMFJoEkaBrF2M4bHITv4phLcAZba/FBRJx0dPdI1WkcrgbqVq1ZsGfT3XZr3Ddvp0fXB0xv1jZfPvdp8+u+q9+vy+Uz0ntHOnr5w5eqp6vvXp3dvrH1n/xvcv+dhwC6OSpqgTRBMKME4UyVKA3f/9NJjWlSPmIaxKFXjLoXyVXfnE1TDVJaQdOnXj+7SvWm6fPt03UjnCbiwDKWyBVcgXH+/X7VpWS9hvM0aznpLY0YaUyGexaiRrxsvq9A9fmJFO0iE2aSpd5nsyg84dchDOQOfnUf7mFHgB7EPv+y96Jr4zuCxB3PT8tAtH1yhJex7dO2rU9/abfntdO1aWRamhSKycFpH3RWHhmwm3Lx2uTp681Ps9Pt7e3W9vbz+VIBYfaWWA6u1ph9XVV3dWrjF66EoHap6ZpDwR0w2Qrj6X09n51++unV/73ePr9y9d7B7A7OhBiYjUnNjr0HADgJ8TZnY80Scn95cyUiVIiGAWVIgAPlgBjA0Q7RhmD1ahSxn8KCTEfIuGPgVsr+KmEP8bDLBwHcjgDU0tBSKCiok1ME8I4elUml2SuW7d6EMB6lKp1IFRhhwA6UFx3g46qOO8OUjFUYxWmCSBqxxrEUBls4SV+lVCKN4Ki+VMzrh3Ml7clTdxzMB4A0vMTwDM1LhFXYp1tZm9DT4dBjeyUxK7dZ5mhP/HhjA2iKNaDxGAIXRwgRCzG6OBqALnB4e8xUZSBQiKMBvsD8Tr6MKKZXYXd9mc/FErk7LFIwNPH6bXpZC85xW+0xySUrWpppQwPZdJFnxwkuhmfCRiG9nixgs1IKTTKy4tCSguDCAfgEGR2dDr7BDi4kfwCQdXNrAAgjmHgKwBnp29oSMJ2B1fQUMJXTf//9YuxzEex1PzGfUuU8r5b1KmqaYi/PVZ9CclNKcZlHCJrSAgSeigW8ZyPO1iFFofoKu0u+jbukUd2JWnD4jp3wIu7B0nHuTkNnVJ8JqQKQoybgixFyWmc35R5kRDlArUk9XwTzJ8422LdEziLqBiXNcD99hBRVVVi7btIzRzMp6FV6xWY9ob12kwqqYJ0HZ6GJoxjPZwIu7hmsAxPua5i7D8BvPqslIqjQCAAAAAA=') format('woff2');
+      }
+      * {
+        box-sizing: border-box;
       }
       html,
       body {
@@ -47,7 +69,7 @@
         -webkit-font-smoothing: antialiased;
         text-rendering: optimizeLegibility;
         font-variant-numeric: tabular-nums;
-        min-height: 100%;
+        min-height: 100vh;
       }
       body {
         display: flex;
@@ -64,76 +86,201 @@
         flex: 1;
         display: flex;
         flex-direction: column;
+        min-height: 0;
       }
       header {
-        padding: 16px 24px;
-        background: linear-gradient(90deg, rgba(52, 211, 153, 0.14), transparent);
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        backdrop-filter: blur(18px);
+        background: linear-gradient(90deg, rgba(31, 214, 201, 0.18), rgba(59, 130, 246, 0.15));
         border-bottom: 1px solid var(--border);
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: 18px;
+        padding: 14px 24px 10px;
+      }
+      .brand {
         display: flex;
         align-items: center;
-        gap: 16px;
-      }
-      .logo {
+        gap: 12px;
         font-weight: 700;
         font-size: 20px;
         letter-spacing: 0.05em;
       }
+      .brand img {
+        width: 32px;
+        height: 32px;
+        border-radius: 12px;
+        box-shadow: 0 10px 22px rgba(31, 214, 201, 0.35);
+      }
       nav {
         display: flex;
-        gap: 12px;
-        font-size: 14px;
+        align-items: center;
+        gap: 8px;
+        justify-content: flex-end;
+        flex-wrap: wrap;
       }
       nav a {
-        padding: 6px 12px;
+        font-size: 13px;
+        padding: 6px 14px;
         border-radius: 999px;
-        transition: background 0.2s ease;
+        border: 1px solid transparent;
+        transition: all 0.2s ease;
+        color: var(--fg-muted);
       }
       nav a.active,
       nav a:hover {
-        background: rgba(52, 211, 153, 0.16);
-        color: #34d399;
+        color: var(--fg);
+        border-color: rgba(31, 214, 201, 0.45);
+        background: rgba(31, 214, 201, 0.18);
       }
       .build-pill {
-        margin-inline-start: auto;
-        padding: 4px 10px;
+        justify-self: flex-start;
+        padding: 6px 12px;
         border-radius: 999px;
-        background: rgba(52, 211, 153, 0.18);
-        border: 1px solid rgba(52, 211, 153, 0.4);
+        background: rgba(31, 214, 201, 0.16);
+        border: 1px solid rgba(31, 214, 201, 0.42);
         font-size: 12px;
-        color: #34d399;
+        color: #12e3d2;
         font-weight: 600;
+      }
+      .ticker-strip {
+        background: rgba(15, 23, 42, 0.82);
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        gap: 12px;
+        overflow-x: auto;
+        padding: 8px 24px;
+        white-space: nowrap;
+      }
+      :root[data-theme='light'] .ticker-strip {
+        background: rgba(255, 255, 255, 0.85);
+      }
+      .ticker-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        padding: 4px 10px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .ticker-item.positive {
+        color: var(--positive);
+        background: rgba(34, 197, 94, 0.12);
+      }
+      .ticker-item.negative {
+        color: var(--negative);
+        background: rgba(239, 68, 68, 0.12);
       }
       main {
         flex: 1;
-        padding: 24px;
+        padding: 24px clamp(16px, 4vw, 40px) 40px;
+        overflow-y: auto;
         display: grid;
-        gap: 20px;
+        gap: 24px;
+        position: relative;
       }
-      .trade-layout {
-        display: grid;
-        gap: 20px;
-        grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
-        grid-template-areas:
-          'chart orderbook'
-          'depth trades';
+      .page {
+        display: none;
+        flex-direction: column;
+        gap: 24px;
+        min-height: 0;
+      }
+      .page.active {
+        display: flex;
       }
       .card {
         background: var(--bg-soft);
         border: 1px solid var(--border);
-        border-radius: 16px;
-        padding: 16px;
-        box-shadow: 0 18px 36px rgba(15, 23, 42, 0.25);
+        border-radius: 18px;
+        padding: 18px;
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(12px);
       }
-      .card h2 {
+      .card h2,
+      .card h3 {
         margin: 0 0 12px;
         font-size: 16px;
       }
-      canvas {
-        width: 100%;
-        height: 260px;
-        display: block;
+      .row {
+        display: grid;
+        gap: 18px;
+      }
+      .row.two {
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      }
+      .row.three {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      }
+      .search-bar {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      input,
+      select,
+      button,
+      textarea {
+        font-family: inherit;
+        font-size: 13px;
+      }
+      input,
+      select,
+      textarea {
+        background: rgba(148, 163, 184, 0.12);
+        color: inherit;
+        border: 1px solid rgba(148, 163, 184, 0.22);
         border-radius: 12px;
-        background: var(--bg);
+        padding: 8px 12px;
+        transition: border 0.2s ease;
+      }
+      input:focus,
+      select:focus,
+      textarea:focus {
+        border-color: rgba(31, 214, 201, 0.6);
+        outline: none;
+      }
+      button {
+        cursor: pointer;
+        border: none;
+        border-radius: 12px;
+        padding: 8px 16px;
+        background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+        color: #fff;
+        font-weight: 600;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+      button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 12px 30px rgba(31, 214, 201, 0.25);
+      }
+      button.secondary {
+        background: rgba(148, 163, 184, 0.16);
+        color: var(--fg);
+        border: 1px solid rgba(148, 163, 184, 0.24);
+        box-shadow: none;
+      }
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 12px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        cursor: pointer;
+        font-size: 12px;
+        color: var(--fg-muted);
+        transition: all 0.2s ease;
+      }
+      .chip.active,
+      .chip:hover {
+        border-color: rgba(31, 214, 201, 0.6);
+        color: var(--fg);
+        background: rgba(31, 214, 201, 0.12);
       }
       table {
         width: 100%;
@@ -142,578 +289,1603 @@
       }
       th,
       td {
-        padding: 6px 4px;
-        text-align: left;
-      }
-      tbody tr:nth-child(odd) {
-        background: rgba(15, 23, 42, 0.36);
-      }
-      tbody tr:nth-child(even) {
-        background: rgba(15, 23, 42, 0.14);
+        text-align: right;
+        padding: 10px 8px;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.1);
       }
       tbody tr:hover {
-        background: rgba(52, 211, 153, 0.12);
+        background: rgba(31, 214, 201, 0.08);
       }
-      .split {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 12px;
+      .sparkline {
+        height: 32px;
+        width: 100px;
       }
-      .form-group {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-      }
-      .form-group label {
-        font-size: 12px;
-        color: var(--fg-muted);
-      }
-      .form-group input {
-        border-radius: 10px;
-        border: 1px solid var(--border);
-        background: var(--bg);
-        color: var(--fg);
-        padding: 10px;
-        font: inherit;
-      }
-      button {
-        cursor: pointer;
-        border: none;
-        border-radius: 10px;
-        padding: 10px;
-        font-weight: 600;
-        font-size: 14px;
-        font-family: var(--font-sans);
-        transition: transform 0.1s ease, box-shadow 0.1s ease;
-      }
-      .btn-buy {
-        background: var(--accent);
-        color: #062e23;
-      }
-      .btn-sell {
-        background: var(--danger);
-        color: #fff;
-      }
-      button:active {
-        transform: scale(0.98);
-      }
-      footer {
-        padding: 16px 24px 32px;
-        text-align: center;
-        font-size: 12px;
-        color: var(--fg-muted);
-      }
-      .markets-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 12px;
-      }
-      .market-card {
-        background: var(--bg-soft);
-        border: 1px solid var(--border);
+      canvas.chart,
+      canvas.depth {
+        width: 100%;
+        height: 280px;
         border-radius: 14px;
+        background: rgba(15, 23, 42, 0.6);
+      }
+      .orderbook {
+        display: grid;
+        gap: 16px;
+      }
+      .orderbook-columns {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        max-height: 320px;
+      }
+      .orderbook-list {
+        background: rgba(15, 23, 42, 0.36);
+        border: 1px solid rgba(148, 163, 184, 0.12);
+        border-radius: 16px;
         padding: 12px;
-        display: flex;
-        flex-direction: column;
+        overflow: hidden;
+      }
+      .orderbook-rows {
+        display: grid;
+        gap: 4px;
+        max-height: 260px;
+        overflow: hidden;
+      }
+      .orderbook-row {
+        display: grid;
+        grid-template-columns: 1.5fr 1fr 1fr;
         gap: 6px;
-      }
-      .trend-up {
-        color: #34d399;
-      }
-      .trend-down {
-        color: #f87171;
-      }
-      #err-overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.8);
-        color: #fff;
-        z-index: 99999;
-        display: none;
-      }
-      #err-overlay pre {
-        margin: 0;
-        padding: 16px;
-        font: 14px/1.6 ui-monospace, Menlo, Monaco, 'Courier New', monospace;
-        white-space: pre-wrap;
-      }
-      #err-overlay .inner {
-        max-width: 960px;
-        margin: 80px auto;
-        background: rgba(17, 24, 39, 0.94);
-        border-radius: 12px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        box-shadow: 0 24px 48px rgba(0, 0, 0, 0.45);
-      }
-      .hidden-route {
-        display: none !important;
-      }
-      .pill-overlay {
-        position: fixed;
-        top: 16px;
-        left: 16px;
-        background: rgba(34, 197, 94, 0.85);
-        color: #041106;
-        padding: 6px 14px;
-        border-radius: 999px;
         font-size: 12px;
-        font-weight: 700;
-        box-shadow: 0 8px 16px rgba(34, 197, 94, 0.35);
+        border-radius: 8px;
+        padding: 6px;
+        position: relative;
+      }
+      .orderbook-row.ask {
+        color: var(--negative);
+      }
+      .orderbook-row.bid {
+        color: var(--positive);
+      }
+      .orderbook-row .depth-bar {
+        position: absolute;
+        inset: 0;
+        border-radius: 8px;
+        opacity: 0.18;
         pointer-events: none;
       }
-      @media (max-width: 960px) {
-        main {
-          padding: 16px;
+      .quick-percentages {
+        display: flex;
+        gap: 8px;
+      }
+      .quick-percentages button {
+        flex: 1;
+        padding: 6px 0;
+        font-size: 12px;
+      }
+      .tabs {
+        display: inline-flex;
+        background: rgba(148, 163, 184, 0.14);
+        border-radius: 14px;
+        padding: 4px;
+        gap: 4px;
+      }
+      .tabs button {
+        background: transparent;
+        border: none;
+        color: var(--fg-muted);
+        padding: 6px 14px;
+        border-radius: 10px;
+        font-size: 12px;
+      }
+      .tabs button.active {
+        background: rgba(31, 214, 201, 0.16);
+        color: var(--fg);
+      }
+      .status-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border-radius: 999px;
+        padding: 4px 10px;
+        font-size: 11px;
+        background: rgba(148, 163, 184, 0.16);
+      }
+      .status-pill.pending {
+        color: var(--warning);
+        background: rgba(245, 158, 11, 0.16);
+      }
+      .status-pill.success {
+        color: var(--positive);
+        background: rgba(34, 197, 94, 0.16);
+      }
+      .status-pill.danger {
+        color: var(--negative);
+        background: rgba(239, 68, 68, 0.16);
+      }
+      .flex {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+      .flex-space {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .transactions-table {
+        max-height: 260px;
+        overflow-y: auto;
+      }
+      .transaction-item {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        padding: 10px 8px;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+        font-size: 12px;
+      }
+      .kyc-steps {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 16px;
+        flex-wrap: wrap;
+      }
+      .kyc-step {
+        padding: 6px 12px;
+        border-radius: 999px;
+        background: rgba(148, 163, 184, 0.14);
+        font-size: 12px;
+        color: var(--fg-muted);
+      }
+      .kyc-step.active {
+        background: rgba(31, 214, 201, 0.16);
+        color: var(--fg);
+      }
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 16px;
+      }
+      .form-grid label {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        font-size: 12px;
+        color: var(--fg-muted);
+      }
+      .settings-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 18px;
+      }
+      .logo-preview {
+        width: 72px;
+        height: 72px;
+        border-radius: 20px;
+        background: rgba(15, 23, 42, 0.36);
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+      }
+      .logo-preview img {
+        max-width: 100%;
+        max-height: 100%;
+      }
+      .skeleton {
+        position: relative;
+        overflow: hidden;
+        background: rgba(148, 163, 184, 0.12);
+        border-radius: 8px;
+      }
+      .skeleton::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        transform: translateX(-100%);
+        background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.16), transparent);
+        animation: shimmer 1.2s infinite;
+      }
+      @keyframes shimmer {
+        100% {
+          transform: translateX(100%);
         }
-        .trade-layout {
-          grid-template-columns: 1fr;
-          grid-template-areas:
-            'chart'
-            'orderbook'
-            'depth'
-            'trades';
-        }
-        canvas {
-          height: 220px;
-        }
-        header {
-          flex-wrap: wrap;
-        }
-        .build-pill {
-          order: 3;
-          margin-inline-start: 0;
-        }
+      }
+      .empty-state {
+        text-align: center;
+        padding: 40px;
+        border: 1px dashed rgba(148, 163, 184, 0.24);
+        border-radius: 16px;
+        color: var(--fg-muted);
+      }
+      .badge {
+        background: rgba(59, 130, 246, 0.16);
+        color: var(--brand-secondary);
+        font-size: 11px;
+        border-radius: 999px;
+        padding: 4px 10px;
+      }
+      #error-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.9);
+        color: #fff;
+        display: none;
+        flex-direction: column;
+        padding: 24px;
+        gap: 12px;
+        z-index: 999;
+        overflow: auto;
+      }
+      #error-overlay pre {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 12px;
+        border-radius: 12px;
+        white-space: pre-wrap;
+        direction: ltr;
       }
     </style>
   </head>
   <body>
-    <script>
-      (function () {
-        try {
-          if (!location.hash || location.hash === '#' || location.hash === '#/') {
-            location.hash = '#/trade';
-          }
-        } catch (_err) {}
-      })();
-    </script>
-    <div class="pill-overlay">OFFLINE BUILD 30a3d4d</div>
-    <div id="app" class="app-shell">
+    <div id="error-overlay"></div>
+    <div class="app-shell">
       <header>
-        <div class="logo">CoinoWin Pro</div>
-        <nav>
-          <a href="#/trade" data-route-link>معامله</a>
-          <a href="#/markets" data-route-link>بازارها</a>
-          <a href="#/wallet" data-route-link>کیف پول</a>
-          <a href="#/support" data-route-link>پشتیبانی</a>
-        </nav>
-        <div class="build-pill">OFFLINE BUILD · 30a3d4d</div>
+        <div class="brand">
+          <img id="brand-logo" alt="Coinowin" />
+          <span>Coinowin</span>
+        </div>
+        <nav id="nav"></nav>
+        <span class="build-pill">BUILD OFFLINE</span>
       </header>
-      <main>
-        <section data-route="#/trade" class="trade-layout">
-          <div class="card" style="grid-area: chart">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-              <h2 style="margin:0;font-size:18px;">BTC/USDT</h2>
-              <div style="text-align:end;font-size:13px;">
-                <div>قیمت لحظه‌ای: <strong id="ticker-price">63,580</strong> USDT</div>
-                <div style="color:#34d399;">+2.45% در ۲۴ ساعت</div>
-              </div>
-            </div>
-            <canvas id="chart" width="600" height="320"></canvas>
-          </div>
-          <div class="card" style="grid-area: orderbook">
-            <h2>سفارش‌های فروش/خرید</h2>
-            <table>
-              <thead>
-                <tr>
-                  <th>نوع</th>
-                  <th>قیمت (USDT)</th>
-                  <th>حجم (BTC)</th>
-                </tr>
-              </thead>
-              <tbody id="orderbook"></tbody>
-            </table>
-          </div>
-          <div class="card" style="grid-area: depth">
-            <h2>دفتر سفارش سریع</h2>
-            <div class="split" id="quick-actions"></div>
-          </div>
-          <div class="card" style="grid-area: trades">
-            <h2>معاملات اخیر</h2>
-            <table>
-              <thead>
-                <tr>
-                  <th>زمان</th>
-                  <th>قیمت</th>
-                  <th>حجم</th>
-                </tr>
-              </thead>
-              <tbody id="trades"></tbody>
-            </table>
-          </div>
-          <div class="card" style="grid-column: 1 / -1;">
-            <h2>سفارش سریع</h2>
-            <div class="split">
-              <div class="form-group">
-                <label for="buy-price">قیمت خرید</label>
-                <input id="buy-price" type="number" value="63580" step="0.5" />
-              </div>
-              <div class="form-group">
-                <label for="buy-amount">حجم (BTC)</label>
-                <input id="buy-amount" type="number" value="0.1" step="0.01" />
-              </div>
-              <button class="btn-buy" id="btn-buy">ثبت سفارش خرید</button>
-              <div class="form-group">
-                <label for="sell-price">قیمت فروش</label>
-                <input id="sell-price" type="number" value="63620" step="0.5" />
-              </div>
-              <div class="form-group">
-                <label for="sell-amount">حجم (BTC)</label>
-                <input id="sell-amount" type="number" value="0.05" step="0.01" />
-              </div>
-              <button class="btn-sell" id="btn-sell">ثبت سفارش فروش</button>
-            </div>
-            <p id="order-feedback" style="margin-top:12px;color:var(--fg-muted);"></p>
-          </div>
-        </section>
-        <section data-route="#/markets" class="hidden-route">
-          <div class="card">
-            <h2>نمای کلی بازارها</h2>
-            <div class="markets-grid" id="markets"></div>
-          </div>
-        </section>
-        <section data-route="#/wallet" class="hidden-route">
-          <div class="card">
-            <h2>کیف پول آفلاین</h2>
-            <p>موجودی کل: <strong>25,400 USDT</strong></p>
-            <p>
-              برای واریز یا برداشت، از داده‌های ساختگی استفاده می‌شود و هیچ تراکنشی به
-              اینترنت ارسال نمی‌گردد.
-            </p>
-            <div class="split">
-              <button class="btn-buy" id="btn-deposit">واریز آزمایشی</button>
-              <button class="btn-sell" id="btn-withdraw">برداشت آزمایشی</button>
-            </div>
-            <p id="wallet-feedback" style="margin-top:16px;color:var(--fg-muted);"></p>
-          </div>
-        </section>
-        <section data-route="#/support" class="hidden-route">
-          <div class="card">
-            <h2>پشتیبانی CoinoWin</h2>
-            <p>
-              این نسخهٔ آفلاین است و هیچ اتصال اینترنتی برقرار نمی‌کند. برای گزارش خطا،
-              از ایمیل <span style="direction:ltr; display:inline-block;">support@coinowin.local</span>
-              استفاده کنید (ارسال پس از اتصال به اینترنت انجام شود).
-            </p>
-            <ul>
-              <li>تمام داده‌ها از موک داخلی تولید می‌شوند.</li>
-              <li>تاریخچهٔ سفارش‌ها در حافظهٔ مرورگر ذخیره می‌گردد و با refresh از بین می‌رود.</li>
-              <li>Service Worker در این نسخه غیرفعال شده است.</li>
-            </ul>
-          </div>
-        </section>
+      <div class="ticker-strip" id="ticker"></div>
+      <main id="main">
+        <section class="page" id="page-home"></section>
+        <section class="page" id="page-markets"></section>
+        <section class="page" id="page-trade"></section>
+        <section class="page" id="page-orders"></section>
+        <section class="page" id="page-wallet"></section>
+        <section class="page" id="page-kyc"></section>
+        <section class="page" id="page-settings"></section>
       </main>
-      <footer>
-        CoinoWin © 2025 — نسخهٔ آفلاین نمایشی. تمامی قیمت‌ها ساختگی هستند.
-      </footer>
     </div>
     <script>
       (function () {
-        var ok =
-          location.protocol === 'https:' ||
-          location.hostname === 'localhost' ||
-          location.hostname === '127.0.0.1';
-        if (!ok || !('serviceWorker' in navigator) || !window.isSecureContext) {
-          return;
+        const dpr = window.devicePixelRatio || 1;
+        window.__COINOWIN_LOGO_B64__ = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMjAgMTIwJz48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9J2cnIHgxPScwJyB5MT0nMCcgeDI9JzEnIHkyPScxJz48c3RvcCBvZmZzZXQ9JzAnIHN0b3AtY29sb3I9JyMyMmQzZWUnLz48c3RvcCBvZmZzZXQ9JzEnIHN0b3AtY29sb3I9JyMzNGQzOTknLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCBmaWxsPScjMGYxNzJhJyB3aWR0aD0nMTIwJyBoZWlnaHQ9JzEyMCcgcng9JzI0Jy8+PHBhdGggZmlsbD0ndXJsKCNnKScgZD0nTTg4IDI4IDYwIDk4IDMyIDI4aDE2bDEyIDMyIDEyLTMyeicvPjxjaXJjbGUgY3g9JzYwJyBjeT0nMjgnIHI9JzEwJyBmaWxsPSd1cmwoI2cpJyBvcGFjaXR5PScwLjgnLz48L3N2Zz4=';
+        const translations = {
+          fa: {
+            home: 'خانه',
+            markets: 'بازارها',
+            trade: 'معاملات',
+            orders: 'سفارش‌ها',
+            wallet: 'کیف پول',
+            kyc: 'احراز هویت',
+            settings: 'تنظیمات',
+            search: 'جستجو در بازارها...',
+            change24h: '٪۲۴ساعت',
+            volume24h: 'حجم ۲۴ساعت',
+            spark: 'اسپارکلاین',
+            price: 'قیمت',
+            pair: 'جفت‌ارز',
+            base: 'پایه',
+            orderbook: 'دفتر سفارشات',
+            depth: 'عمق بازار',
+            recentTrades: 'معاملات اخیر',
+            tradeForm: 'ثبت سفارش',
+            buy: 'خرید',
+            sell: 'فروش',
+            limit: 'لیمیت',
+            market: 'مارکت',
+            amount: 'مقدار',
+            total: 'ارزش کل',
+            fee: 'کارمزد تخمینی',
+            walletBalance: 'موجودی دارایی‌ها',
+            transactions: 'تاریخچه تراکنش',
+            deposit: 'واریز',
+            withdraw: 'برداشت',
+            openOrders: 'سفارش‌های باز',
+            filledOrders: 'انجام شده',
+            canceledOrders: 'لغو شده',
+            status: 'وضعیت',
+            type: 'نوع',
+            side: 'سمت',
+            date: 'تاریخ',
+            next: 'بعدی',
+            previous: 'قبلی',
+            submit: 'ارسال',
+            theme: 'حالت نمایش',
+            language: 'زبان',
+            font: 'فونت',
+            branding: 'برندینگ',
+            uploadLogo: 'آپلود لوگو',
+            reset: 'بازنشانی',
+            pending: 'در انتظار',
+            approved: 'تایید شده',
+            rejected: 'رد شده',
+            cancel: 'لغو',
+            actions: 'عملیات',
+            filters: 'صافی‌ها',
+            orderbookSpread: 'گستره',
+            walletValueUSDT: 'ارزش (USDT)',
+            walletValueIR: 'ارزش (IRT)',
+            txid: 'شناسه تراکنش',
+            offlineOnly: 'این نسخه تنها برای پیش‌نمایش آفلاین است.',
+            settingsSaved: 'تنظیمات ذخیره شد',
+            languageFa: 'فارسی',
+            languageEn: 'English',
+            themeDark: 'تاریک',
+            themeLight: 'روشن',
+            fontVazir: 'وزیرمتن',
+            fontYekan: 'بی‌یکان',
+            step1: 'مرحله ۱: اطلاعات فردی',
+            step2: 'مرحله ۲: آدرس',
+            step3: 'مرحله ۳: مدارک',
+            dropOrSelect: 'فایل را انتخاب کنید یا بکشید',
+            invalidFile: 'فرمت فایل پشتیبانی نمی‌شود',
+            simulated: 'شبیه‌سازی شده'
+          },
+          en: {
+            home: 'Home',
+            markets: 'Markets',
+            trade: 'Trade',
+            orders: 'Orders',
+            wallet: 'Wallet',
+            kyc: 'KYC',
+            settings: 'Settings',
+            search: 'Search markets...',
+            change24h: '24h %',
+            volume24h: '24h Vol',
+            spark: 'Sparkline',
+            price: 'Price',
+            pair: 'Pair',
+            base: 'Base',
+            orderbook: 'Order Book',
+            depth: 'Depth',
+            recentTrades: 'Recent Trades',
+            tradeForm: 'Order Entry',
+            buy: 'Buy',
+            sell: 'Sell',
+            limit: 'Limit',
+            market: 'Market',
+            amount: 'Amount',
+            total: 'Total',
+            fee: 'Fee (est.)',
+            walletBalance: 'Balances',
+            transactions: 'Transactions',
+            deposit: 'Deposit',
+            withdraw: 'Withdraw',
+            openOrders: 'Open Orders',
+            filledOrders: 'Filled',
+            canceledOrders: 'Canceled',
+            status: 'Status',
+            type: 'Type',
+            side: 'Side',
+            date: 'Date',
+            next: 'Next',
+            previous: 'Prev',
+            submit: 'Submit',
+            theme: 'Theme',
+            language: 'Language',
+            font: 'Font',
+            branding: 'Branding',
+            uploadLogo: 'Upload Logo',
+            reset: 'Reset',
+            pending: 'Pending',
+            approved: 'Approved',
+            rejected: 'Rejected',
+            cancel: 'Cancel',
+            actions: 'Actions',
+            filters: 'Filters',
+            orderbookSpread: 'Spread',
+            walletValueUSDT: 'Value (USDT)',
+            walletValueIR: 'Value (IRT)',
+            txid: 'TX Hash',
+            offlineOnly: 'Offline preview only.',
+            settingsSaved: 'Settings saved',
+            languageFa: 'Persian',
+            languageEn: 'English',
+            themeDark: 'Dark',
+            themeLight: 'Light',
+            fontVazir: 'Vazirmatn',
+            fontYekan: 'BYekan',
+            step1: 'Step 1: Personal Info',
+            step2: 'Step 2: Address',
+            step3: 'Step 3: Documents',
+            dropOrSelect: 'Drop or select file',
+            invalidFile: 'Unsupported file format',
+            simulated: 'Simulated'
+          }
+        };
+        function loadSettings() {
+          try {
+            return JSON.parse(localStorage.getItem('coinowin.settings') || '{}');
+          } catch (err) {
+            console.warn('settings parse error', err);
+            return {};
+          }
         }
-      })();
-    </script>
-    <script>
-      (function () {
-        var state = {
-          orderBook: [
-            { type: 'sell', price: 63680, volume: 0.21 },
-            { type: 'sell', price: 63620, volume: 0.58 },
-            { type: 'sell', price: 63590, volume: 0.33 },
-            { type: 'buy', price: 63550, volume: 0.45 },
-            { type: 'buy', price: 63520, volume: 0.72 },
-            { type: 'buy', price: 63480, volume: 1.12 }
-          ],
-          trades: [
-            { time: '12:18:03', price: 63580, volume: 0.12 },
-            { time: '12:16:45', price: 63560, volume: 0.08 },
-            { time: '12:14:11', price: 63520, volume: 0.15 },
-            { time: '12:10:42', price: 63450, volume: 0.22 },
-            { time: '12:08:07', price: 63420, volume: 0.05 },
-            { time: '12:05:51', price: 63390, volume: 0.19 }
-          ],
-          markets: [
-            { symbol: 'BTC/USDT', change: 2.45, volume: 384.2 },
-            { symbol: 'ETH/USDT', change: 1.18, volume: 1480.0 },
-            { symbol: 'SOL/USDT', change: -0.92, volume: 932.4 },
-            { symbol: 'XRP/USDT', change: 0.54, volume: 810.6 },
-            { symbol: 'BNB/USDT', change: 0.87, volume: 412.3 },
-            { symbol: 'DOGE/USDT', change: -3.14, volume: 1460.2 }
-          ],
-          quickActions: [
-            { label: 'خرید 0.1 BTC با بازار', price: 63590, volume: 0.1 },
-            { label: 'فروش 0.05 BTC با بازار', price: 63570, volume: 0.05 },
-            { label: 'حد ضرر 63200', price: 63200, volume: 0.25 },
-            { label: 'حد سود 64500', price: 64500, volume: 0.12 }
-          ],
-          chart: [
-            62800, 62920, 63010, 63150, 63240, 63320, 63480, 63510, 63580, 63640,
-            63590, 63660, 63740, 63680, 63560, 63610
-          ]
+
+        const storedSettings = loadSettings();
+        const state = {
+          route: '',
+          pair: 'BTC/USDT',
+          tradeSide: 'buy',
+          orderType: 'limit',
+          marketFilter: 'all',
+          marketSearch: '',
+          language: storedSettings.language || 'fa',
+          theme: storedSettings.theme || 'dark',
+          font: storedSettings.font || 'vazir',
+          logo: storedSettings.logo || window.__COINOWIN_LOGO_B64__,
+          kycStep: 0,
+          kycData: { name: '', national: '', address: '', city: '', zip: '', doc: null },
+          walletFilterStatus: 'all',
+          ordersTab: 'open',
+          toastTimeout: null
         };
 
-        function $(sel) {
-          return document.querySelector(sel);
-        }
+        document.documentElement.setAttribute('data-theme', state.theme);
+        document.documentElement.setAttribute('data-font', state.font);
+        document.getElementById('brand-logo').src = state.logo;
 
-        function fillOrderBook() {
-          var tbody = $('#orderbook');
-          tbody.innerHTML = '';
-          state.orderBook.forEach(function (row) {
-            var tr = document.createElement('tr');
-            tr.innerHTML =
-              '<td>' +
-              (row.type === 'sell' ? 'فروش' : 'خرید') +
-              '</td><td>' +
-              row.price.toLocaleString('fa-IR') +
-              '</td><td>' +
-              row.volume.toFixed(2) +
-              '</td>';
-            tr.style.color = row.type === 'sell' ? '#f87171' : '#34d399';
-            tbody.appendChild(tr);
-          });
-        }
+        const hashRoutes = [
+          ['#/home', 'page-home'],
+          ['#/markets', 'page-markets'],
+          ['#/trade', 'page-trade'],
+          ['#/orders', 'page-orders'],
+          ['#/wallet', 'page-wallet'],
+          ['#/kyc', 'page-kyc'],
+          ['#/settings', 'page-settings']
+        ];
 
-        function fillTrades() {
-          var tbody = $('#trades');
-          tbody.innerHTML = '';
-          state.trades.forEach(function (trade) {
-            var tr = document.createElement('tr');
-            tr.innerHTML =
-              '<td>' + trade.time + '</td><td>' +
-              trade.price.toLocaleString('fa-IR') +
-              '</td><td>' +
-              trade.volume.toFixed(2) +
-              '</td>';
-            tbody.appendChild(tr);
-          });
-        }
+        const nav = document.getElementById('nav');
+        const ticker = document.getElementById('ticker');
 
-        function fillQuickActions() {
-          var box = $('#quick-actions');
-          box.innerHTML = '';
-          state.quickActions.forEach(function (item) {
-            var div = document.createElement('div');
-            div.className = 'card';
-            div.style.padding = '12px';
-            div.style.background = 'rgba(15, 23, 42, 0.4)';
-            div.innerHTML =
-              '<div style="font-size:13px;">' +
-              item.label +
-              '</div><div style="color:var(--fg-muted);font-size:12px;">' +
-              'قیمت: ' +
-              item.price.toLocaleString('fa-IR') +
-              ' — حجم: ' +
-              item.volume +
-              ' BTC' +
-              '</div>';
-            box.appendChild(div);
-          });
-        }
+        const localesNumber = {
+          fa: new Intl.NumberFormat('fa-IR', { maximumFractionDigits: 2 }),
+          en: new Intl.NumberFormat('en-US', { maximumFractionDigits: 2 })
+        };
+        const localesPercent = {
+          fa: new Intl.NumberFormat('fa-IR', { style: 'percent', maximumFractionDigits: 2 }),
+          en: new Intl.NumberFormat('en-US', { style: 'percent', maximumFractionDigits: 2 })
+        };
+        const localesDate = {
+          fa: new Intl.DateTimeFormat('fa-IR', { dateStyle: 'short', timeStyle: 'short' }),
+          en: new Intl.DateTimeFormat('en-US', { dateStyle: 'short', timeStyle: 'short' })
+        };
 
-        function fillMarkets() {
-          var grid = $('#markets');
-          grid.innerHTML = '';
-          state.markets.forEach(function (m) {
-            var card = document.createElement('div');
-            card.className = 'market-card';
-            var trendClass = m.change >= 0 ? 'trend-up' : 'trend-down';
-            card.innerHTML =
-              '<strong>' +
-              m.symbol +
-              '</strong><span class="' +
-              trendClass +
-              '">' +
-              (m.change >= 0 ? '+' : '') +
-              m.change.toFixed(2) +
-              '%</span><span style="font-size:12px;color:var(--fg-muted);">حجم ۲۴س: ' +
-              m.volume.toLocaleString('fa-IR') +
-              '</span>';
-            grid.appendChild(card);
-          });
-        }
+        const t = (key) => translations[state.language][key] || key;
 
-        function drawChart() {
-          var canvas = document.getElementById('chart');
-          if (!canvas) return;
-          var ctx = canvas.getContext('2d');
-          var dpr = window.devicePixelRatio || 1;
-          var width = canvas.clientWidth;
-          var height = canvas.clientHeight;
-          canvas.width = width * dpr;
-          canvas.height = height * dpr;
-          ctx.scale(dpr, dpr);
-          ctx.clearRect(0, 0, width, height);
-          ctx.fillStyle = 'rgba(255,255,255,0.04)';
-          for (var i = 0; i < 5; i++) {
-            var y = (height / 5) * i;
-            ctx.fillRect(0, y, width, 1);
+        function formatNumber(value, opts) {
+          if (value === null || value === undefined || Number.isNaN(value)) return '-';
+          if (opts && opts.percent) {
+            return localesPercent[state.language].format(value);
           }
-          ctx.lineWidth = 2;
-          var values = state.chart;
-          var min = Math.min.apply(null, values);
-          var max = Math.max.apply(null, values);
-          var range = max - min || 1;
+          return localesNumber[state.language].format(value);
+        }
+
+        function formatDate(ts) {
+          return localesDate[state.language].format(ts);
+        }
+        function clamp(value, min, max) {
+          return Math.min(Math.max(value, min), max);
+        }
+
+        function createMock() {
+          const now = Date.now();
+          const symbols = [
+            { symbol: 'BTC/USDT', base: 'BTC', quote: 'USDT', price: 67250, change: 0.042, volume: 1250 },
+            { symbol: 'ETH/USDT', base: 'ETH', quote: 'USDT', price: 3150, change: -0.012, volume: 8540 },
+            { symbol: 'SOL/USDT', base: 'SOL', quote: 'USDT', price: 152, change: 0.087, volume: 6400 },
+            { symbol: 'XRP/USDT', base: 'XRP', quote: 'USDT', price: 0.62, change: 0.015, volume: 12800 },
+            { symbol: 'ADA/USDT', base: 'ADA', quote: 'USDT', price: 0.54, change: -0.034, volume: 9200 },
+            { symbol: 'TRX/USDT', base: 'TRX', quote: 'USDT', price: 0.11, change: 0.006, volume: 7200 },
+            { symbol: 'DOGE/USDT', base: 'DOGE', quote: 'USDT', price: 0.16, change: -0.021, volume: 11200 },
+            { symbol: 'LTC/USDT', base: 'LTC', quote: 'USDT', price: 95.2, change: 0.014, volume: 2130 },
+            { symbol: 'BNB/USDT', base: 'BNB', quote: 'USDT', price: 418, change: 0.033, volume: 5200 },
+            { symbol: 'BTC/IRT', base: 'BTC', quote: 'IRT', price: 2980000000, change: 0.039, volume: 950 }
+          ];
+
+          function randomWalk(price) {
+            const candles = [];
+            let current = price;
+            for (let i = 0; i < 120; i++) {
+              const open = current;
+              const change = (Math.random() - 0.5) * current * 0.01;
+              const close = clamp(current + change, current * 0.92, current * 1.08);
+              const high = Math.max(open, close) + Math.random() * current * 0.01;
+              const low = Math.min(open, close) - Math.random() * current * 0.01;
+              const volume = Math.abs((Math.random() + 0.3) * 1200);
+              candles.push({
+                time: now - (120 - i) * 60 * 1000,
+                open,
+                high,
+                low,
+                close,
+                volume
+              });
+              current = close;
+            }
+            return candles;
+          }
+
+          function createOrderBook(price) {
+            const asks = [];
+            const bids = [];
+            for (let i = 0; i < 18; i++) {
+              const askPrice = price * (1 + i * 0.0009 + Math.random() * 0.0005);
+              const bidPrice = price * (1 - i * 0.0009 - Math.random() * 0.0005);
+              const amount = Math.abs(Math.random() * 6 + 0.3);
+              asks.push({ price: askPrice, amount });
+              bids.push({ price: bidPrice, amount });
+            }
+            return { asks, bids };
+          }
+
+          function createTrades(price) {
+            const trades = [];
+            for (let i = 0; i < 40; i++) {
+              trades.push({
+                side: Math.random() > 0.5 ? 'buy' : 'sell',
+                price: price * (1 + (Math.random() - 0.5) * 0.002),
+                size: Math.abs(Math.random() * 2 + 0.2),
+                time: now - i * 30 * 1000
+              });
+            }
+            return trades;
+          }
+
+          const wallet = {
+            balances: [
+              { asset: 'BTC', available: 0.82, locked: 0.18, valueUSDT: 56000, valueIRT: 2490000000 },
+              { asset: 'ETH', available: 12.4, locked: 1.2, valueUSDT: 39000, valueIRT: 1730000000 },
+              { asset: 'USDT', available: 18000, locked: 2000, valueUSDT: 20000, valueIRT: 890000000 },
+              { asset: 'IRT', available: 850000000, locked: 12000000, valueUSDT: 18000, valueIRT: 862000000 }
+            ],
+            transactions: [
+              { id: 'TX1', asset: 'BTC', type: 'deposit', amount: 0.4, status: 'completed', time: now - 86400000 },
+              { id: 'TX2', asset: 'USDT', type: 'withdraw', amount: 1500, status: 'pending', time: now - 43200000 },
+              { id: 'TX3', asset: 'IRT', type: 'deposit', amount: 12000000, status: 'completed', time: now - 22000000 },
+              { id: 'TX4', asset: 'ETH', type: 'withdraw', amount: 2.5, status: 'failed', time: now - 10800000 }
+            ]
+          };
+
+          const orders = {
+            open: [
+              { id: 'O-1', pair: 'BTC/USDT', type: 'limit', side: 'buy', price: 66800, amount: 0.24, filled: 0.04, time: now - 3600000 },
+              { id: 'O-2', pair: 'ETH/USDT', type: 'limit', side: 'sell', price: 3200, amount: 4.5, filled: 0, time: now - 5400000 }
+            ],
+            filled: [
+              { id: 'O-3', pair: 'SOL/USDT', type: 'market', side: 'buy', price: 150.8, amount: 8, time: now - 86400000 },
+              { id: 'O-4', pair: 'XRP/USDT', type: 'limit', side: 'sell', price: 0.64, amount: 1500, time: now - 172800000 }
+            ],
+            canceled: [
+              { id: 'O-5', pair: 'BTC/USDT', type: 'limit', side: 'sell', price: 71000, amount: 0.3, time: now - 604800000 }
+            ]
+          };
+
+          const mock = {
+            symbols,
+            ohlcv: {},
+            orderbook: {},
+            trades: {},
+            wallet,
+            orders
+          };
+
+          symbols.forEach((symbol) => {
+            mock.ohlcv[symbol.symbol] = randomWalk(symbol.price);
+            mock.orderbook[symbol.symbol] = createOrderBook(symbol.price);
+            mock.trades[symbol.symbol] = createTrades(symbol.price);
+          });
+
+          return mock;
+        }
+
+        window.__MOCK__ = createMock();
+        function renderNav() {
+          nav.innerHTML = '';
+          const items = [
+            { hash: '#/home', label: t('home') },
+            { hash: '#/markets', label: t('markets') },
+            { hash: '#/trade', label: t('trade') },
+            { hash: '#/orders', label: t('orders') },
+            { hash: '#/wallet', label: t('wallet') },
+            { hash: '#/kyc', label: t('kyc') },
+            { hash: '#/settings', label: t('settings') }
+          ];
+          items.forEach((item) => {
+            const a = document.createElement('a');
+            a.href = item.hash;
+            a.textContent = item.label;
+            if (state.route === item.hash) a.classList.add('active');
+            nav.appendChild(a);
+          });
+        }
+
+        function ensureHash() {
+          if (!location.hash || location.hash === '#/' || location.hash === '#') {
+            location.replace('#/markets');
+            return '#/markets';
+          }
+          return location.hash;
+        }
+
+        function parseHash() {
+          const hash = ensureHash();
+          const [path, queryString] = hash.split('?');
+          const params = new URLSearchParams(queryString || '');
+          const pair = params.get('pair');
+          if (pair) state.pair = decodeURIComponent(pair);
+          state.route = path;
+        }
+
+        function activateRoute() {
+          hashRoutes.forEach(([hash, id]) => {
+            const page = document.getElementById(id);
+            if (state.route === hash) page.classList.add('active');
+            else page.classList.remove('active');
+          });
+          renderNav();
+        }
+
+        function renderTicker() {
+          ticker.innerHTML = '';
+          window.__MOCK__.symbols.forEach((item) => {
+            const el = document.createElement('a');
+            el.href = `#/trade?pair=${encodeURIComponent(item.symbol)}`;
+            el.className = 'ticker-item ' + (item.change >= 0 ? 'positive' : 'negative');
+            el.innerHTML = `<strong>${item.symbol}</strong><span>${formatNumber(item.price)}</span><span>${
+              (item.change >= 0 ? '+' : '') + formatNumber(item.change, { percent: true })
+            }</span>`;
+            ticker.appendChild(el);
+          });
+        }
+        function drawSparkline(canvas, data) {
+          const ctx = canvas.getContext('2d');
+          const width = canvas.clientWidth * dpr;
+          const height = canvas.clientHeight * dpr;
+          canvas.width = width;
+          canvas.height = height;
+          ctx.save();
+          ctx.scale(dpr, dpr);
+          ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+          const closes = data.map((d) => d.close);
+          const min = Math.min(...closes);
+          const max = Math.max(...closes);
           ctx.beginPath();
-          values.forEach(function (val, idx) {
-            var x = (width / (values.length - 1)) * idx;
-            var y = height - ((val - min) / range) * height;
+          data.forEach((point, idx) => {
+            const x = (idx / (data.length - 1 || 1)) * canvas.clientWidth;
+            const y = canvas.clientHeight - ((point.close - min) / (max - min || 1)) * canvas.clientHeight;
             if (idx === 0) ctx.moveTo(x, y);
             else ctx.lineTo(x, y);
           });
-          ctx.strokeStyle = '#34d399';
+          ctx.strokeStyle = data[data.length - 1].close >= data[0].close ? '#22c55e' : '#ef4444';
+          ctx.lineWidth = 2;
           ctx.stroke();
-          ctx.fillStyle = 'rgba(52, 211, 153, 0.18)';
-          ctx.lineTo(width, height);
-          ctx.lineTo(0, height);
-          ctx.closePath();
+          ctx.restore();
+        }
+
+        function ema(data, period, accessor) {
+          const result = [];
+          const k = 2 / (period + 1);
+          let prev;
+          data.forEach((d, idx) => {
+            const val = accessor(d, idx);
+            prev = prev === undefined ? val : val * k + prev * (1 - k);
+            result.push(prev);
+          });
+          return result;
+        }
+
+        function sma(data, period, accessor) {
+          const result = [];
+          let sum = 0;
+          data.forEach((d, idx) => {
+            const val = accessor(d, idx);
+            sum += val;
+            if (idx >= period) sum -= accessor(data[idx - period], idx - period);
+            result.push(idx >= period - 1 ? sum / period : val);
+          });
+          return result;
+        }
+
+        function drawCandleChart(canvas, data) {
+          if (!canvas || !data.length) return;
+          const ctx = canvas.getContext('2d');
+          const width = canvas.clientWidth * dpr;
+          const height = canvas.clientHeight * dpr;
+          canvas.width = width;
+          canvas.height = height;
+          ctx.save();
+          ctx.scale(dpr, dpr);
+          ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+          const visible = data.slice(-80);
+          const high = Math.max(...visible.map((d) => d.high));
+          const low = Math.min(...visible.map((d) => d.low));
+          const candleWidth = canvas.clientWidth / visible.length;
+          visible.forEach((candle, idx) => {
+            const x = idx * candleWidth + candleWidth / 2;
+            const scaleY = (val) => canvas.clientHeight - ((val - low) / (high - low || 1)) * canvas.clientHeight;
+            const openY = scaleY(candle.open);
+            const closeY = scaleY(candle.close);
+            const highY = scaleY(candle.high);
+            const lowY = scaleY(candle.low);
+            const color = candle.close >= candle.open ? '#22c55e' : '#ef4444';
+            ctx.strokeStyle = color;
+            ctx.beginPath();
+            ctx.moveTo(x, highY);
+            ctx.lineTo(x, lowY);
+            ctx.stroke();
+            ctx.fillStyle = color;
+            const rectTop = Math.min(openY, closeY);
+            const rectHeight = Math.max(Math.abs(closeY - openY), 2);
+            ctx.fillRect(x - candleWidth * 0.3, rectTop, candleWidth * 0.6, rectHeight);
+          });
+
+          const emaData = ema(visible, 12, (d) => d.close);
+          const smaData = sma(visible, 26, (d) => d.close);
+          ctx.lineWidth = 1.4;
+          ctx.beginPath();
+          emaData.forEach((val, idx) => {
+            const x = idx * candleWidth + candleWidth / 2;
+            const y = canvas.clientHeight - ((val - low) / (high - low || 1)) * canvas.clientHeight;
+            if (idx === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          });
+          ctx.strokeStyle = '#38bdf8';
+          ctx.stroke();
+
+          ctx.beginPath();
+          smaData.forEach((val, idx) => {
+            const x = idx * candleWidth + candleWidth / 2;
+            const y = canvas.clientHeight - ((val - low) / (high - low || 1)) * canvas.clientHeight;
+            if (idx === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          });
+          ctx.strokeStyle = '#f97316';
+          ctx.stroke();
+
+          const maxVol = Math.max(...visible.map((d) => d.volume));
+          const volHeight = canvas.clientHeight * 0.2;
+          visible.forEach((d, idx) => {
+            const x = idx * candleWidth + candleWidth / 2;
+            const vol = (d.volume / (maxVol || 1)) * volHeight;
+            const y = canvas.clientHeight - vol;
+            ctx.fillStyle = d.close >= d.open ? 'rgba(34,197,94,0.45)' : 'rgba(239,68,68,0.45)';
+            ctx.fillRect(x - candleWidth * 0.3, y, candleWidth * 0.6, vol);
+          });
+
+          ctx.restore();
+        }
+
+        function drawDepthChart(canvas, book) {
+          if (!canvas || !book) return;
+          const ctx = canvas.getContext('2d');
+          const width = canvas.clientWidth * dpr;
+          const height = canvas.clientHeight * dpr;
+          canvas.width = width;
+          canvas.height = height;
+          ctx.save();
+          ctx.scale(dpr, dpr);
+          ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+          const bids = [...book.bids].sort((a, b) => b.price - a.price).slice(0, 20);
+          const asks = [...book.asks].sort((a, b) => a.price - b.price).slice(0, 20);
+          const prices = bids.map((b) => b.price).concat(asks.map((a) => a.price));
+          const min = Math.min(...prices);
+          const max = Math.max(...prices);
+          const cumulative = (levels) => {
+            let acc = 0;
+            return levels.map((l) => ({ price: l.price, amount: (acc += l.amount) }));
+          };
+          const cumBids = cumulative(bids);
+          const cumAsks = cumulative(asks);
+          const maxAmount = Math.max(...cumBids.map((b) => b.amount), ...cumAsks.map((a) => a.amount), 1);
+
+          ctx.beginPath();
+          cumBids.forEach((point, idx) => {
+            const x = ((point.price - min) / (max - min || 1)) * canvas.clientWidth;
+            const y = canvas.clientHeight - (point.amount / maxAmount) * canvas.clientHeight;
+            if (idx === 0) ctx.moveTo(x, canvas.clientHeight);
+            ctx.lineTo(x, y);
+          });
+          if (cumBids.length) {
+            const last = cumBids[cumBids.length - 1];
+            const x = ((last.price - min) / (max - min || 1)) * canvas.clientWidth;
+            ctx.lineTo(x, canvas.clientHeight);
+          }
+          ctx.fillStyle = 'rgba(34,197,94,0.24)';
           ctx.fill();
-        }
 
-        function handleOrder(buttonId, type) {
-          var feedback = document.getElementById('order-feedback');
-          var priceInput = document.getElementById(type + '-price');
-          var amountInput = document.getElementById(type + '-amount');
-          document.getElementById(buttonId).addEventListener('click', function () {
-            var price = Number(priceInput.value || 0);
-            var amount = Number(amountInput.value || 0);
-            if (!price || !amount) {
-              feedback.style.color = '#f87171';
-              feedback.textContent = 'ورودی نامعتبر است.';
-              return;
-            }
-            feedback.style.color = '#34d399';
-            feedback.textContent =
-              'سفارش ' +
-              (type === 'buy' ? 'خرید' : 'فروش') +
-              ' برای ' +
-              amount +
-              ' BTC با قیمت ' +
-              price.toLocaleString('fa-IR') +
-              ' ثبت شد (آفلاین).';
+          ctx.beginPath();
+          cumAsks.forEach((point, idx) => {
+            const x = ((point.price - min) / (max - min || 1)) * canvas.clientWidth;
+            const y = canvas.clientHeight - (point.amount / maxAmount) * canvas.clientHeight;
+            if (idx === 0) ctx.moveTo(x, canvas.clientHeight);
+            ctx.lineTo(x, y);
           });
-        }
-
-        function setupWallet() {
-          var feedback = document.getElementById('wallet-feedback');
-          document.getElementById('btn-deposit').addEventListener('click', function () {
-            feedback.style.color = '#34d399';
-            feedback.textContent = 'واریز آزمایشی با موفقیت به موجودی اضافه شد.';
-          });
-          document.getElementById('btn-withdraw').addEventListener('click', function () {
-            feedback.style.color = '#f87171';
-            feedback.textContent = 'برداشت آزمایشی ثبت شد و در محیط آفلاین پردازش نمی‌شود.';
-          });
-        }
-
-        function setActiveRoute(hash) {
-          var sections = document.querySelectorAll('[data-route]');
-          sections.forEach(function (section) {
-            if (section.getAttribute('data-route') === hash) {
-              section.classList.remove('hidden-route');
-            } else {
-              section.classList.add('hidden-route');
-            }
-          });
-          document.querySelectorAll('[data-route-link]').forEach(function (link) {
-            if (link.getAttribute('href') === hash) {
-              link.classList.add('active');
-            } else {
-              link.classList.remove('active');
-            }
-          });
-        }
-
-        function router() {
-          var hash = location.hash || '#/trade';
-          var valid = ['#/trade', '#/markets', '#/wallet', '#/support'];
-          if (valid.indexOf(hash) === -1) {
-            hash = '#/trade';
-            location.hash = hash;
+          if (cumAsks.length) {
+            const last = cumAsks[cumAsks.length - 1];
+            const x = ((last.price - min) / (max - min || 1)) * canvas.clientWidth;
+            ctx.lineTo(x, canvas.clientHeight);
           }
-          setActiveRoute(hash);
+          ctx.fillStyle = 'rgba(239,68,68,0.24)';
+          ctx.fill();
+          ctx.restore();
         }
+        function renderMarketsPage() {
+          const page = document.getElementById('page-markets');
+          const searchLower = state.marketSearch.trim().toLowerCase();
+          let filtered = window.__MOCK__.symbols.filter((symbol) => {
+            const matchQuote = state.marketFilter === 'all' || symbol.quote.toLowerCase() === state.marketFilter;
+            const matchSearch = !searchLower || symbol.symbol.toLowerCase().includes(searchLower);
+            return matchQuote && matchSearch;
+          });
+          page.innerHTML = `
+            <div class="card">
+              <div class="flex-space">
+                <h2>${t('markets')}</h2>
+                <span class="badge">${t('simulated')}</span>
+              </div>
+              <div class="search-bar" style="margin-bottom:16px;">
+                <input id="market-search" type="search" placeholder="${t('search')}" value="${state.marketSearch}" />
+                <div class="chip ${state.marketFilter === 'all' ? 'active' : ''}" data-filter="all">${t('filters')}</div>
+                <div class="chip ${state.marketFilter === 'usdt' ? 'active' : ''}" data-filter="usdt">USDT</div>
+                <div class="chip ${state.marketFilter === 'irt' ? 'active' : ''}" data-filter="irt">IRT</div>
+                <div class="chip" data-sort="top">Top Gainers</div>
+                <div class="chip" data-sort="drop">Top Losers</div>
+              </div>
+              <div style="overflow-x:auto;">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>${t('pair')}</th>
+                      <th>${t('price')}</th>
+                      <th>${t('change24h')}</th>
+                      <th>${t('volume24h')}</th>
+                      <th>${t('spark')}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${filtered
+                      .map(
+                        (row, idx) => `
+                          <tr data-pair="${row.symbol}" class="market-row">
+                            <td>${row.symbol}</td>
+                            <td>${formatNumber(row.price)}</td>
+                            <td style="color:${row.change >= 0 ? 'var(--positive)' : 'var(--negative)'};">${
+                          (row.change >= 0 ? '+' : '') + formatNumber(row.change, { percent: true })
+                        }</td>
+                            <td>${formatNumber(row.volume)}</td>
+                            <td><canvas class="sparkline" id="spark-${idx}"></canvas></td>
+                          </tr>
+                        `
+                      )
+                      .join('')}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          `;
 
-        window.addEventListener('hashchange', router);
+          filtered.forEach((row, idx) => {
+            const canvas = document.getElementById(`spark-${idx}`);
+            if (canvas) {
+              drawSparkline(canvas, window.__MOCK__.ohlcv[row.symbol].slice(-40));
+            }
+          });
 
-        document.addEventListener('DOMContentLoaded', function () {
-          fillOrderBook();
-          fillTrades();
-          fillQuickActions();
-          fillMarkets();
-          drawChart();
-          handleOrder('btn-buy', 'buy');
-          handleOrder('btn-sell', 'sell');
-          setupWallet();
-          router();
-        });
+          page.querySelectorAll('.market-row').forEach((row) => {
+            row.addEventListener('click', () => {
+              const pair = row.getAttribute('data-pair');
+              location.hash = `#/trade?pair=${encodeURIComponent(pair)}`;
+            });
+          });
 
-        window.addEventListener('resize', drawChart);
-      })();
-    </script>
-    <script>
-      (function () {
-        function showApp() {
-          var el = document.querySelector('#app,#root,main,.app,.root');
-          if (el) {
-            el.hidden = false;
-            el.style.opacity = '1';
-            el.style.visibility = 'visible';
-            el.style.display = 'block';
+          page.querySelectorAll('.chip[data-filter]').forEach((chip) => {
+            chip.addEventListener('click', () => {
+              state.marketFilter = chip.dataset.filter;
+              renderMarketsPage();
+            });
+          });
+
+          page.querySelectorAll('.chip[data-sort]').forEach((chip) => {
+            chip.addEventListener('click', () => {
+              if (chip.dataset.sort === 'top') {
+                window.__MOCK__.symbols.sort((a, b) => b.change - a.change);
+              } else {
+                window.__MOCK__.symbols.sort((a, b) => a.change - b.change);
+              }
+              renderMarketsPage();
+            });
+          });
+
+          const searchInput = document.getElementById('market-search');
+          searchInput.addEventListener('input', (event) => {
+            state.marketSearch = event.target.value;
+            renderMarketsPage();
+          });
+        }
+        function renderTradePage() {
+          const page = document.getElementById('page-trade');
+          const data = window.__MOCK__.ohlcv[state.pair] || [];
+          if (!data.length) {
+            page.innerHTML = '<div class="card"><div class="skeleton" style="height:220px;"></div></div>';
+            return;
           }
-          document.documentElement.style.opacity = '1';
-          document.body.style.opacity = '1';
+          const book = window.__MOCK__.orderbook[state.pair];
+          const trades = window.__MOCK__.trades[state.pair];
+          const last = data[data.length - 1];
+          const spread = book.asks[0].price - book.bids[0].price;
+          page.innerHTML = `
+            <div class="card">
+              <div class="flex-space" style="margin-bottom:16px;">
+                <div>
+                  <h2>${state.pair}</h2>
+                  <div class="flex" style="color:var(--fg-muted);font-size:12px;">
+                    <span>${t('orderbookSpread')}: ${formatNumber(spread)}</span>
+                    <span>24h ${t('change24h')}: <strong style="color:${
+                      last.close >= data[0].open ? 'var(--positive)' : 'var(--negative)'
+                    }">${formatNumber((last.close - data[0].open) / data[0].open, { percent: true })}</strong></span>
+                  </div>
+                </div>
+                <div class="tabs" id="trade-side-tabs">
+                  <button data-side="buy" class="${state.tradeSide === 'buy' ? 'active' : ''}">${t('buy')}</button>
+                  <button data-side="sell" class="${state.tradeSide === 'sell' ? 'active' : ''}">${t('sell')}</button>
+                </div>
+              </div>
+              <div class="row two" style="margin-bottom:16px;">
+                <canvas class="chart" id="candle-chart"></canvas>
+                <div class="orderbook">
+                  <h3>${t('orderbook')}</h3>
+                  <div class="orderbook-columns">
+                    <div class="orderbook-list" id="asks"></div>
+                    <div class="orderbook-list" id="bids"></div>
+                  </div>
+                  <h3>${t('tradeForm')}</h3>
+                  <div>
+                    <div class="tabs" id="order-type-tabs" style="margin-bottom:12px;">
+                      <button data-type="limit" class="${state.orderType === 'limit' ? 'active' : ''}">${t('limit')}</button>
+                      <button data-type="market" class="${state.orderType === 'market' ? 'active' : ''}">${t('market')}</button>
+                    </div>
+                    <div class="row">
+                      <label>${t('price')} (${state.pair.split('/')[1]})
+                        <input type="number" step="0.0001" id="order-price" value="${formatNumber(last.close)}" ${
+            state.orderType === 'market' ? 'disabled' : ''
+          } />
+                      </label>
+                      <label>${t('amount')} (${state.pair.split('/')[0]})
+                        <input type="number" step="0.0001" id="order-amount" value="0.1" />
+                      </label>
+                      <div class="quick-percentages">
+                        <button type="button" data-pct="0.25">25%</button>
+                        <button type="button" data-pct="0.5">50%</button>
+                        <button type="button" data-pct="0.75">75%</button>
+                        <button type="button" data-pct="1">100%</button>
+                      </div>
+                      <div class="flex" style="justify-content:space-between;font-size:12px;color:var(--fg-muted);">
+                        <span>${t('total')}: <strong id="order-total">0</strong> ${state.pair.split('/')[1]}</span>
+                        <span>${t('fee')}: <strong id="order-fee">0</strong> ${state.pair.split('/')[1]}</span>
+                      </div>
+                      <button id="submit-order">${state.tradeSide === 'buy' ? t('buy') : t('sell')} ${state.pair}</button>
+                      <div class="status-pill pending" style="justify-content:center;">${t('offlineOnly')}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row two">
+                <canvas class="depth" id="depth-chart"></canvas>
+                <div class="card" style="background:rgba(15,23,42,0.45);">
+                  <h3>${t('recentTrades')}</h3>
+                  <div style="max-height:280px;overflow:auto;">
+                    ${trades
+                      .map(
+                        (trade) => `
+                          <div class="transaction-item" style="color:${
+                            trade.side === 'buy' ? 'var(--positive)' : 'var(--negative)'
+                          };">
+                            <span>${formatDate(trade.time)}</span>
+                            <span>${formatNumber(trade.price)}</span>
+                            <span>${formatNumber(trade.size)}</span>
+                            <span>${trade.side === 'buy' ? t('buy') : t('sell')}</span>
+                          </div>
+                        `
+                      )
+                      .join('')}
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+
+          const asksEl = page.querySelector('#asks');
+          const bidsEl = page.querySelector('#bids');
+          asksEl.innerHTML = '';
+          bidsEl.innerHTML = '';
+          const maxAsk = Math.max(...book.asks.map((a) => a.amount));
+          const maxBid = Math.max(...book.bids.map((a) => a.amount));
+          book.asks.forEach((ask) => {
+            const row = document.createElement('div');
+            row.className = 'orderbook-row ask';
+            row.innerHTML = `
+              <span>${formatNumber(ask.price)}</span>
+              <span>${formatNumber(ask.amount)}</span>
+              <span>${formatNumber(ask.price * ask.amount)}</span>
+              <div class="depth-bar" style="background:rgba(239,68,68,0.4);width:${(ask.amount / maxAsk) * 100}%;right:0;"></div>
+            `;
+            asksEl.appendChild(row);
+          });
+          book.bids.forEach((bid) => {
+            const row = document.createElement('div');
+            row.className = 'orderbook-row bid';
+            row.innerHTML = `
+              <span>${formatNumber(bid.price)}</span>
+              <span>${formatNumber(bid.amount)}</span>
+              <span>${formatNumber(bid.price * bid.amount)}</span>
+              <div class="depth-bar" style="background:rgba(34,197,94,0.4);width:${(bid.amount / maxBid) * 100}%;left:0;"></div>
+            `;
+            bidsEl.appendChild(row);
+          });
+
+          drawCandleChart(document.getElementById('candle-chart'), data);
+          drawDepthChart(document.getElementById('depth-chart'), book);
+
+          const orderPrice = page.querySelector('#order-price');
+          const orderAmount = page.querySelector('#order-amount');
+          const totalEl = page.querySelector('#order-total');
+          const feeEl = page.querySelector('#order-fee');
+          const updateTotals = () => {
+            const priceValue = state.orderType === 'market' ? last.close : parseFloat(orderPrice?.value || last.close);
+            const amountValue = parseFloat(orderAmount.value || '0');
+            const total = priceValue * amountValue;
+            totalEl.textContent = formatNumber(total);
+            feeEl.textContent = formatNumber(total * 0.0012);
+          };
+          updateTotals();
+          orderPrice?.addEventListener('input', updateTotals);
+          orderAmount.addEventListener('input', updateTotals);
+          page.querySelectorAll('.quick-percentages button').forEach((btn) => {
+            btn.addEventListener('click', () => {
+              const pct = parseFloat(btn.dataset.pct || '0');
+              orderAmount.value = (pct * 1).toFixed(4);
+              updateTotals();
+            });
+          });
+          page.querySelector('#submit-order').addEventListener('click', () => showToast(t('offlineOnly')));
+          page.querySelectorAll('#trade-side-tabs button').forEach((btn) => {
+            btn.addEventListener('click', () => {
+              state.tradeSide = btn.dataset.side;
+              renderTradePage();
+            });
+          });
+          page.querySelectorAll('#order-type-tabs button').forEach((btn) => {
+            btn.addEventListener('click', () => {
+              state.orderType = btn.dataset.type;
+              renderTradePage();
+            });
+          });
         }
-        if (document.readyState !== 'loading') showApp();
-        else document.addEventListener('DOMContentLoaded', showApp, { once: true });
-        setTimeout(showApp, 800);
-      })();
-    </script>
-    <script>
-      (function () {
-        var ov = document.createElement('div');
-        var pre = document.createElement('pre');
-        ov.id = 'err-overlay';
-        Object.assign(ov.style, {
-          position: 'fixed',
-          inset: '0',
-          background: 'rgba(0,0,0,.8)',
-          color: '#fff',
-          zIndex: 99999,
-          display: 'none'
-        });
-        Object.assign(pre.style, {
-          margin: '0',
-          padding: '16px',
-          font: "14px/1.6 ui-monospace,Menlo,Monaco,'Courier New',monospace",
-          whiteSpace: 'pre-wrap'
-        });
-        ov.appendChild(pre);
-        document.body.appendChild(ov);
-        function show(m) {
-          ov.style.display = 'block';
-          pre.textContent = m;
+        function renderWalletPage() {
+          const page = document.getElementById('page-wallet');
+          const balances = window.__MOCK__.wallet.balances;
+          const transactions = window.__MOCK__.wallet.transactions;
+          const filteredTransactions = transactions.filter((tx) => state.walletFilterStatus === 'all' || tx.status === state.walletFilterStatus);
+          page.innerHTML = `
+            <div class="card">
+              <div class="flex-space">
+                <h2>${t('walletBalance')}</h2>
+                <div>
+                  <button class="secondary" data-wallet-action="deposit">${t('deposit')}</button>
+                  <button class="secondary" data-wallet-action="withdraw">${t('withdraw')}</button>
+                </div>
+              </div>
+              <div style="overflow-x:auto;">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>${t('base')}</th>
+                      <th>${t('amount')}</th>
+                      <th>${t('walletValueUSDT')}</th>
+                      <th>${t('walletValueIR')}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${balances
+                      .map(
+                        (bal) => `
+                          <tr>
+                            <td>${bal.asset}</td>
+                            <td>${formatNumber(bal.available)} / ${formatNumber(bal.locked)}</td>
+                            <td>${formatNumber(bal.valueUSDT)}</td>
+                            <td>${formatNumber(bal.valueIRT)}</td>
+                          </tr>
+                        `
+                      )
+                      .join('')}
+                  </tbody>
+                </table>
+              </div>
+              <div class="row two" style="margin-top:16px;">
+                <div>
+                  <h3>${t('deposit')}</h3>
+                  <div class="form-grid">
+                    <label>
+                      ${t('base')}
+                      <select>${balances.map((bal) => `<option>${bal.asset}</option>`).join('')}</select>
+                    </label>
+                    <label>
+                      ${t('amount')}
+                      <input type="number" placeholder="0" />
+                    </label>
+                    <label>
+                      آدرس
+                      <textarea rows="3" placeholder="Wallet Address"></textarea>
+                    </label>
+                    <button>${t('deposit')}</button>
+                  </div>
+                </div>
+                <div>
+                  <h3>${t('withdraw')}</h3>
+                  <div class="form-grid">
+                    <label>
+                      ${t('base')}
+                      <select>${balances.map((bal) => `<option>${bal.asset}</option>`).join('')}</select>
+                    </label>
+                    <label>
+                      ${t('amount')}
+                      <input type="number" placeholder="0" />
+                    </label>
+                    <label>
+                      ${t('fee')}
+                      <input type="text" disabled value="0.001" />
+                    </label>
+                    <button>${t('withdraw')}</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="flex-space">
+                <h2>${t('transactions')}</h2>
+                <div class="tabs" id="wallet-status-tabs">
+                  <button data-status="all" class="${state.walletFilterStatus === 'all' ? 'active' : ''}">${t('status')}</button>
+                  <button data-status="completed" class="${state.walletFilterStatus === 'completed' ? 'active' : ''}">${t('approved')}</button>
+                  <button data-status="pending" class="${state.walletFilterStatus === 'pending' ? 'active' : ''}">${t('pending')}</button>
+                  <button data-status="failed" class="${state.walletFilterStatus === 'failed' ? 'active' : ''}">${t('rejected')}</button>
+                </div>
+              </div>
+              <div class="transactions-table">
+                ${filteredTransactions.length
+                  ? filteredTransactions
+                      .map(
+                        (tx) => `
+                          <div class="transaction-item">
+                            <span>${tx.asset}</span>
+                            <span>${formatNumber(tx.amount)}</span>
+                            <span>${formatDate(tx.time)}</span>
+                            <span class="status-pill ${
+                              tx.status === 'completed' ? 'success' : tx.status === 'pending' ? 'pending' : 'danger'
+                            }">${t(tx.status === 'completed' ? 'approved' : tx.status === 'pending' ? 'pending' : 'rejected')}</span>
+                          </div>
+                        `
+                      )
+                      .join('')
+                  : `<div class="empty-state">${t('offlineOnly')}</div>`}
+              </div>
+            </div>
+          `;
+
+          page.querySelectorAll('#wallet-status-tabs button').forEach((btn) => {
+            btn.addEventListener('click', () => {
+              state.walletFilterStatus = btn.dataset.status;
+              renderWalletPage();
+            });
+          });
+          page.querySelectorAll('[data-wallet-action]').forEach((btn) => {
+            btn.addEventListener('click', () => showToast(t('offlineOnly')));
+          });
         }
-        window.addEventListener('error', function (e) {
-          show((e.error && e.error.stack) || e.message || String(e));
-        });
-        window.addEventListener('unhandledrejection', function (e) {
-          show((e.reason && e.reason.stack) || String(e.reason));
-        });
+        function renderOrdersPage() {
+          const page = document.getElementById('page-orders');
+          const orders = window.__MOCK__.orders[state.ordersTab];
+          page.innerHTML = `
+            <div class="card">
+              <div class="flex-space">
+                <h2>${t('orders')}</h2>
+                <div class="tabs" id="orders-tabs">
+                  <button data-tab="open" class="${state.ordersTab === 'open' ? 'active' : ''}">${t('openOrders')}</button>
+                  <button data-tab="filled" class="${state.ordersTab === 'filled' ? 'active' : ''}">${t('filledOrders')}</button>
+                  <button data-tab="canceled" class="${state.ordersTab === 'canceled' ? 'active' : ''}">${t('canceledOrders')}</button>
+                </div>
+              </div>
+              <div style="overflow-x:auto;">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>${t('pair')}</th>
+                      <th>${t('type')}</th>
+                      <th>${t('side')}</th>
+                      <th>${t('price')}</th>
+                      <th>${t('amount')}</th>
+                      <th>${t('date')}</th>
+                      <th>${t('actions')}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${orders.length
+                      ? orders
+                          .map(
+                            (order) => `
+                              <tr>
+                                <td>${order.pair}</td>
+                                <td>${t(order.type)}</td>
+                                <td style="color:${order.side === 'buy' ? 'var(--positive)' : 'var(--negative)'};">${t(order.side)}</td>
+                                <td>${formatNumber(order.price)}</td>
+                                <td>${formatNumber(order.amount)}</td>
+                                <td>${formatDate(order.time)}</td>
+                                <td>${
+                                  state.ordersTab === 'open'
+                                    ? `<button class="secondary" data-cancel="${order.id}">${t('cancel')}</button>`
+                                    : '-'
+                                }</td>
+                              </tr>
+                            `
+                          )
+                          .join('')
+                      : `<tr><td colspan="7"><div class="empty-state">${t('offlineOnly')}</div></td></tr>`}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          `;
+
+          page.querySelectorAll('#orders-tabs button').forEach((btn) => {
+            btn.addEventListener('click', () => {
+              state.ordersTab = btn.dataset.tab;
+              renderOrdersPage();
+            });
+          });
+          page.querySelectorAll('[data-cancel]').forEach((btn) => {
+            btn.addEventListener('click', () => showToast(t('offlineOnly')));
+          });
+        }
+        function renderKycPage() {
+          const page = document.getElementById('page-kyc');
+          const steps = [t('step1'), t('step2'), t('step3')];
+          page.innerHTML = `
+            <div class="card">
+              <h2>${t('kyc')}</h2>
+              <div class="kyc-steps">
+                ${steps.map((label, idx) => `<div class="kyc-step ${idx === state.kycStep ? 'active' : ''}">${label}</div>`).join('')}
+              </div>
+              <form id="kyc-form">
+                ${
+                  state.kycStep === 0
+                    ? `
+                      <div class="form-grid">
+                        <label>نام کامل<input type="text" name="name" required value="${state.kycData.name}" /></label>
+                        <label>کد ملی<input type="text" name="national" pattern="\\d{10}" required value="${state.kycData.national}" /></label>
+                        <label>تاریخ تولد<input type="date" name="dob" /></label>
+                      </div>
+                    `
+                    : state.kycStep === 1
+                    ? `
+                      <div class="form-grid">
+                        <label>آدرس<input type="text" name="address" required value="${state.kycData.address}" /></label>
+                        <label>شهر<input type="text" name="city" required value="${state.kycData.city}" /></label>
+                        <label>کد پستی<input type="text" name="zip" pattern="\\d{5,10}" required value="${state.kycData.zip}" /></label>
+                      </div>
+                    `
+                    : `
+                      <div class="form-grid">
+                        <label>${t('uploadLogo')}<input type="file" id="kyc-doc" accept="image/*,.pdf" /></label>
+                        <div class="logo-preview" id="kyc-doc-preview">${
+                          state.kycData.doc ? `<img src="${state.kycData.doc}" alt="doc" />` : t('dropOrSelect')
+                        }</div>
+                      </div>
+                    `
+                }
+                <div class="flex" style="margin-top:20px;">
+                  <button type="button" class="secondary" id="kyc-prev" ${state.kycStep === 0 ? 'disabled' : ''}>${t('previous')}</button>
+                  <button type="submit">${state.kycStep === steps.length - 1 ? t('submit') : t('next')}</button>
+                </div>
+              </form>
+              <div class="status-pill pending" style="margin-top:16px;">${t('pending')}</div>
+            </div>
+          `;
+
+          const form = document.getElementById('kyc-form');
+          const prevBtn = document.getElementById('kyc-prev');
+          prevBtn.addEventListener('click', () => {
+            state.kycStep = clamp(state.kycStep - 1, 0, steps.length - 1);
+            renderKycPage();
+          });
+          form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            if (state.kycStep < steps.length - 1) {
+              const formData = new FormData(form);
+              state.kycData = { ...state.kycData, ...Object.fromEntries(formData.entries()) };
+              state.kycStep = clamp(state.kycStep + 1, 0, steps.length - 1);
+              renderKycPage();
+            } else {
+              showToast(t('offlineOnly'));
+            }
+          });
+          const fileInput = document.getElementById('kyc-doc');
+          const preview = document.getElementById('kyc-doc-preview');
+          if (fileInput) {
+            fileInput.addEventListener('change', () => {
+              const file = fileInput.files?.[0];
+              if (!file) return;
+              if (!/pdf|image/.test(file.type)) {
+                showToast(t('invalidFile'));
+                fileInput.value = '';
+                return;
+              }
+              const reader = new FileReader();
+              reader.onload = () => {
+                state.kycData.doc = reader.result;
+                preview.innerHTML = `<img src="${reader.result}" alt="doc" />`;
+              };
+              reader.readAsDataURL(file);
+            });
+          }
+        }
+        function renderSettingsPage() {
+          const page = document.getElementById('page-settings');
+          page.innerHTML = `
+            <div class="card">
+              <h2>${t('settings')}</h2>
+              <div class="settings-grid">
+                <label>
+                  ${t('theme')}
+                  <select id="theme-select">
+                    <option value="dark" ${state.theme === 'dark' ? 'selected' : ''}>${t('themeDark')}</option>
+                    <option value="light" ${state.theme === 'light' ? 'selected' : ''}>${t('themeLight')}</option>
+                  </select>
+                </label>
+                <label>
+                  ${t('language')}
+                  <select id="language-select">
+                    <option value="fa" ${state.language === 'fa' ? 'selected' : ''}>${t('languageFa')}</option>
+                    <option value="en" ${state.language === 'en' ? 'selected' : ''}>${t('languageEn')}</option>
+                  </select>
+                </label>
+                <label>
+                  ${t('font')}
+                  <select id="font-select">
+                    <option value="vazir" ${state.font === 'vazir' ? 'selected' : ''}>${t('fontVazir')}</option>
+                    <option value="byekan" ${state.font === 'byekan' ? 'selected' : ''}>${t('fontYekan')}</option>
+                  </select>
+                </label>
+                <label>
+                  ${t('branding')}
+                  <div class="flex">
+                    <div class="logo-preview"><img src="${state.logo}" alt="logo" /></div>
+                    <div>
+                      <input type="file" id="branding-logo" accept="image/*" />
+                      <button type="button" class="secondary" id="reset-logo">${t('reset')}</button>
+                    </div>
+                  </div>
+                </label>
+              </div>
+              <div class="status-pill success" id="settings-toast" style="display:none;margin-top:16px;">${t('settingsSaved')}</div>
+            </div>
+          `;
+
+          document.getElementById('theme-select').addEventListener('change', (event) => {
+            state.theme = event.target.value;
+            applyTheme();
+            persistSettings();
+          });
+          document.getElementById('language-select').addEventListener('change', (event) => {
+            state.language = event.target.value;
+            persistSettings();
+            rerender();
+          });
+          document.getElementById('font-select').addEventListener('change', (event) => {
+            state.font = event.target.value;
+            applyFont();
+            persistSettings();
+          });
+          document.getElementById('branding-logo').addEventListener('change', (event) => {
+            const file = event.target.files?.[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = () => {
+              state.logo = reader.result;
+              document.getElementById('brand-logo').src = state.logo;
+              persistSettings();
+              rerender();
+            };
+            reader.readAsDataURL(file);
+          });
+          document.getElementById('reset-logo').addEventListener('click', () => {
+            state.logo = window.__COINOWIN_LOGO_B64__;
+            document.getElementById('brand-logo').src = state.logo;
+            persistSettings();
+            rerender();
+          });
+        }
+        function renderHomePage() {
+          const page = document.getElementById('page-home');
+          const featured = window.__MOCK__.symbols.slice(0, 3);
+          page.innerHTML = `
+            <div class="card">
+              <h2>${t('home')}</h2>
+              <div class="row three">
+                ${featured
+                  .map(
+                    (item) => `
+                      <div class="card" style="background:rgba(31,214,201,0.08);">
+                        <h3>${item.symbol}</h3>
+                        <p style="margin:0;color:var(--fg-muted);">${t('simulated')}</p>
+                        <p style="font-size:24px;margin:16px 0;">${formatNumber(item.price)}</p>
+                        <button class="secondary" data-go-trade="${item.symbol}">${t('trade')}</button>
+                      </div>
+                    `
+                  )
+                  .join('')}
+              </div>
+            </div>
+          `;
+          page.querySelectorAll('[data-go-trade]').forEach((btn) => {
+            btn.addEventListener('click', () => {
+              const pair = btn.dataset.goTrade;
+              location.hash = `#/trade?pair=${encodeURIComponent(pair)}`;
+            });
+          });
+        }
+        function renderPages() {
+          renderHomePage();
+          renderMarketsPage();
+          renderTradePage();
+          renderOrdersPage();
+          renderWalletPage();
+          renderKycPage();
+          renderSettingsPage();
+        }
+
+        function rerender() {
+          renderTicker();
+          renderPages();
+          activateRoute();
+        }
+
+        function applyTheme() {
+          document.documentElement.setAttribute('data-theme', state.theme);
+        }
+
+        function applyFont() {
+          document.documentElement.setAttribute('data-font', state.font);
+        }
+
+        function persistSettings() {
+          const payload = {
+            theme: state.theme,
+            language: state.language,
+            font: state.font,
+            logo: state.logo
+          };
+          localStorage.setItem('coinowin.settings', JSON.stringify(payload));
+          const toast = document.getElementById('settings-toast');
+          if (toast) {
+            toast.style.display = 'inline-flex';
+            clearTimeout(state.toastTimeout);
+            state.toastTimeout = setTimeout(() => {
+              toast.style.display = 'none';
+            }, 2000);
+          }
+        }
+
+        function showToast(message) {
+          const toast = document.createElement('div');
+          toast.textContent = message;
+          toast.style.position = 'fixed';
+          toast.style.bottom = '24px';
+          toast.style.left = '50%';
+          toast.style.transform = 'translateX(-50%)';
+          toast.style.background = 'rgba(15,23,42,0.9)';
+          toast.style.color = '#fff';
+          toast.style.padding = '12px 18px';
+          toast.style.borderRadius = '14px';
+          toast.style.boxShadow = '0 18px 30px rgba(0,0,0,0.3)';
+          toast.style.zIndex = '1000';
+          document.body.appendChild(toast);
+          setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transition = 'opacity 0.4s ease';
+            setTimeout(() => toast.remove(), 400);
+          }, 1600);
+        }
+
+        function updateMock() {
+          const mock = window.__MOCK__;
+          mock.symbols.forEach((symbol) => {
+            const ohlcv = mock.ohlcv[symbol.symbol];
+            const last = ohlcv[ohlcv.length - 1];
+            const nextClose = last.close * (1 + (Math.random() - 0.5) * 0.002);
+            const nextHigh = Math.max(nextClose, last.high) * (1 + Math.random() * 0.001);
+            const nextLow = Math.min(nextClose, last.low) * (1 - Math.random() * 0.001);
+            const newCandle = {
+              time: Date.now(),
+              open: last.close,
+              high: nextHigh,
+              low: nextLow,
+              close: nextClose,
+              volume: Math.abs(last.volume * (0.9 + Math.random() * 0.2))
+            };
+            ohlcv.push(newCandle);
+            if (ohlcv.length > 240) ohlcv.shift();
+            symbol.price = nextClose;
+            symbol.change = (nextClose - ohlcv[0].open) / ohlcv[0].open;
+            symbol.volume = Math.abs(symbol.volume * (0.95 + Math.random() * 0.1));
+
+            const book = mock.orderbook[symbol.symbol];
+            book.asks = book.asks.map((ask) => ({
+              price: ask.price * (1 + (Math.random() - 0.5) * 0.0008),
+              amount: Math.abs(ask.amount * (0.9 + Math.random() * 0.2))
+            }));
+            book.bids = book.bids.map((bid) => ({
+              price: bid.price * (1 + (Math.random() - 0.5) * 0.0008),
+              amount: Math.abs(bid.amount * (0.9 + Math.random() * 0.2))
+            }));
+
+            const trades = mock.trades[symbol.symbol];
+            trades.unshift({
+              side: Math.random() > 0.5 ? 'buy' : 'sell',
+              price: nextClose,
+              size: Math.abs((Math.random() + 0.2) * 1.2),
+              time: Date.now()
+            });
+            if (trades.length > 80) trades.pop();
+          });
+        }
+
+        function handleResize() {
+          if (state.route === '#/trade') {
+            drawCandleChart(document.getElementById('candle-chart'), window.__MOCK__.ohlcv[state.pair] || []);
+            drawDepthChart(document.getElementById('depth-chart'), window.__MOCK__.orderbook[state.pair]);
+          }
+        }
+
+        function setupErrorOverlay() {
+          const overlay = document.getElementById('error-overlay');
+          function showError(message, stack) {
+            overlay.style.display = 'flex';
+            overlay.innerHTML = `<h2>Runtime Error</h2><pre>${message}\n${stack || ''}</pre>`;
+          }
+          window.addEventListener('error', (event) => showError(event.message, event.error?.stack));
+          window.addEventListener('unhandledrejection', (event) => showError(event.reason?.message || 'Unhandled rejection', event.reason?.stack));
+        }
+
+        function initRouter() {
+          parseHash();
+          activateRoute();
+          window.addEventListener('hashchange', () => {
+            parseHash();
+            activateRoute();
+          });
+        }
+
+        function init() {
+          applyTheme();
+          applyFont();
+          renderTicker();
+          renderPages();
+          initRouter();
+          setupErrorOverlay();
+          showToast(t('offlineOnly'));
+          setInterval(() => {
+            updateMock();
+            rerender();
+          }, 1000);
+          window.addEventListener('resize', () => {
+            clearTimeout(window.__resizeTimeout);
+            window.__resizeTimeout = setTimeout(handleResize, 160);
+          });
+        }
+
+        requestAnimationFrame(init);
       })();
     </script>
   </body>
