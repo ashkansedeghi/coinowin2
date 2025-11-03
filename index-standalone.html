@@ -1,236 +1,720 @@
-    <script>
-      (function () {
-        if (!location.hash) {
-          location.hash = '#/trade';
-        }
-      })();
-    </script>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <!-- BUILD 30a3d4d @ 2025-11-03T12:20:18Z -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' data: blob: 'unsafe-inline'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline' data:; script-src 'self' 'unsafe-inline' data:; connect-src 'self' data: blob:;"
+    />
+    <title>CoinoWin — حالت آفلاین</title>
     <style>
-      #error-overlay {
+      :root {
+        color-scheme: dark;
+        --bg: #070b11;
+        --bg-soft: #0e151f;
+        --bg-elevated: #111c2b;
+        --fg: #f7f8fa;
+        --fg-muted: #a8b3c5;
+        --accent: #34d399;
+        --accent-soft: rgba(52, 211, 153, 0.12);
+        --danger: #f87171;
+        --border: rgba(148, 163, 184, 0.16);
+        --font-sans: 'BYekan', 'Vazirmatn', 'Segoe UI', 'Tahoma', system-ui, sans-serif;
+      }
+      @font-face {
+        font-family: 'BYekan';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: local('BYekan'), local('Vazirmatn');
+      }
+      @font-face {
+        font-family: 'Vazirmatn';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: local('Vazirmatn');
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font-family: var(--font-sans);
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        font-variant-numeric: tabular-nums;
+        min-height: 100%;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      [hidden] {
+        display: none !important;
+      }
+      .app-shell {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+      header {
+        padding: 16px 24px;
+        background: linear-gradient(90deg, rgba(52, 211, 153, 0.14), transparent);
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      .logo {
+        font-weight: 700;
+        font-size: 20px;
+        letter-spacing: 0.05em;
+      }
+      nav {
+        display: flex;
+        gap: 12px;
+        font-size: 14px;
+      }
+      nav a {
+        padding: 6px 12px;
+        border-radius: 999px;
+        transition: background 0.2s ease;
+      }
+      nav a.active,
+      nav a:hover {
+        background: rgba(52, 211, 153, 0.16);
+        color: #34d399;
+      }
+      .build-pill {
+        margin-inline-start: auto;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: rgba(52, 211, 153, 0.18);
+        border: 1px solid rgba(52, 211, 153, 0.4);
+        font-size: 12px;
+        color: #34d399;
+        font-weight: 600;
+      }
+      main {
+        flex: 1;
+        padding: 24px;
+        display: grid;
+        gap: 20px;
+      }
+      .trade-layout {
+        display: grid;
+        gap: 20px;
+        grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+        grid-template-areas:
+          'chart orderbook'
+          'depth trades';
+      }
+      .card {
+        background: var(--bg-soft);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 16px;
+        box-shadow: 0 18px 36px rgba(15, 23, 42, 0.25);
+      }
+      .card h2 {
+        margin: 0 0 12px;
+        font-size: 16px;
+      }
+      canvas {
+        width: 100%;
+        height: 260px;
+        display: block;
+        border-radius: 12px;
+        background: var(--bg);
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+      th,
+      td {
+        padding: 6px 4px;
+        text-align: left;
+      }
+      tbody tr:nth-child(odd) {
+        background: rgba(15, 23, 42, 0.36);
+      }
+      tbody tr:nth-child(even) {
+        background: rgba(15, 23, 42, 0.14);
+      }
+      tbody tr:hover {
+        background: rgba(52, 211, 153, 0.12);
+      }
+      .split {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 12px;
+      }
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .form-group label {
+        font-size: 12px;
+        color: var(--fg-muted);
+      }
+      .form-group input {
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        background: var(--bg);
+        color: var(--fg);
+        padding: 10px;
+        font: inherit;
+      }
+      button {
+        cursor: pointer;
+        border: none;
+        border-radius: 10px;
+        padding: 10px;
+        font-weight: 600;
+        font-size: 14px;
+        font-family: var(--font-sans);
+        transition: transform 0.1s ease, box-shadow 0.1s ease;
+      }
+      .btn-buy {
+        background: var(--accent);
+        color: #062e23;
+      }
+      .btn-sell {
+        background: var(--danger);
+        color: #fff;
+      }
+      button:active {
+        transform: scale(0.98);
+      }
+      footer {
+        padding: 16px 24px 32px;
+        text-align: center;
+        font-size: 12px;
+        color: var(--fg-muted);
+      }
+      .markets-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 12px;
+      }
+      .market-card {
+        background: var(--bg-soft);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .trend-up {
+        color: #34d399;
+      }
+      .trend-down {
+        color: #f87171;
+      }
+      #err-overlay {
         position: fixed;
         inset: 0;
-        display: none;
-        align-items: center;
-        justify-content: center;
-        padding: 24px;
-        box-sizing: border-box;
-        background: rgba(0, 0, 0, 0.82);
+        background: rgba(0, 0, 0, 0.8);
         color: #fff;
-        z-index: 2147483647;
-        font-family: 'Vazirmatn', system-ui, -apple-system, BlinkMacSystemFont,
-          'Segoe UI', sans-serif;
-        overflow: auto;
+        z-index: 99999;
+        display: none;
       }
-      #error-overlay.coinowin-error-visible {
-        display: flex;
-      }
-      #error-overlay .error-overlay-inner {
-        width: 100%;
-        max-width: 960px;
-        background: rgba(12, 12, 12, 0.72);
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        border-radius: 12px;
-        padding: 24px;
-        box-shadow: 0 18px 36px rgba(0, 0, 0, 0.55);
-      }
-      #error-overlay h1 {
-        margin: 0 0 16px;
-        font-size: 20px;
-        font-weight: 600;
-        letter-spacing: 0.01em;
-      }
-      #error-overlay pre {
+      #err-overlay pre {
         margin: 0;
-        font-size: 14px;
-        line-height: 1.5;
+        padding: 16px;
+        font: 14px/1.6 ui-monospace, Menlo, Monaco, 'Courier New', monospace;
         white-space: pre-wrap;
-        word-break: break-word;
-        font-family: 'Courier New', Courier, monospace;
+      }
+      #err-overlay .inner {
+        max-width: 960px;
+        margin: 80px auto;
+        background: rgba(17, 24, 39, 0.94);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 24px 48px rgba(0, 0, 0, 0.45);
+      }
+      .hidden-route {
+        display: none !important;
+      }
+      .pill-overlay {
+        position: fixed;
+        top: 16px;
+        left: 16px;
+        background: rgba(34, 197, 94, 0.85);
+        color: #041106;
+        padding: 6px 14px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 700;
+        box-shadow: 0 8px 16px rgba(34, 197, 94, 0.35);
+        pointer-events: none;
+      }
+      @media (max-width: 960px) {
+        main {
+          padding: 16px;
+        }
+        .trade-layout {
+          grid-template-columns: 1fr;
+          grid-template-areas:
+            'chart'
+            'orderbook'
+            'depth'
+            'trades';
+        }
+        canvas {
+          height: 220px;
+        }
+        header {
+          flex-wrap: wrap;
+        }
+        .build-pill {
+          order: 3;
+          margin-inline-start: 0;
+        }
       }
     </style>
+  </head>
+  <body>
     <script>
       (function () {
-        var APP_VIS_ATTR = 'data-app-visible';
-        function markHidden() {
-          if (document.body && !document.body.hasAttribute(APP_VIS_ATTR)) {
-            document.body.setAttribute(APP_VIS_ATTR, '0');
+        try {
+          if (!location.hash || location.hash === '#' || location.hash === '#/') {
+            location.hash = '#/trade';
           }
+        } catch (_err) {}
+      })();
+    </script>
+    <div class="pill-overlay">OFFLINE BUILD 30a3d4d</div>
+    <div id="app" class="app-shell">
+      <header>
+        <div class="logo">CoinoWin Pro</div>
+        <nav>
+          <a href="#/trade" data-route-link>معامله</a>
+          <a href="#/markets" data-route-link>بازارها</a>
+          <a href="#/wallet" data-route-link>کیف پول</a>
+          <a href="#/support" data-route-link>پشتیبانی</a>
+        </nav>
+        <div class="build-pill">OFFLINE BUILD · 30a3d4d</div>
+      </header>
+      <main>
+        <section data-route="#/trade" class="trade-layout">
+          <div class="card" style="grid-area: chart">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+              <h2 style="margin:0;font-size:18px;">BTC/USDT</h2>
+              <div style="text-align:end;font-size:13px;">
+                <div>قیمت لحظه‌ای: <strong id="ticker-price">63,580</strong> USDT</div>
+                <div style="color:#34d399;">+2.45% در ۲۴ ساعت</div>
+              </div>
+            </div>
+            <canvas id="chart" width="600" height="320"></canvas>
+          </div>
+          <div class="card" style="grid-area: orderbook">
+            <h2>سفارش‌های فروش/خرید</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>نوع</th>
+                  <th>قیمت (USDT)</th>
+                  <th>حجم (BTC)</th>
+                </tr>
+              </thead>
+              <tbody id="orderbook"></tbody>
+            </table>
+          </div>
+          <div class="card" style="grid-area: depth">
+            <h2>دفتر سفارش سریع</h2>
+            <div class="split" id="quick-actions"></div>
+          </div>
+          <div class="card" style="grid-area: trades">
+            <h2>معاملات اخیر</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>زمان</th>
+                  <th>قیمت</th>
+                  <th>حجم</th>
+                </tr>
+              </thead>
+              <tbody id="trades"></tbody>
+            </table>
+          </div>
+          <div class="card" style="grid-column: 1 / -1;">
+            <h2>سفارش سریع</h2>
+            <div class="split">
+              <div class="form-group">
+                <label for="buy-price">قیمت خرید</label>
+                <input id="buy-price" type="number" value="63580" step="0.5" />
+              </div>
+              <div class="form-group">
+                <label for="buy-amount">حجم (BTC)</label>
+                <input id="buy-amount" type="number" value="0.1" step="0.01" />
+              </div>
+              <button class="btn-buy" id="btn-buy">ثبت سفارش خرید</button>
+              <div class="form-group">
+                <label for="sell-price">قیمت فروش</label>
+                <input id="sell-price" type="number" value="63620" step="0.5" />
+              </div>
+              <div class="form-group">
+                <label for="sell-amount">حجم (BTC)</label>
+                <input id="sell-amount" type="number" value="0.05" step="0.01" />
+              </div>
+              <button class="btn-sell" id="btn-sell">ثبت سفارش فروش</button>
+            </div>
+            <p id="order-feedback" style="margin-top:12px;color:var(--fg-muted);"></p>
+          </div>
+        </section>
+        <section data-route="#/markets" class="hidden-route">
+          <div class="card">
+            <h2>نمای کلی بازارها</h2>
+            <div class="markets-grid" id="markets"></div>
+          </div>
+        </section>
+        <section data-route="#/wallet" class="hidden-route">
+          <div class="card">
+            <h2>کیف پول آفلاین</h2>
+            <p>موجودی کل: <strong>25,400 USDT</strong></p>
+            <p>
+              برای واریز یا برداشت، از داده‌های ساختگی استفاده می‌شود و هیچ تراکنشی به
+              اینترنت ارسال نمی‌گردد.
+            </p>
+            <div class="split">
+              <button class="btn-buy" id="btn-deposit">واریز آزمایشی</button>
+              <button class="btn-sell" id="btn-withdraw">برداشت آزمایشی</button>
+            </div>
+            <p id="wallet-feedback" style="margin-top:16px;color:var(--fg-muted);"></p>
+          </div>
+        </section>
+        <section data-route="#/support" class="hidden-route">
+          <div class="card">
+            <h2>پشتیبانی CoinoWin</h2>
+            <p>
+              این نسخهٔ آفلاین است و هیچ اتصال اینترنتی برقرار نمی‌کند. برای گزارش خطا،
+              از ایمیل <span style="direction:ltr; display:inline-block;">support@coinowin.local</span>
+              استفاده کنید (ارسال پس از اتصال به اینترنت انجام شود).
+            </p>
+            <ul>
+              <li>تمام داده‌ها از موک داخلی تولید می‌شوند.</li>
+              <li>تاریخچهٔ سفارش‌ها در حافظهٔ مرورگر ذخیره می‌گردد و با refresh از بین می‌رود.</li>
+              <li>Service Worker در این نسخه غیرفعال شده است.</li>
+            </ul>
+          </div>
+        </section>
+      </main>
+      <footer>
+        CoinoWin © 2025 — نسخهٔ آفلاین نمایشی. تمامی قیمت‌ها ساختگی هستند.
+      </footer>
+    </div>
+    <script>
+      (function () {
+        var ok =
+          location.protocol === 'https:' ||
+          location.hostname === 'localhost' ||
+          location.hostname === '127.0.0.1';
+        if (!ok || !('serviceWorker' in navigator) || !window.isSecureContext) {
+          return;
         }
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', markHidden, {
-            once: true
+      })();
+    </script>
+    <script>
+      (function () {
+        var state = {
+          orderBook: [
+            { type: 'sell', price: 63680, volume: 0.21 },
+            { type: 'sell', price: 63620, volume: 0.58 },
+            { type: 'sell', price: 63590, volume: 0.33 },
+            { type: 'buy', price: 63550, volume: 0.45 },
+            { type: 'buy', price: 63520, volume: 0.72 },
+            { type: 'buy', price: 63480, volume: 1.12 }
+          ],
+          trades: [
+            { time: '12:18:03', price: 63580, volume: 0.12 },
+            { time: '12:16:45', price: 63560, volume: 0.08 },
+            { time: '12:14:11', price: 63520, volume: 0.15 },
+            { time: '12:10:42', price: 63450, volume: 0.22 },
+            { time: '12:08:07', price: 63420, volume: 0.05 },
+            { time: '12:05:51', price: 63390, volume: 0.19 }
+          ],
+          markets: [
+            { symbol: 'BTC/USDT', change: 2.45, volume: 384.2 },
+            { symbol: 'ETH/USDT', change: 1.18, volume: 1480.0 },
+            { symbol: 'SOL/USDT', change: -0.92, volume: 932.4 },
+            { symbol: 'XRP/USDT', change: 0.54, volume: 810.6 },
+            { symbol: 'BNB/USDT', change: 0.87, volume: 412.3 },
+            { symbol: 'DOGE/USDT', change: -3.14, volume: 1460.2 }
+          ],
+          quickActions: [
+            { label: 'خرید 0.1 BTC با بازار', price: 63590, volume: 0.1 },
+            { label: 'فروش 0.05 BTC با بازار', price: 63570, volume: 0.05 },
+            { label: 'حد ضرر 63200', price: 63200, volume: 0.25 },
+            { label: 'حد سود 64500', price: 64500, volume: 0.12 }
+          ],
+          chart: [
+            62800, 62920, 63010, 63150, 63240, 63320, 63480, 63510, 63580, 63640,
+            63590, 63660, 63740, 63680, 63560, 63610
+          ]
+        };
+
+        function $(sel) {
+          return document.querySelector(sel);
+        }
+
+        function fillOrderBook() {
+          var tbody = $('#orderbook');
+          tbody.innerHTML = '';
+          state.orderBook.forEach(function (row) {
+            var tr = document.createElement('tr');
+            tr.innerHTML =
+              '<td>' +
+              (row.type === 'sell' ? 'فروش' : 'خرید') +
+              '</td><td>' +
+              row.price.toLocaleString('fa-IR') +
+              '</td><td>' +
+              row.volume.toFixed(2) +
+              '</td>';
+            tr.style.color = row.type === 'sell' ? '#f87171' : '#34d399';
+            tbody.appendChild(tr);
           });
-        } else {
-          markHidden();
         }
 
-        var overlay;
-        var overlayPre;
-
-        function attachOverlay() {
-          if (!overlay) {
-            return;
-          }
-          var target = document.body || document.documentElement;
-          if (overlay.parentNode !== target) {
-            target.appendChild(overlay);
-          }
+        function fillTrades() {
+          var tbody = $('#trades');
+          tbody.innerHTML = '';
+          state.trades.forEach(function (trade) {
+            var tr = document.createElement('tr');
+            tr.innerHTML =
+              '<td>' + trade.time + '</td><td>' +
+              trade.price.toLocaleString('fa-IR') +
+              '</td><td>' +
+              trade.volume.toFixed(2) +
+              '</td>';
+            tbody.appendChild(tr);
+          });
         }
 
-        function ensureOverlay() {
-          if (!overlay) {
-            overlay = document.createElement('div');
-            overlay.id = 'error-overlay';
-            overlay.innerHTML =
-              '<div class="error-overlay-inner"><h1>Application Error</h1><pre></pre></div>';
-            overlayPre = overlay.querySelector('pre');
-            attachOverlay();
-          }
-          return overlayPre;
+        function fillQuickActions() {
+          var box = $('#quick-actions');
+          box.innerHTML = '';
+          state.quickActions.forEach(function (item) {
+            var div = document.createElement('div');
+            div.className = 'card';
+            div.style.padding = '12px';
+            div.style.background = 'rgba(15, 23, 42, 0.4)';
+            div.innerHTML =
+              '<div style="font-size:13px;">' +
+              item.label +
+              '</div><div style="color:var(--fg-muted);font-size:12px;">' +
+              'قیمت: ' +
+              item.price.toLocaleString('fa-IR') +
+              ' — حجم: ' +
+              item.volume +
+              ' BTC' +
+              '</div>';
+            box.appendChild(div);
+          });
         }
 
-        function hideOverlay() {
-          if (!overlay) {
-            return;
-          }
-          overlay.classList.remove('coinowin-error-visible');
+        function fillMarkets() {
+          var grid = $('#markets');
+          grid.innerHTML = '';
+          state.markets.forEach(function (m) {
+            var card = document.createElement('div');
+            card.className = 'market-card';
+            var trendClass = m.change >= 0 ? 'trend-up' : 'trend-down';
+            card.innerHTML =
+              '<strong>' +
+              m.symbol +
+              '</strong><span class="' +
+              trendClass +
+              '">' +
+              (m.change >= 0 ? '+' : '') +
+              m.change.toFixed(2) +
+              '%</span><span style="font-size:12px;color:var(--fg-muted);">حجم ۲۴س: ' +
+              m.volume.toLocaleString('fa-IR') +
+              '</span>';
+            grid.appendChild(card);
+          });
         }
 
-        function formatReason(reason) {
-          if (reason == null) {
-            return '';
+        function drawChart() {
+          var canvas = document.getElementById('chart');
+          if (!canvas) return;
+          var ctx = canvas.getContext('2d');
+          var dpr = window.devicePixelRatio || 1;
+          var width = canvas.clientWidth;
+          var height = canvas.clientHeight;
+          canvas.width = width * dpr;
+          canvas.height = height * dpr;
+          ctx.scale(dpr, dpr);
+          ctx.clearRect(0, 0, width, height);
+          ctx.fillStyle = 'rgba(255,255,255,0.04)';
+          for (var i = 0; i < 5; i++) {
+            var y = (height / 5) * i;
+            ctx.fillRect(0, y, width, 1);
           }
-          if (reason instanceof Error && reason.stack) {
-            return reason.stack;
-          }
-          if (typeof reason === 'object') {
-            try {
-              return JSON.stringify(reason, null, 2);
-            } catch (err) {
-              return String(reason);
+          ctx.lineWidth = 2;
+          var values = state.chart;
+          var min = Math.min.apply(null, values);
+          var max = Math.max.apply(null, values);
+          var range = max - min || 1;
+          ctx.beginPath();
+          values.forEach(function (val, idx) {
+            var x = (width / (values.length - 1)) * idx;
+            var y = height - ((val - min) / range) * height;
+            if (idx === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          });
+          ctx.strokeStyle = '#34d399';
+          ctx.stroke();
+          ctx.fillStyle = 'rgba(52, 211, 153, 0.18)';
+          ctx.lineTo(width, height);
+          ctx.lineTo(0, height);
+          ctx.closePath();
+          ctx.fill();
+        }
+
+        function handleOrder(buttonId, type) {
+          var feedback = document.getElementById('order-feedback');
+          var priceInput = document.getElementById(type + '-price');
+          var amountInput = document.getElementById(type + '-amount');
+          document.getElementById(buttonId).addEventListener('click', function () {
+            var price = Number(priceInput.value || 0);
+            var amount = Number(amountInput.value || 0);
+            if (!price || !amount) {
+              feedback.style.color = '#f87171';
+              feedback.textContent = 'ورودی نامعتبر است.';
+              return;
             }
-          }
-          return String(reason);
+            feedback.style.color = '#34d399';
+            feedback.textContent =
+              'سفارش ' +
+              (type === 'buy' ? 'خرید' : 'فروش') +
+              ' برای ' +
+              amount +
+              ' BTC با قیمت ' +
+              price.toLocaleString('fa-IR') +
+              ' ثبت شد (آفلاین).';
+          });
         }
 
-        function showOverlay(title, detail) {
-          var pre = ensureOverlay();
-          var lines = [title];
-          if (detail) {
-            lines.push('', detail);
-          }
-          pre.textContent = lines.join('\n');
-          overlay.classList.add('coinowin-error-visible');
+        function setupWallet() {
+          var feedback = document.getElementById('wallet-feedback');
+          document.getElementById('btn-deposit').addEventListener('click', function () {
+            feedback.style.color = '#34d399';
+            feedback.textContent = 'واریز آزمایشی با موفقیت به موجودی اضافه شد.';
+          });
+          document.getElementById('btn-withdraw').addEventListener('click', function () {
+            feedback.style.color = '#f87171';
+            feedback.textContent = 'برداشت آزمایشی ثبت شد و در محیط آفلاین پردازش نمی‌شود.';
+          });
         }
 
-        function cleanTargetStyles(target) {
-          if (!target) {
-            return;
-          }
-          if (target.style) {
-            target.style.removeProperty('opacity');
-            target.style.removeProperty('visibility');
-            target.style.removeProperty('display');
-          }
-          if (target.classList) {
-            target.classList.remove(
-              'app-shell-hidden',
-              'is-hidden',
-              'is-loading',
-              'hidden'
-            );
-          }
-          if (target.removeAttribute) {
-            if (target.hasAttribute('hidden')) {
-              target.removeAttribute('hidden');
+        function setActiveRoute(hash) {
+          var sections = document.querySelectorAll('[data-route]');
+          sections.forEach(function (section) {
+            if (section.getAttribute('data-route') === hash) {
+              section.classList.remove('hidden-route');
+            } else {
+              section.classList.add('hidden-route');
             }
-            if (target.hasAttribute('aria-hidden')) {
-              target.removeAttribute('aria-hidden');
+          });
+          document.querySelectorAll('[data-route-link]').forEach(function (link) {
+            if (link.getAttribute('href') === hash) {
+              link.classList.add('active');
+            } else {
+              link.classList.remove('active');
             }
-            if (target.hasAttribute('inert')) {
-              target.removeAttribute('inert');
-            }
+          });
+        }
+
+        function router() {
+          var hash = location.hash || '#/trade';
+          var valid = ['#/trade', '#/markets', '#/wallet', '#/support'];
+          if (valid.indexOf(hash) === -1) {
+            hash = '#/trade';
+            location.hash = hash;
           }
-          if (target === document.body) {
-            target.setAttribute(APP_VIS_ATTR, '1');
-          }
+          setActiveRoute(hash);
         }
 
-        function revealApp() {
-          var body = document.body;
-          if (!body) {
-            return;
-          }
-          cleanTargetStyles(document.documentElement);
-          cleanTargetStyles(body);
-          cleanTargetStyles(document.getElementById('root'));
-        }
+        window.addEventListener('hashchange', router);
 
-        function scheduleReveal(delay) {
-          setTimeout(function () {
-            try {
-              revealApp();
-            } catch (err) {
-              console.error('Reveal app shell failed', err);
-            }
-          }, delay);
-        }
-
-        function onReady() {
-          revealApp();
-          scheduleReveal(150);
-          scheduleReveal(300);
-        }
-
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', onReady, { once: true });
-        } else {
-          onReady();
-        }
-
-        scheduleReveal(1000);
-
-        window.addEventListener('DOMContentLoaded', function () {
-          attachOverlay();
-          hideOverlay();
+        document.addEventListener('DOMContentLoaded', function () {
+          fillOrderBook();
+          fillTrades();
+          fillQuickActions();
+          fillMarkets();
+          drawChart();
+          handleOrder('btn-buy', 'buy');
+          handleOrder('btn-sell', 'sell');
+          setupWallet();
+          router();
         });
 
-        if (document.readyState !== 'loading') {
-          attachOverlay();
-          hideOverlay();
+        window.addEventListener('resize', drawChart);
+      })();
+    </script>
+    <script>
+      (function () {
+        function showApp() {
+          var el = document.querySelector('#app,#root,main,.app,.root');
+          if (el) {
+            el.hidden = false;
+            el.style.opacity = '1';
+            el.style.visibility = 'visible';
+            el.style.display = 'block';
+          }
+          document.documentElement.style.opacity = '1';
+          document.body.style.opacity = '1';
         }
-
-        window.addEventListener('error', function (event) {
-          if (event && event.defaultPrevented) {
-            return;
-          }
-          var detail = '';
-          if (event) {
-            if (event.error && event.error.stack) {
-              detail = event.error.stack;
-            } else if (event.message) {
-              detail = event.message;
-            }
-          }
-          if (event && event.error) {
-            console.error(event.error);
-          } else if (detail) {
-            console.error(detail);
-          }
-          showOverlay('Runtime error', detail);
+        if (document.readyState !== 'loading') showApp();
+        else document.addEventListener('DOMContentLoaded', showApp, { once: true });
+        setTimeout(showApp, 800);
+      })();
+    </script>
+    <script>
+      (function () {
+        var ov = document.createElement('div');
+        var pre = document.createElement('pre');
+        ov.id = 'err-overlay';
+        Object.assign(ov.style, {
+          position: 'fixed',
+          inset: '0',
+          background: 'rgba(0,0,0,.8)',
+          color: '#fff',
+          zIndex: 99999,
+          display: 'none'
         });
-
-        window.addEventListener('unhandledrejection', function (event) {
-          if (event && event.defaultPrevented) {
-            return;
-          }
-          var detail = formatReason(event ? event.reason : void 0);
-          if (event && 'reason' in event) {
-            console.error(event.reason);
-          } else if (detail) {
-            console.error(detail);
-          }
-          showOverlay('Unhandled promise rejection', detail);
+        Object.assign(pre.style, {
+          margin: '0',
+          padding: '16px',
+          font: "14px/1.6 ui-monospace,Menlo,Monaco,'Courier New',monospace",
+          whiteSpace: 'pre-wrap'
+        });
+        ov.appendChild(pre);
+        document.body.appendChild(ov);
+        function show(m) {
+          ov.style.display = 'block';
+          pre.textContent = m;
+        }
+        window.addEventListener('error', function (e) {
+          show((e.error && e.error.stack) || e.message || String(e));
+        });
+        window.addEventListener('unhandledrejection', function (e) {
+          show((e.reason && e.reason.stack) || String(e.reason));
         });
       })();
     </script>
+  </body>
+</html>
