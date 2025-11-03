@@ -10,6 +10,29 @@
       content="default-src 'self' data: blob: 'unsafe-inline'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline' data:; script-src 'self' 'unsafe-inline' data:; connect-src 'self' data: blob:;"
     />
     <title>Coinowin — نسخهٔ آفلاین کامل</title>
+    <style id="font-coinowin-yekan">
+      @font-face {
+        font-family: 'Coinowin Yekan';
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+        src: url('data:font/woff2;base64,d09GMgABAAAAADnYABIAAAABfAAAAFQAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAGxgAAGxgC0hEAAE2AiQDhxgEIAhHg7YJCwkAATYCJAMHGAQgCEeDud27YkMgADNlmQItB4f7s/m/zj/37m9n3P7u7s7szOzkO8wEA2khSWFAyZDJRiRyAEAAiqCAMgqCAIrGCEsChP6gFmFvQg6AIso/ob1AxEoM5YSkMvML5SPJvya1DOQDnIGAcBgZBGDSAKBQiHgCZW4DLxFG4FEdAoIkDnh6KHS5k8oVQBKsWGYBPuzf7Jd4wGJrgYQSLeA1fyA9sBJCMFJoEkaBrF2M4bHITv4phLcAZba/FBRJx0dPdI1WkcrgbqVq1ZsGfT3XZr3Ddvp0fXB0xv1jZfPvdp8+u+q9+vy+Uz0ntHOnr5w5eqp6vvXp3dvrH1n/xvcv+dhwC6OSpqgTRBMKME4UyVKA3f/9NJjWlSPmIaxKFXjLoXyVXfnE1TDVJaQdOnXj+7SvWm6fPt03UjnCbiwDKWyBVcgXH+/X7VpWS9hvM0aznpLY0YaUyGexaiRrxsvq9A9fmJFO0iE2aSpd5nsyg84dchDOQOfnUf7mFHgB7EPv+y96Jr4zuCxB3PT8tAtH1yhJex7dO2rU9/abfntdO1aWRamhSKycFpH3RWHhmwm3Lx2uTp681Ps9Pt7e3W9vbz+VIBYfaWWA6u1ph9XVV3dWrjF66EoHap6ZpDwR0w2Qrj6X09n51++unV/73ePr9y9d7B7A7OhBiYjUnNjr0HADgJ8TZnY80Scn95cyUiVIiGAWVIgAPlgBjA0Q7RhmD1ahSxn8KCTEfIuGPgVsr+KmEP8bDLBwHcjgDU0tBSKCiok1ME8I4elUml2SuW7d6EMB6lKp1IFRhhwA6UFx3g46qOO8OUjFUYxWmCSBqxxrEUBls4SV+lVCKN4Ki+VMzrh3Ml7clTdxzMB4A0vMTwDM1LhFXYp1tZm9DT4dBjeyUxK7dZ5mhP/HhjA2iKNaDxGAIXRwgRCzG6OBqALnB4e8xUZSBQiKMBvsD8Tr6MKKZXYXd9mc/FErk7LFIwNPH6bXpZC85xW+0xySUrWpppQwPZdJFnxwkuhmfCRiG9nixgs1IKTTKy4tCSguDCAfgEGR2dDr7BDi4kfwCQdXNrAAgjmHgKwBnp29oSMJ2B1fQUMJXTf//9YuxzEex1PzGfUuU8r5b1KmqaYi/PVZ9CclNKcZlHCJrSAgSeigW8ZyPO1iFFofoKu0u+jbukUd2JWnD4jp3wIu7B0nHuTkNnVJ8JqQKQoybgixFyWmc35R5kRDlArUk9XwTzJ8422LdEziLqBiXNcD99hBRVVVi7btIzRzMp6FV6xWY9ob12kwqqYJ0HZ6GJoxjPZwIu7hmsAxPua5i7D8BvPqslIqjQCAAAAAA=') format('woff2');
+      }
+      @font-face {
+        font-family: 'Coinowin Yekan';
+        font-weight: 500;
+        font-style: normal;
+        font-display: swap;
+        src: url('data:font/woff2;base64,d09GMgABAAAAADnYABIAAAABfAAAAFQAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAGxgAAGxgC0hEAAE2AiQDhxgEIAhHg7YJCwkAATYCJAMHGAQgCEeDud27YkMgADNlmQItB4f7s/m/zj/37m9n3P7u7s7szOzkO8wEA2khSWFAyZDJRiRyAEAAiqCAMgqCAIrGCEsChP6gFmFvQg6AIso/ob1AxEoM5YSkMvML5SPJvya1DOQDnIGAcBgZBGDSAKBQiHgCZW4DLxFG4FEdAoIkDnh6KHS5k8oVQBKsWGYBPuzf7Jd4wGJrgYQSLeA1fyA9sBJCMFJoEkaBrF2M4bHITv4phLcAZba/FBRJx0dPdI1WkcrgbqVq1ZsGfT3XZr3Ddvp0fXB0xv1jZfPvdp8+u+q9+vy+Uz0ntHOnr5w5eqp6vvXp3dvrH1n/xvcv+dhwC6OSpqgTRBMKME4UyVKA3f/9NJjWlSPmIaxKFXjLoXyVXfnE1TDVJaQdOnXj+7SvWm6fPt03UjnCbiwDKWyBVcgXH+/X7VpWS9hvM0aznpLY0YaUyGexaiRrxsvq9A9fmJFO0iE2aSpd5nsyg84dchDOQOfnUf7mFHgB7EPv+y96Jr4zuCxB3PT8tAtH1yhJex7dO2rU9/abfntdO1aWRamhSKycFpH3RWHhmwm3Lx2uTp681Ps9Pt7e3W9vbz+VIBYfaWWA6u1ph9XVV3dWrjF66EoHap6ZpDwR0w2Qrj6X09n51++unV/73ePr9y9d7B7A7OhBiYjUnNjr0HADgJ8TZnY80Scn95cyUiVIiGAWVIgAPlgBjA0Q7RhmD1ahSxn8KCTEfIuGPgVsr+KmEP8bDLBwHcjgDU0tBSKCiok1ME8I4elUml2SuW7d6EMB6lKp1IFRhhwA6UFx3g46qOO8OUjFUYxWmCSBqxxrEUBls4SV+lVCKN4Ki+VMzrh3Ml7clTdxzMB4A0vMTwDM1LhFXYp1tZm9DT4dBjeyUxK7dZ5mhP/HhjA2iKNaDxGAIXRwgRCzG6OBqALnB4e8xUZSBQiKMBvsD8Tr6MKKZXYXd9mc/FErk7LFIwNPH6bXpZC85xW+0xySUrWpppQwPZdJFnxwkuhmfCRiG9nixgs1IKTTKy4tCSguDCAfgEGR2dDr7BDi4kfwCQdXNrAAgjmHgKwBnp29oSMJ2B1fQUMJXTf//9YuxzEex1PzGfUuU8r5b1KmqaYi/PVZ9CclNKcZlHCJrSAgSeigW8ZyPO1iFFofoKu0u+jbukUd2JWnD4jp3wIu7B0nHuTkNnVJ8JqQKQoybgixFyWmc35R5kRDlArUk9XwTzJ8422LdEziLqBiXNcD99hBRVVVi7btIzRzMp6FV6xWY9ob12kwqqYJ0HZ6GJoxjPZwIu7hmsAxPua5i7D8BvPqslIqjQCAAAAAA=') format('woff2');
+      }
+      @font-face {
+        font-family: 'Coinowin Yekan';
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+        src: url('data:font/woff2;base64,d09GMgABAAAAADnYABIAAAABfAAAAFQAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAGxgAAGxgC0hEAAE2AiQDhxgEIAhHg7YJCwkAATYCJAMHGAQgCEeDud27YkMgADNlmQItB4f7s/m/zj/37m9n3P7u7s7szOzkO8wEA2khSWFAyZDJRiRyAEAAiqCAMgqCAIrGCEsChP6gFmFvQg6AIso/ob1AxEoM5YSkMvML5SPJvya1DOQDnIGAcBgZBGDSAKBQiHgCZW4DLxFG4FEdAoIkDnh6KHS5k8oVQBKsWGYBPuzf7Jd4wGJrgYQSLeA1fyA9sBJCMFJoEkaBrF2M4bHITv4phLcAZba/FBRJx0dPdI1WkcrgbqVq1ZsGfT3XZr3Ddvp0fXB0xv1jZfPvdp8+u+q9+vy+Uz0ntHOnr5w5eqp6vvXp3dvrH1n/xvcv+dhwC6OSpqgTRBMKME4UyVKA3f/9NJjWlSPmIaxKFXjLoXyVXfnE1TDVJaQdOnXj+7SvWm6fPt03UjnCbiwDKWyBVcgXH+/X7VpWS9hvM0aznpLY0YaUyGexaiRrxsvq9A9fmJFO0iE2aSpd5nsyg84dchDOQOfnUf7mFHgB7EPv+y96Jr4zuCxB3PT8tAtH1yhJex7dO2rU9/abfntdO1aWRamhSKycFpH3RWHhmwm3Lx2uTp681Ps9Pt7e3W9vbz+VIBYfaWWA6u1ph9XVV3dWrjF66EoHap6ZpDwR0w2Qrj6X09n51++unV/73ePr9y9d7B7A7OhBiYjUnNjr0HADgJ8TZnY80Scn95cyUiVIiGAWVIgAPlgBjA0Q7RhmD1ahSxn8KCTEfIuGPgVsr+KmEP8bDLBwHcjgDU0tBSKCiok1ME8I4elUml2SuW7d6EMB6lKp1IFRhhwA6UFx3g46qOO8OUjFUYxWmCSBqxxrEUBls4SV+lVCKN4Ki+VMzrh3Ml7clTdxzMB4A0vMTwDM1LhFXYp1tZm9DT4dBjeyUxK7dZ5mhP/HhjA2iKNaDxGAIXRwgRCzG6OBqALnB4e8xUZSBQiKMBvsD8Tr6MKKZXYXd9mc/FErk7LFIwNPH6bXpZC85xW+0xySUrWpppQwPZdJFnxwkuhmfCRiG9nixgs1IKTTKy4tCSguDCAfgEGR2dDr7BDi4kfwCQdXNrAAgjmHgKwBnp29oSMJ2B1fQUMJXTf//9YuxzEex1PzGfUuU8r5b1KmqaYi/PVZ9CclNKcZlHCJrSAgSeigW8ZyPO1iFFofoKu0u+jbukUd2JWnD4jp3wIu7B0nHuTkNnVJ8JqQKQoybgixFyWmc35R5kRDlArUk9XwTzJ8422LdEziLqBiXNcD99hBRVVVi7btIzRzMp6FV6xWY9ob12kwqqYJ0HZ6GJoxjPZwIu7hmsAxPua5i7D8BvPqslIqjQCAAAAAA=') format('woff2');
+      }
+    </style>
     <style>
       :root {
         color-scheme: dark light;
@@ -25,7 +48,7 @@
         --negative: #ef4444;
         --warning: #f59e0b;
         --shadow: 0 24px 60px rgba(8, 15, 27, 0.35);
-        --font-sans: 'Vazirmatn', 'BYekan', 'Segoe UI', Tahoma, sans-serif;
+        --font-sans: 'Coinowin Yekan', 'Segoe UI', 'Tahoma', system-ui, sans-serif;
       }
       :root[data-theme='light'] {
         --bg: #f4f6fb;
@@ -36,28 +59,24 @@
         --border: rgba(15, 23, 42, 0.12);
         --shadow: 0 24px 64px rgba(15, 23, 42, 0.12);
       }
-      :root[data-font='vazir'] {
-        --font-sans: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
-      }
-      :root[data-font='byekan'] {
-        --font-sans: 'BYekan', 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
-      }
-      @font-face {
-        font-family: 'Vazirmatn';
-        font-style: normal;
-        font-weight: 400;
-        font-display: swap;
-        src: url('data:font/woff2;base64,d09GMgABAAAAADnYABIAAAABfAAAAFQAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAGxgAAGxgC0hEAAE2AiQDhxgEIAhHg7YJCwkAATYCJAMHGAQgCEeDud27YkMgADNlmQItB4f7s/m/zj/37m9n3P7u7s7szOzkO8wEA2khSWFAyZDJRiRyAEAAiqCAMgqCAIrGCEsChP6gFmFvQg6AIso/ob1AxEoM5YSkMvML5SPJvya1DOQDnIGAcBgZBGDSAKBQiHgCZW4DLxFG4FEdAoIkDnh6KHS5k8oVQBKsWGYBPuzf7Jd4wGJrgYQSLeA1fyA9sBJCMFJoEkaBrF2M4bHITv4phLcAZba/FBRJx0dPdI1WkcrgbqVq1ZsGfT3XZr3Ddvp0fXB0xv1jZfPvdp8+u+q9+vy+Uz0ntHOnr5w5eqp6vvXp3dvrH1n/xvcv+dhwC6OSpqgTRBMKME4UyVKA3f/9NJjWlSPmIaxKFXjLoXyVXfnE1TDVJaQdOnXj+7SvWm6fPt03UjnCbiwDKWyBVcgXH+/X7VpWS9hvM0aznpLY0YaUyGexaiRrxsvq9A9fmJFO0iE2aSpd5nsyg84dchDOQOfnUf7mFHgB7EPv+y96Jr4zuCxB3PT8tAtH1yhJex7dO2rU9/abfntdO1aWRamhSKycFpH3RWHhmwm3Lx2uTp681Ps9Pt7e3W9vbz+VIBYfaWWA6u1ph9XVV3dWrjF66EoHap6ZpDwR0w2Qrj6X09n51++unV/73ePr9y9d7B7A7OhBiYjUnNjr0HADgJ8TZnY80Scn95cyUiVIiGAWVIgAPlgBjA0Q7RhmD1ahSxn8KCTEfIuGPgVsr+KmEP8bDLBwHcjgDU0tBSKCiok1ME8I4elUml2SuW7d6EMB6lKp1IFRhhwA6UFx3g46qOO8OUjFUYxWmCSBqxxrEUBls4SV+lVCKN4Ki+VMzrh3Ml7clTdxzMB4A0vMTwDM1LhFXYp1tZm9DT4dBjeyUxK7dZ5mhP/HhjA2iKNaDxGAIXRwgRCzG6OBqALnB4e8xUZSBQiKMBvsD8Tr6MKKZXYXd9mc/FErk7LFIwNPH6bXpZC85xW+0xySUrWpppQwPZdJFnxwkuhmfCRiG9nixgs1IKTTKy4tCSguDCAfgEGR2dDr7BDi4kfwCQdXNrAAgjmHgKwBnp29oSMJ2B1fQUMJXTf//9YuxzEex1PzGfUuU8r5b1KmqaYi/PVZ9CclNKcZlHCJrSAgSeigW8ZyPO1iFFofoKu0u+jbukUd2JWnD4jp3wIu7B0nHuTkNnVJ8JqQKQoybgixFyWmc35R5kRDlArUk9XwTzJ8422LdEziLqBiXNcD99hBRVVVi7btIzRzMp6FV6xWY9ob12kwqqYJ0HZ6GJoxjPZwIu7hmsAxPua5i7D8BvPqslIqjQCAAAAAA=') format('woff2');
-      }
-      @font-face {
-        font-family: 'BYekan';
-        font-style: normal;
-        font-weight: 400;
-        font-display: swap;
-        src: url('data:font/woff2;base64,d09GMgABAAAAAEMwABIAAAAAa0AAAE+AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAGxgAAGxgC0hEAAE2AiQDhxgEIAhHg7YJCwkAATYCJAMHGAQgCEeDud27YkMgADXtqQItB4f7s/m/zj/37m9n3P7u7s7szOzkO8wEAWkhRWFAyZDJRiRyAEAAiqCEMgqCEIrGCEsChP6gFmFvQg6AIso/ob1AxEoM5YS0MvML5SPJvya1DOQDnIGAcBgZBGDSAKBQiHgCZW4DLxFG4FEdAoIkDnh6KHS5k8oVQBKsWGYBPuzf7Jd4wGJrgYQSLeA1fyA9sBJCMFJoEkaBrF2M4bHITv4phLcAZba/FBRJx0dPdI1WkcrgbqVq1ZsGfT3XZr3Ddvp0fXB0xv1jZfPvdp8+u+q9+vy+Uz0ntHOnr5w5eqp6vvXp3dvrH1n/xvcv+dhwC6OSpqgTRBMKME4UyVKA3f/9NJjWlSPmIaxKFXjLoXyVXfnE1TDVJaQdOnXj+7SvWm6fPt03UjnCbiwDKWyBVcgXH+/X7VpWS9hvM0aznpLY0YaUyGexaiRrxsvq9A9fmJFO0iE2aSpd5nsyg84dchDOQOfnUf7mFHgB7EPv+y96Jr4zuCxB3PT8tAtH1yhJex7dO2rU9/abfntdO1aWRamhSKycFpH3RWHhmwm3Lx2uTp681Ps9Pt7e3W9vbz+VIBYfaWWA6u1ph9XVV3dWrjF66EoHap6ZpDwR0w2Qrj6X09n51++unV/73ePr9y9d7B7A7OhBiYjUnNjr0HADgJ8TZnY80Scn95cyUiVIiGAWVIgAPlgBjA0Q7RhmD1ahSxn8KCTEfIuGPgVsr+KmEP8bDLBwHcjgDU0tBSKCiok1ME8I4elUml2SuW7d6EMB6lKp1IFRhhwA6UFx3g46qOO8OUjFUYxWmCSBqxxrEUBls4SV+lVCKN4Ki+VMzrh3Ml7clTdxzMB4A0vMTwDM1LhFXYp1tZm9DT4dBjeyUxK7dZ5mhP/HhjA2iKNaDxGAIXRwgRCzG6OBqALnB4e8xUZSBQiKMBvsD8Tr6MKKZXYXd9mc/FErk7LFIwNPH6bXpZC85xW+0xySUrWpppQwPZdJFnxwkuhmfCRiG9nixgs1IKTTKy4tCSguDCAfgEGR2dDr7BDi4kfwCQdXNrAAgjmHgKwBnp29oSMJ2B1fQUMJXTf//9YuxzEex1PzGfUuU8r5b1KmqaYi/PVZ9CclNKcZlHCJrSAgSeigW8ZyPO1iFFofoKu0u+jbukUd2JWnD4jp3wIu7B0nHuTkNnVJ8JqQKQoybgixFyWmc35R5kRDlArUk9XwTzJ8422LdEziLqBiXNcD99hBRVVVi7btIzRzMp6FV6xWY9ob12kwqqYJ0HZ6GJoxjPZwIu7hmsAxPua5i7D8BvPqslIqjQCAAAAAA=') format('woff2');
-      }
       * {
         box-sizing: border-box;
+      }
+      html,
+      body,
+      button,
+      input,
+      select,
+      textarea,
+      table,
+      th,
+      td,
+      .btn,
+      .chip,
+      .badge,
+      .menu,
+      .card {
+        font-family: var(--font-sans) !important;
       }
       html,
       body {
@@ -65,11 +84,16 @@
         padding: 0;
         background: var(--bg);
         color: var(--fg);
-        font-family: var(--font-sans);
+        font-family: var(--font-sans) !important;
         -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
         text-rendering: optimizeLegibility;
         font-variant-numeric: tabular-nums;
         min-height: 100vh;
+      }
+      .num {
+        font-variant-numeric: tabular-nums;
+        font-feature-settings: 'tnum' 1, 'liga' 0;
       }
       body {
         display: flex;
@@ -550,6 +574,7 @@
     <script>
       (function () {
         const dpr = window.devicePixelRatio || 1;
+        const canvasFontStack = '"Coinowin Yekan", "Segoe UI", "Tahoma", system-ui, sans-serif';
         window.__COINOWIN_LOGO_B64__ = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMjAgMTIwJz48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9J2cnIHgxPScwJyB5MT0nMCcgeDI9JzEnIHkyPScxJz48c3RvcCBvZmZzZXQ9JzAnIHN0b3AtY29sb3I9JyMyMmQzZWUnLz48c3RvcCBvZmZzZXQ9JzEnIHN0b3AtY29sb3I9JyMzNGQzOTknLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCBmaWxsPScjMGYxNzJhJyB3aWR0aD0nMTIwJyBoZWlnaHQ9JzEyMCcgcng9JzI0Jy8+PHBhdGggZmlsbD0ndXJsKCNnKScgZD0nTTg4IDI4IDYwIDk4IDMyIDI4aDE2bDEyIDMyIDEyLTMyeicvPjxjaXJjbGUgY3g9JzYwJyBjeT0nMjgnIHI9JzEwJyBmaWxsPSd1cmwoI2cpJyBvcGFjaXR5PScwLjgnLz48L3N2Zz4=';
         const translations = {
           fa: {
@@ -614,8 +639,7 @@
             languageEn: 'English',
             themeDark: 'تاریک',
             themeLight: 'روشن',
-            fontVazir: 'وزیرمتن',
-            fontYekan: 'بی‌یکان',
+            fontYekan: 'یکان کوینووین',
             step1: 'مرحله ۱: اطلاعات فردی',
             step2: 'مرحله ۲: آدرس',
             step3: 'مرحله ۳: مدارک',
@@ -685,8 +709,7 @@
             languageEn: 'English',
             themeDark: 'Dark',
             themeLight: 'Light',
-            fontVazir: 'Vazirmatn',
-            fontYekan: 'BYekan',
+            fontYekan: 'Coinowin Yekan',
             step1: 'Step 1: Personal Info',
             step2: 'Step 2: Address',
             step3: 'Step 3: Documents',
@@ -714,7 +737,7 @@
           marketSearch: '',
           language: storedSettings.language || 'fa',
           theme: storedSettings.theme || 'dark',
-          font: storedSettings.font || 'vazir',
+          font: 'yekan',
           logo: storedSettings.logo || window.__COINOWIN_LOGO_B64__,
           kycStep: 0,
           kycData: { name: '', national: '', address: '', city: '', zip: '', doc: null },
@@ -724,7 +747,7 @@
         };
 
         document.documentElement.setAttribute('data-theme', state.theme);
-        document.documentElement.setAttribute('data-font', state.font);
+        applyFont();
         document.getElementById('brand-logo').src = state.logo;
 
         const hashRoutes = [
@@ -934,7 +957,7 @@
             const el = document.createElement('a');
             el.href = `#/trade?pair=${encodeURIComponent(item.symbol)}`;
             el.className = 'ticker-item ' + (item.change >= 0 ? 'positive' : 'negative');
-            el.innerHTML = `<strong>${item.symbol}</strong><span>${formatNumber(item.price)}</span><span>${
+            el.innerHTML = `<strong>${item.symbol}</strong><span class="num">${formatNumber(item.price)}</span><span class="num">${
               (item.change >= 0 ? '+' : '') + formatNumber(item.change, { percent: true })
             }</span>`;
             ticker.appendChild(el);
@@ -948,6 +971,9 @@
           canvas.height = height;
           ctx.save();
           ctx.scale(dpr, dpr);
+          const sparkFontScale = Math.max(1, dpr);
+          const sparkFontPx = (12 * sparkFontScale) / sparkFontScale;
+          ctx.font = `${sparkFontPx}px ${canvasFontStack}`;
           ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
           const closes = data.map((d) => d.close);
           const min = Math.min(...closes);
@@ -998,6 +1024,9 @@
           canvas.height = height;
           ctx.save();
           ctx.scale(dpr, dpr);
+          const candleFontScale = Math.max(1, dpr);
+          const candleFontPx = (12 * candleFontScale) / candleFontScale;
+          ctx.font = `${candleFontPx}px ${canvasFontStack}`;
           ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
           const visible = data.slice(-80);
           const high = Math.max(...visible.map((d) => d.high));
@@ -1067,6 +1096,9 @@
           canvas.height = height;
           ctx.save();
           ctx.scale(dpr, dpr);
+          const depthFontScale = Math.max(1, dpr);
+          const depthFontPx = (12 * depthFontScale) / depthFontScale;
+          ctx.font = `${depthFontPx}px ${canvasFontStack}`;
           ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
           const bids = [...book.bids].sort((a, b) => b.price - a.price).slice(0, 20);
           const asks = [...book.asks].sort((a, b) => a.price - b.price).slice(0, 20);
@@ -1151,11 +1183,11 @@
                         (row, idx) => `
                           <tr data-pair="${row.symbol}" class="market-row">
                             <td>${row.symbol}</td>
-                            <td>${formatNumber(row.price)}</td>
-                            <td style="color:${row.change >= 0 ? 'var(--positive)' : 'var(--negative)'};">${
+                            <td class="num">${formatNumber(row.price)}</td>
+                            <td class="num" style="color:${row.change >= 0 ? 'var(--positive)' : 'var(--negative)'};">${
                           (row.change >= 0 ? '+' : '') + formatNumber(row.change, { percent: true })
                         }</td>
-                            <td>${formatNumber(row.volume)}</td>
+                            <td class="num">${formatNumber(row.volume)}</td>
                             <td><canvas class="sparkline" id="spark-${idx}"></canvas></td>
                           </tr>
                         `
@@ -1222,8 +1254,8 @@
                 <div>
                   <h2>${state.pair}</h2>
                   <div class="flex" style="color:var(--fg-muted);font-size:12px;">
-                    <span>${t('orderbookSpread')}: ${formatNumber(spread)}</span>
-                    <span>24h ${t('change24h')}: <strong style="color:${
+                    <span>${t('orderbookSpread')}: <span class="num">${formatNumber(spread)}</span></span>
+                    <span>24h ${t('change24h')}: <strong class="num" style="color:${
                       last.close >= data[0].open ? 'var(--positive)' : 'var(--negative)'
                     }">${formatNumber((last.close - data[0].open) / data[0].open, { percent: true })}</strong></span>
                   </div>
@@ -1249,12 +1281,12 @@
                     </div>
                     <div class="row">
                       <label>${t('price')} (${state.pair.split('/')[1]})
-                        <input type="number" step="0.0001" id="order-price" value="${formatNumber(last.close)}" ${
+                        <input type="number" step="0.0001" class="num" id="order-price" value="${formatNumber(last.close)}" ${
             state.orderType === 'market' ? 'disabled' : ''
           } />
                       </label>
                       <label>${t('amount')} (${state.pair.split('/')[0]})
-                        <input type="number" step="0.0001" id="order-amount" value="0.1" />
+                        <input type="number" step="0.0001" class="num" id="order-amount" value="0.1" />
                       </label>
                       <div class="quick-percentages">
                         <button type="button" data-pct="0.25">25%</button>
@@ -1263,8 +1295,8 @@
                         <button type="button" data-pct="1">100%</button>
                       </div>
                       <div class="flex" style="justify-content:space-between;font-size:12px;color:var(--fg-muted);">
-                        <span>${t('total')}: <strong id="order-total">0</strong> ${state.pair.split('/')[1]}</span>
-                        <span>${t('fee')}: <strong id="order-fee">0</strong> ${state.pair.split('/')[1]}</span>
+                        <span>${t('total')}: <strong id="order-total" class="num">0</strong> ${state.pair.split('/')[1]}</span>
+                        <span>${t('fee')}: <strong id="order-fee" class="num">0</strong> ${state.pair.split('/')[1]}</span>
                       </div>
                       <button id="submit-order">${state.tradeSide === 'buy' ? t('buy') : t('sell')} ${state.pair}</button>
                       <div class="status-pill pending" style="justify-content:center;">${t('offlineOnly')}</div>
@@ -1284,8 +1316,8 @@
                             trade.side === 'buy' ? 'var(--positive)' : 'var(--negative)'
                           };">
                             <span>${formatDate(trade.time)}</span>
-                            <span>${formatNumber(trade.price)}</span>
-                            <span>${formatNumber(trade.size)}</span>
+                            <span class="num">${formatNumber(trade.price)}</span>
+                            <span class="num">${formatNumber(trade.size)}</span>
                             <span>${trade.side === 'buy' ? t('buy') : t('sell')}</span>
                           </div>
                         `
@@ -1307,9 +1339,9 @@
             const row = document.createElement('div');
             row.className = 'orderbook-row ask';
             row.innerHTML = `
-              <span>${formatNumber(ask.price)}</span>
-              <span>${formatNumber(ask.amount)}</span>
-              <span>${formatNumber(ask.price * ask.amount)}</span>
+              <span class="num">${formatNumber(ask.price)}</span>
+              <span class="num">${formatNumber(ask.amount)}</span>
+              <span class="num">${formatNumber(ask.price * ask.amount)}</span>
               <div class="depth-bar" style="background:rgba(239,68,68,0.4);width:${(ask.amount / maxAsk) * 100}%;right:0;"></div>
             `;
             asksEl.appendChild(row);
@@ -1318,9 +1350,9 @@
             const row = document.createElement('div');
             row.className = 'orderbook-row bid';
             row.innerHTML = `
-              <span>${formatNumber(bid.price)}</span>
-              <span>${formatNumber(bid.amount)}</span>
-              <span>${formatNumber(bid.price * bid.amount)}</span>
+              <span class="num">${formatNumber(bid.price)}</span>
+              <span class="num">${formatNumber(bid.amount)}</span>
+              <span class="num">${formatNumber(bid.price * bid.amount)}</span>
               <div class="depth-bar" style="background:rgba(34,197,94,0.4);width:${(bid.amount / maxBid) * 100}%;left:0;"></div>
             `;
             bidsEl.appendChild(row);
@@ -1394,9 +1426,9 @@
                         (bal) => `
                           <tr>
                             <td>${bal.asset}</td>
-                            <td>${formatNumber(bal.available)} / ${formatNumber(bal.locked)}</td>
-                            <td>${formatNumber(bal.valueUSDT)}</td>
-                            <td>${formatNumber(bal.valueIRT)}</td>
+                            <td class="num">${formatNumber(bal.available)} / ${formatNumber(bal.locked)}</td>
+                            <td class="num">${formatNumber(bal.valueUSDT)}</td>
+                            <td class="num">${formatNumber(bal.valueIRT)}</td>
                           </tr>
                         `
                       )
@@ -1460,7 +1492,7 @@
                         (tx) => `
                           <div class="transaction-item">
                             <span>${tx.asset}</span>
-                            <span>${formatNumber(tx.amount)}</span>
+                            <span class="num">${formatNumber(tx.amount)}</span>
                             <span>${formatDate(tx.time)}</span>
                             <span class="status-pill ${
                               tx.status === 'completed' ? 'success' : tx.status === 'pending' ? 'pending' : 'danger'
@@ -1519,8 +1551,8 @@
                                 <td>${order.pair}</td>
                                 <td>${t(order.type)}</td>
                                 <td style="color:${order.side === 'buy' ? 'var(--positive)' : 'var(--negative)'};">${t(order.side)}</td>
-                                <td>${formatNumber(order.price)}</td>
-                                <td>${formatNumber(order.amount)}</td>
+                                <td class="num">${formatNumber(order.price)}</td>
+                                <td class="num">${formatNumber(order.amount)}</td>
                                 <td>${formatDate(order.time)}</td>
                                 <td>${
                                   state.ordersTab === 'open'
@@ -1652,9 +1684,8 @@
                 </label>
                 <label>
                   ${t('font')}
-                  <select id="font-select">
-                    <option value="vazir" ${state.font === 'vazir' ? 'selected' : ''}>${t('fontVazir')}</option>
-                    <option value="byekan" ${state.font === 'byekan' ? 'selected' : ''}>${t('fontYekan')}</option>
+                  <select id="font-select" disabled>
+                    <option value="yekan" selected>${t('fontYekan')}</option>
                   </select>
                 </label>
                 <label>
@@ -1682,11 +1713,7 @@
             persistSettings();
             rerender();
           });
-          document.getElementById('font-select').addEventListener('change', (event) => {
-            state.font = event.target.value;
-            applyFont();
-            persistSettings();
-          });
+          applyFont();
           document.getElementById('branding-logo').addEventListener('change', (event) => {
             const file = event.target.files?.[0];
             if (!file) return;
@@ -1719,7 +1746,7 @@
                       <div class="card" style="background:rgba(31,214,201,0.08);">
                         <h3>${item.symbol}</h3>
                         <p style="margin:0;color:var(--fg-muted);">${t('simulated')}</p>
-                        <p style="font-size:24px;margin:16px 0;">${formatNumber(item.price)}</p>
+                        <p class="num" style="font-size:24px;margin:16px 0;">${formatNumber(item.price)}</p>
                         <button class="secondary" data-go-trade="${item.symbol}">${t('trade')}</button>
                       </div>
                     `
@@ -1756,7 +1783,11 @@
         }
 
         function applyFont() {
-          document.documentElement.setAttribute('data-font', state.font);
+          state.font = 'yekan';
+          document.documentElement.style.setProperty(
+            '--font-sans',
+            '\'Coinowin Yekan\', \'Segoe UI\', \'Tahoma\', system-ui, sans-serif'
+          );
         }
 
         function persistSettings() {
