@@ -11,7 +11,7 @@ The repository now ships with a prebuilt single-file experience: `index-standalo
 - **Double click** the file (`file:///` URL) or
 - Serve it from a lightweight static server, e.g. `python -m http.server 8080` and visit <http://127.0.0.1:8080/index-standalone.html>.
 
-Everything—fonts, icons, styles, scripts, and mock datasets—is embedded directly inside the HTML file. No additional assets or external CDNs are required.
+Everything—fonts, icons, styles, scripts, and mock datasets—is embedded directly inside the HTML file. No additional assets or external CDNs are required. The bundled typography now ships with the inline "Coinowin Yekan" WOFF2 stack for consistent rendering offline.
 
 ## Development (optional)
 
