@@ -1,14 +1,321 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="fa" dir="rtl">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CoinoWin — Offline Trading Pro</title>
     <link rel="icon" type="image/svg+xml" href="/src/assets/logo-coinoWin.svg" />
-    <link rel="stylesheet" href="/src/style.css" />
+    <style id="sx-ui-kit">
+      :root{
+        --brand:#6C5CE7; --brand-2:#00D3A7;
+        --bg:#0B0E13; --bg-soft:#141925;
+        --text:#E9EEF5; --muted:#98A2B3;
+        --success:#22c55e; --danger:#ef4444; --warning:#f59e0b;
+        --radius-1:8px; --radius-2:12px;
+        --gap-1:4px; --gap-2:8px; --gap-3:12px; --gap-4:16px; --gap-5:24px;
+        --shadow-1:0 6px 18px rgba(0,0,0,.20);
+        --ease:cubic-bezier(.2,.7,.2,1);
+        --dur-fast:120ms; --dur:180ms; --dur-slow:280ms;
+      }
+      @media (prefers-color-scheme: light){
+        :root{ --bg:#ffffff; --bg-soft:#f5f7fb; --text:#0b0e13; --muted:#667085; }
+      }
+      html{scroll-behavior:smooth;}
+      body{
+        margin:0; direction:rtl;
+        font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,IRANSansX,Arial,sans-serif;
+        background:var(--bg); color:var(--text);
+      }
+      .sx-container{width:min(1200px,92vw); margin-inline:auto; padding:var(--gap-5) 0;}
+      .sx-muted{color:var(--muted)}
+      .sx-h{margin:0 0 var(--gap-4); font-size:20px; font-weight:600}
+      .sx-row{display:flex; gap:var(--gap-3)}
+      .sx-row--between{justify-content:space-between}
+      .sx-row--center{align-items:center}
+
+      /* Navbar */
+      .sx-navbar{
+        position:sticky; top:0; z-index:20;
+        -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
+        background:rgba(11,14,19,.75);
+        border-bottom:1px solid #ffffff1a;
+      }
+      .sx-navbar__inner{display:flex; align-items:center; justify-content:space-between; gap:var(--gap-5); padding:var(--gap-3) 0}
+      .sx-brand{display:flex; align-items:center; gap:10px; font-weight:700}
+      .sx-logo{width:28px; height:28px; border-radius:8px; background:linear-gradient(135deg, var(--brand), var(--brand-2)); box-shadow:0 6px 16px rgba(108,92,231,.35)}
+
+      /* Ticker */
+      .sx-ticker{overflow:hidden; border-bottom:1px dashed #ffffff26}
+      .sx-ticker__track{display:flex; gap:var(--gap-5); padding:8px 0; will-change:transform; animation:sx-scroll 30s linear infinite}
+      .sx-ticker:hover .sx-ticker__track{animation-play-state:paused}
+      .sx-chip{display:inline-flex; align-items:baseline; gap:8px; padding:6px 10px; border-radius:999px; background:#ffffff12; border:1px solid #ffffff10}
+      .sx-up{color:var(--success)} .sx-down{color:var(--danger)}
+      @keyframes sx-scroll{from{transform:translateX(0)} to{transform:translateX(-50%)}}
+      @media (prefers-reduced-motion: reduce){ .sx-ticker__track{animation:none} }
+
+      /* Cards Grid */
+      .sx-grid--cards{display:grid; gap:var(--gap-5); grid-template-columns:1fr}
+      @media (min-width:600px){ .sx-grid--cards{grid-template-columns:repeat(2,1fr)} }
+      @media (min-width:900px){ .sx-grid--cards{grid-template-columns:repeat(3,1fr)} }
+      @media (min-width:1200px){ .sx-grid--cards{grid-template-columns:repeat(4,1fr)} }
+      .sx-card{
+        background:var(--bg-soft); border-radius:var(--radius-2);
+        border:1px solid #ffffff12; padding:var(--gap-5);
+        transition:transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+      }
+      .sx-card:hover{transform:translateY(-2px); box-shadow:var(--shadow-1)}
+      .sx-dot{width:10px; height:10px; border-radius:50%; background:conic-gradient(from 180deg, var(--brand), var(--brand-2))}
+      .sx-price{font:600 18px/1.2 ui-monospace,Consolas,monospace}
+      .sx-change{font:600 13px/1}
+      .sx-sparkline{width:100%; height:28px}
+
+      /* Order Book */
+      .sx-ob__wrap{display:grid; gap:var(--gap-5); grid-template-columns:1fr; align-items:start}
+      @media (min-width:900px){ .sx-ob__wrap{grid-template-columns:1fr 1fr} }
+      .sx-ob__row{position:relative; display:grid; grid-template-columns:1fr auto; gap:var(--gap-3); padding:6px 10px; border-radius:6px; overflow:hidden}
+      .sx-ob__fill{
+        position:absolute; inset:0; opacity:.18; width:100%;
+        transform:scaleX(var(--progress,0)); transform-origin:100% 50%; transition:transform var(--dur) var(--ease);
+      }
+      .sx-ob__row[data-side="ask"] .sx-ob__fill{background:var(--danger); transform-origin:0% 50%}
+      .sx-ob__row[data-side="bid"] .sx-ob__fill{background:var(--success)}
+      .sx-ob__price{font:600 13px ui-monospace,Consolas,monospace}
+      .sx-ob__amt{font:600 12px/1 ui-monospace,Consolas,monospace; color:var(--muted)}
+
+      /* Buttons + Ripple */
+      .sx-btn{
+        position:relative; overflow:hidden; border:1px solid #ffffff24;
+        background:linear-gradient(135deg, #ffffff10, #ffffff06);
+        color:var(--text); padding:10px 14px; border-radius:10px; font-weight:600; cursor:pointer;
+        transition:transform var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+      }
+      .sx-btn:hover{transform:translateY(-1px)}
+      .sx-btn:active{transform:translateY(0)}
+      .sx-btn::after{
+        content:''; position:absolute; width:240px; height:240px; pointer-events:none; border-radius:50%;
+        left:calc(var(--x,50%) - 120px); top:calc(var(--y,50%) - 120px);
+        background:radial-gradient(circle, #ffffff55 0, #ffffff22 20%, #ffffff00 70%);
+        opacity:0; transform:scale(.2); transition:opacity var(--dur), transform var(--dur);
+      }
+      .sx-btn.is-rippling::after{opacity:1; transform:scale(1.1)}
+
+      /* Skeleton + Flash */
+      .sx-skel{position:relative; overflow:hidden; background:#ffffff0d}
+      .sx-skel::before{
+        content:''; position:absolute; inset:0;
+        background:linear-gradient(90deg,#ffffff00 0,#ffffff22 40%,#ffffff00 80%);
+        transform:translateX(-100%); animation:shimmer 1.2s linear infinite;
+      }
+      @keyframes shimmer{to{transform:translateX(100%)}}
+      .sx-flash-up{animation:up 420ms var(--ease)} @keyframes up{0%{background:#16331f}100%{background:transparent}}
+      .sx-flash-down{animation:down 420ms var(--ease)} @keyframes down{0%{background:#351616}100%{background:transparent}}
+    </style>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <header class="sx-navbar">
+      <div class="sx-container sx-navbar__inner">
+        <div class="sx-brand">
+          <i class="sx-logo" aria-hidden="true"></i>
+          <span>صرافی شما</span>
+        </div>
+        <nav class="sx-muted" aria-label="main">
+          <span>بازارها</span> · <span>سفارش‌ها</span> · <span>کیف‌پول</span>
+        </nav>
+      </div>
+    </header>
+
+    <section class="sx-ticker" aria-label="ticker">
+      <div class="sx-container">
+        <div class="sx-ticker__track" id="sx-ticker-track">
+          <span class="sx-chip"><b>BTC/USDT</b> <em class="sx-up">+2.3%</em></span>
+          <span class="sx-chip"><b>ETH/USDT</b> <em class="sx-down">-0.8%</em></span>
+          <span class="sx-chip"><b>BNB/USDT</b> <em class="sx-up">+1.1%</em></span>
+          <span class="sx-chip"><b>ADA/USDT</b> <em class="sx-up">+0.5%</em></span>
+          <span class="sx-chip"><b>SOL/USDT</b> <em class="sx-down">-0.4%</em></span>
+        </div>
+      </div>
+    </section>
+
+    <main class="sx-container">
+      <!-- گرید کارت‌های بازار -->
+      <section>
+        <h2 class="sx-h">بازارهای برگزیده</h2>
+        <div class="sx-grid--cards" id="sx-market-grid">
+          <article class="sx-card" data-pair="btc_usdt">
+            <div class="sx-row sx-row--between sx-row--center" style="margin-bottom:10px">
+              <div class="sx-row sx-row--center">
+                <span class="sx-dot"></span>
+                <strong>BTC/USDT</strong>
+              </div>
+              <button class="sx-btn">معامله</button>
+            </div>
+            <div class="sx-row sx-row--between sx-row--center" style="margin-bottom:10px">
+              <div class="sx-price" data-field="price">68,200</div>
+              <div class="sx-change sx-up" data-field="change">+2.34%</div>
+            </div>
+            <svg class="sx-sparkline" viewBox="0 0 100 28" preserveAspectRatio="none" aria-hidden="true">
+              <polyline fill="none" stroke="currentColor" stroke-width="2"
+                points="0,20 10,18 20,22 30,16 40,14 50,12 60,10 70,12 80,9 90,11 100,8"/>
+            </svg>
+          </article>
+
+          <article class="sx-card" data-pair="eth_usdt">
+            <div class="sx-row sx-row--between sx-row--center" style="margin-bottom:10px">
+              <div class="sx-row sx-row--center">
+                <span class="sx-dot"></span>
+                <strong>ETH/USDT</strong>
+              </div>
+              <button class="sx-btn">معامله</button>
+            </div>
+            <div class="sx-row sx-row--between sx-row--center" style="margin-bottom:10px">
+              <div class="sx-price" data-field="price">3,240</div>
+              <div class="sx-change sx-down" data-field="change">-0.82%</div>
+            </div>
+            <svg class="sx-sparkline" viewBox="0 0 100 28" preserveAspectRatio="none" aria-hidden="true">
+              <polyline fill="none" stroke="currentColor" stroke-width="2"
+                points="0,12 10,14 20,11 30,10 40,13 50,12 60,15 70,14 80,18 90,16 100,17"/>
+            </svg>
+          </article>
+        </div>
+      </section>
+
+      <!-- دفتر سفارش -->
+      <section class="sx-ob" style="margin-top:28px">
+        <h2 class="sx-h">دفتر سفارش</h2>
+        <div class="sx-ob__wrap" id="sx-orderbook">
+          <div class="sx-ob__col" aria-label="asks (sell)">
+            <div class="sx-ob__row" data-side="ask" style="--progress:.62">
+              <div class="sx-ob__fill"></div>
+              <span class="sx-ob__price">68,240</span>
+              <span class="sx-ob__amt">0.34</span>
+            </div>
+            <div class="sx-ob__row" data-side="ask" style="--progress:.40">
+              <div class="sx-ob__fill"></div>
+              <span class="sx-ob__price">68,235</span>
+              <span class="sx-ob__amt">0.12</span>
+            </div>
+          </div>
+          <div class="sx-ob__col" aria-label="bids (buy)">
+            <div class="sx-ob__row" data-side="bid" style="--progress:.48">
+              <div class="sx-ob__fill"></div>
+              <span class="sx-ob__price">68,180</span>
+              <span class="sx-ob__amt">0.50</span>
+            </div>
+            <div class="sx-ob__row" data-side="bid" style="--progress:.28">
+              <div class="sx-ob__fill"></div>
+              <span class="sx-ob__price">68,175</span>
+              <span class="sx-ob__amt">0.09</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+<script id="sx-ui-script">
+(function(){
+  'use strict';
+
+  // Ripple ساده روی دکمه‌ها
+  document.addEventListener('pointerdown', function(e){
+    var btn = e.target.closest('.sx-btn'); if(!btn) return;
+    var r = btn.getBoundingClientRect();
+    btn.style.setProperty('--x', (e.clientX - r.left) + 'px');
+    btn.style.setProperty('--y', (e.clientY - r.top) + 'px');
+    btn.classList.add('is-rippling');
+    setTimeout(function(){ btn.classList.remove('is-rippling'); }, 280);
+  }, {passive:true});
+
+  // تیکر: دو برابر کردن آیتم‌ها برای اسکرول پیوسته
+  var track = document.getElementById('sx-ticker-track');
+  if(track){ track.innerHTML = track.innerHTML + track.innerHTML; }
+  var mqReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (mqReduced.matches && track) { track.style.animation = 'none'; }
+
+  // ابزارک فلش تغییر قیمت
+  function sxFlash(el, newVal, prevVal){
+    var up = (Number(newVal) > Number(prevVal));
+    el.classList.remove('sx-flash-up','sx-flash-down'); void el.offsetWidth;
+    el.classList.add(up ? 'sx-flash-up' : 'sx-flash-down');
+  }
+
+  // تولید points برای اسپارکلاین از آرایهٔ اعداد
+  function toSparklinePoints(arr, w, h){
+    if(!arr || !arr.length) return '';
+    var min = Math.min.apply(null, arr), max = Math.max.apply(null, arr), span = (max-min) || 1;
+    return arr.map(function(v,i){
+      var x = (i/(arr.length-1))*w;
+      var y = h - ((v-min)/span)*h;
+      return Math.round(x)+','+Math.round(y);
+    }).join(' ');
+  }
+
+  // === API عمومی برای تزریق دادهٔ واقعی از بک‌اند/WS ===
+  window.SX = {
+    // 1) بروزرسانی تیکر
+    setTicker: function(items){
+      // items: [{pair:'BTC/USDT', change:+2.3}, ...]
+      if(!track || !Array.isArray(items)) return;
+      var html = items.map(function(it){
+        var cls = it.change >= 0 ? 'sx-up' : 'sx-down';
+        var pct = (it.change>0?'+':'') + it.change.toFixed(2) + '%';
+        return '<span class="sx-chip"><b>'+it.pair+'</b> <em class="'+cls+'">'+pct+'</em></span>';
+      }).join('');
+      track.innerHTML = html + html; // تکرار برای اسکرول بی‌نهایت
+    },
+
+    // 2) بروزرسانی کارت بازار
+    setMarketCard: function(pair, data){
+      // data: { price:Number, change:Number, series:Number[] }
+      var card = document.querySelector('.sx-card[data-pair="'+pair+'"]'); if(!card) return;
+      var priceEl = card.querySelector('[data-field="price"]');
+      var changeEl = card.querySelector('[data-field="change"]');
+      var svg = card.querySelector('.sx-sparkline polyline');
+      var prev = Number((priceEl.textContent||'').replace(/[^\d.]/g,''));
+      priceEl.textContent = data.price.toLocaleString('fa-IR');
+      sxFlash(priceEl, data.price, prev);
+      var cls = data.change >= 0 ? 'sx-up' : 'sx-down';
+      changeEl.classList.remove('sx-up','sx-down'); changeEl.classList.add(cls);
+      changeEl.textContent = (data.change>0?'+':'') + data.change.toFixed(2) + '%';
+      if(svg && Array.isArray(data.series)){ svg.setAttribute('points', toSparklinePoints(data.series, 100, 28)); }
+    },
+
+    // 3) بروزرسانی دفتر سفارش
+    setOrderBook: function(opts){
+      // opts: { asks: [{p, q}], bids: [{p, q}], maxVol?:Number }
+      var root = document.getElementById('sx-orderbook'); if(!root) return;
+      var cols = root.querySelectorAll('.sx-ob__col');
+      var askCol = cols[0], bidCol = cols[1];
+      function colHTML(side, list, maxV){
+        return list.map(function(it){
+          var progress = maxV ? Math.max(0, Math.min(1, it.q/maxV)) : 0;
+          return '<div class="sx-ob__row" data-side="'+side+'" style="--progress:'+progress.toFixed(2)+'">'+
+                   '<div class="sx-ob__fill"></div>'+
+                   '<span class="sx-ob__price">'+ it.p.toLocaleString('fa-IR') +'</span>'+
+                   '<span class="sx-ob__amt">'+ it.q.toLocaleString('fa-IR') +'</span>'+
+                 '</div>';
+        }).join('');
+      }
+      var maxV = opts.maxVol || Math.max(
+        (opts.asks[0]?.q||0), (opts.bids[0]?.q||0),
+        ...opts.asks.map(a=>a.q), ...opts.bids.map(b=>b.q)
+      );
+      askCol.innerHTML = colHTML('ask', opts.asks||[], maxV);
+      bidCol.innerHTML = colHTML('bid', opts.bids||[], maxV);
+    }
+  };
+
+  // دمو (اختیاری): فلش تغییر قیمت هر 3 ثانیه روی کارت اول
+  var demoPriceEl = document.querySelector('[data-field="price"]');
+  if(demoPriceEl){
+    var prev = 68200;
+    setInterval(function(){
+      var next = Math.round(prev + (Math.random()-0.5)*50);
+      demoPriceEl.textContent = next.toLocaleString('fa-IR');
+      sxFlash(demoPriceEl, next, prev);
+      prev = next;
+    }, 3000);
+  }
+})();
+</script>
   </body>
 </html>
