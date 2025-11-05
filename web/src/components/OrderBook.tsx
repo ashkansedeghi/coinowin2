@@ -1,6 +1,5 @@
-import { useEffect, useMemo, useState } from 'react';
+import { CSSProperties, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { motion } from 'framer-motion';
 import { getOrderbook } from '@api';
 import { useTrading } from '@context/TradingContext';
 import type { Orderbook } from '@lib/types';
@@ -10,6 +9,8 @@ const OrderBook = () => {
   const { selectedMarket } = useTrading();
   const { t } = useTranslation();
   const [orderbook, setOrderbook] = useState<Orderbook>();
+  const [flashes, setFlashes] = useState<Record<string, { trend: 'up' | 'down'; stamp: number }>>({});
+  const previousRef = useRef<Orderbook>();
 
   useEffect(() => {
     if (!selectedMarket) return;
@@ -19,6 +20,44 @@ const OrderBook = () => {
     }, 4000);
     return () => clearInterval(interval);
   }, [selectedMarket?.symbol]);
+
+  const triggerFlash = useCallback((key: string, trend: 'up' | 'down') => {
+    const stamp = Date.now();
+    setFlashes(prev => ({ ...prev, [key]: { trend, stamp } }));
+    const clear = () => {
+      setFlashes(prev => {
+        const next = { ...prev };
+        if (next[key]?.stamp === stamp) {
+          delete next[key];
+        }
+        return next;
+      });
+    };
+    if (typeof window !== 'undefined') {
+      window.setTimeout(clear, 420);
+    } else {
+      setTimeout(clear, 420);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!orderbook) return;
+    const previous = previousRef.current;
+    if (previous) {
+      (['asks', 'bids'] as const).forEach(side => {
+        orderbook[side].forEach(level => {
+          const key = `${side}-${level.price}`;
+          const prevLevel = previous[side].find(item => item.price === level.price);
+          if (!prevLevel) {
+            triggerFlash(key, 'up');
+          } else if (level.qty !== prevLevel.qty) {
+            triggerFlash(key, level.qty > prevLevel.qty ? 'up' : 'down');
+          }
+        });
+      });
+    }
+    previousRef.current = orderbook;
+  }, [orderbook, triggerFlash]);
 
   const maxQty = useMemo(() => {
     if (!orderbook) return 1;
@@ -30,69 +69,48 @@ const OrderBook = () => {
     <div className="panel orderbook-panel">
       <div className="card-title">
         <span>{t('orderBook')}</span>
+        <small>{t('depthView', { defaultValue: 'Depth 25 levels' })}</small>
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--subtext)', fontSize: 12 }}>
-          <span>{t('price')}</span>
-          <span>{t('amount')}</span>
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-          {orderbook?.asks.map(level => (
-            <motion.div
-              key={`ask-${level.price}`}
-              layout
-              style={{
-                position: 'relative',
-                display: 'flex',
-                justifyContent: 'space-between',
-                padding: '4px 6px'
-              }}
-            >
-              <span style={{ color: 'var(--red)' }}>{formatNumber(level.price)}</span>
+      <div className="orderbook-header">
+        <span>{t('price')}</span>
+        <span>{t('amount')}</span>
+      </div>
+      <div className="orderbook-levels" aria-live="polite">
+        {orderbook?.asks.map(level => {
+          const key = `asks-${level.price}`;
+          const flash = flashes[key];
+          const style: CSSProperties & { '--intensity': string } = {
+            '--intensity': Math.min(level.qty / maxQty, 1).toFixed(2)
+          } as CSSProperties & { '--intensity': string };
+          if (flash) {
+            style.animation = `${flash.trend === 'up' ? 'up' : 'down'} 420ms var(--ease)`;
+          }
+          return (
+            <div key={key} className="orderbook-row" data-side="ask" style={style}>
+              <span>{formatNumber(level.price)}</span>
               <span>{formatNumber(level.qty, 4)}</span>
-              <span
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  background: `linear-gradient(90deg, rgba(239, 68, 68, 0.18) ${
-                    (level.qty / maxQty) * 100
-                  }%, transparent ${Math.min((level.qty / maxQty) * 100 + 20, 100)}%)`,
-                  zIndex: -1,
-                  borderRadius: 8
-                }}
-              />
-            </motion.div>
-          ))}
-        </div>
-        <div style={{ height: 1, background: 'rgba(255,255,255,0.08)', margin: '4px 0' }} />
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-          {orderbook?.bids.map(level => (
-            <motion.div
-              key={`bid-${level.price}`}
-              layout
-              style={{
-                position: 'relative',
-                display: 'flex',
-                justifyContent: 'space-between',
-                padding: '4px 6px'
-              }}
-            >
-              <span style={{ color: 'var(--green)' }}>{formatNumber(level.price)}</span>
+            </div>
+          );
+        })}
+      </div>
+      <div style={{ height: 1, background: 'rgba(255,255,255,0.08)' }} />
+      <div className="orderbook-levels" aria-live="polite">
+        {orderbook?.bids.map(level => {
+          const key = `bids-${level.price}`;
+          const flash = flashes[key];
+          const style: CSSProperties & { '--intensity': string } = {
+            '--intensity': Math.min(level.qty / maxQty, 1).toFixed(2)
+          } as CSSProperties & { '--intensity': string };
+          if (flash) {
+            style.animation = `${flash.trend === 'up' ? 'up' : 'down'} 420ms var(--ease)`;
+          }
+          return (
+            <div key={key} className="orderbook-row" data-side="bid" style={style}>
+              <span>{formatNumber(level.price)}</span>
               <span>{formatNumber(level.qty, 4)}</span>
-              <span
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  background: `linear-gradient(90deg, rgba(34, 197, 94, 0.18) ${
-                    (level.qty / maxQty) * 100
-                  }%, transparent ${Math.min((level.qty / maxQty) * 100 + 20, 100)}%)`,
-                  zIndex: -1,
-                  borderRadius: 8
-                }}
-              />
-            </motion.div>
-          ))}
-        </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

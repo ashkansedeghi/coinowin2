@@ -21,7 +21,8 @@ export default defineConfig({
       '@components': path.resolve(__dirname, 'web/src/components'),
       '@pages': path.resolve(__dirname, 'web/src/pages'),
       '@context': path.resolve(__dirname, 'web/src/context'),
-      '@assets': path.resolve(__dirname, 'web/src/assets')
+      '@assets': path.resolve(__dirname, 'web/src/assets'),
+      '@mock': path.resolve(__dirname, 'mock')
     }
   }
 });

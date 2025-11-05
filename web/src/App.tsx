@@ -1,6 +1,7 @@
 import { HashRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Sidebar from '@components/Sidebar';
 import Header from '@components/Header';
+import TickerTape from '@components/TickerTape';
 import MarketsPage from '@pages/Markets';
 import SpotPage from '@pages/Spot';
 import WalletPage from '@pages/Wallet';
@@ -21,6 +22,7 @@ const App = () => {
             <Sidebar />
             <div className="main">
               <Header />
+              <TickerTape />
               <div className="content-scroll">
                 <Routes>
                   <Route path="/" element={<Navigate to="/markets" replace />} />

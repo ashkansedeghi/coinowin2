@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { getTrades } from '@api';
 import { useTrading } from '@context/TradingContext';
@@ -24,34 +23,23 @@ const TradesTape = () => {
     <div className="panel trade-panel">
       <div className="card-title">
         <span>{t('recentTrades')}</span>
+        <small>{t('soundOff', { defaultValue: 'tick sound off' })}</small>
       </div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: 'var(--subtext)', marginBottom: 6 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: 'var(--muted)' }}>
         <span>{t('time')}</span>
         <span>{t('price')}</span>
         <span>{t('amount')}</span>
       </div>
       <div style={{ overflowY: 'auto', flex: 1, maxHeight: 320 }}>
-        <AnimatePresence initial={false}>
+        <div className="trade-feed" aria-live="polite">
           {trades.map(trade => (
-            <motion.div
-              key={`${trade.ts}-${trade.price}-${trade.qty}`}
-              initial={{ opacity: 0, x: -16 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 16 }}
-              transition={{ duration: 0.2 }}
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                padding: '6px 4px',
-                borderBottom: '1px solid rgba(255,255,255,0.04)'
-              }}
-            >
-              <span style={{ color: 'var(--subtext)' }}>{formatTimestamp(trade.ts)}</span>
-              <span style={{ color: trade.side === 'buy' ? 'var(--green)' : 'var(--red)' }}>{formatNumber(trade.price)}</span>
-              <span>{formatNumber(trade.qty, 4)}</span>
-            </motion.div>
+            <div key={`${trade.ts}-${trade.price}-${trade.qty}`} className="trade-row" data-side={trade.side}>
+              <span style={{ color: 'var(--muted)' }}>{formatTimestamp(trade.ts)}</span>
+              <span>{formatNumber(trade.price)}</span>
+              <span style={{ color: 'var(--text)' }}>{formatNumber(trade.qty, 4)}</span>
+            </div>
           ))}
-        </AnimatePresence>
+        </div>
       </div>
     </div>
   );

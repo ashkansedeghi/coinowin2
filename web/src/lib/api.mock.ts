@@ -1,9 +1,9 @@
-import marketsData from '../../mock/markets.json';
-import orderbooksData from '../../mock/orderbooks.json';
-import tradesData from '../../mock/trades.json';
-import candlesBTC1H from '../../mock/candles_BTCUSDT_1h.json';
-import candlesETH1H from '../../mock/candles_ETHUSDT_1h.json';
-import userData from '../../mock/user.json';
+import marketsData from '@mock/markets.json';
+import orderbooksData from '@mock/orderbooks.json';
+import tradesData from '@mock/trades.json';
+import candlesBTC1H from '@mock/candles_BTCUSDT_1h.json';
+import candlesETH1H from '@mock/candles_ETHUSDT_1h.json';
+import userData from '@mock/user.json';
 
 import type {
   Candle,
