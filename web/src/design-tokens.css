@@ -22,6 +22,7 @@
   --dur-fast: 120ms;
   --dur: 180ms;
   --dur-slow: 280ms;
+  --market-thead-offset: 0px;
 }
 
 @media (prefers-color-scheme: light) {

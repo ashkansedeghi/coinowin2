@@ -371,7 +371,7 @@ body.light .sx-table td {
 
 .sx-table thead th {
   position: sticky;
-  top: 0;
+  top: var(--market-thead-offset);
   z-index: 2;
   background: linear-gradient(180deg, color-mix(in srgb, var(--bg) 92%, #000 8%), color-mix(in srgb, var(--bg) 96%, #000 4%));
   font-size: 12px;
