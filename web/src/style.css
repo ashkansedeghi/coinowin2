@@ -867,11 +867,13 @@ body.light .sx-table tbody tr.is-active {
   opacity: var(--intensity);
 }
 
-.flash-up {
+.flash-up,
+.sx-flash-up {
   animation: up 420ms var(--ease);
 }
 
-.flash-down {
+.flash-down,
+.sx-flash-down {
   animation: down 420ms var(--ease);
 }
 
