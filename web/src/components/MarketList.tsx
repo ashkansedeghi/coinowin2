@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useTrading } from '@context/TradingContext';
 import { formatNumber, formatPercent } from '@lib/utils';
@@ -31,24 +30,45 @@ const MarketList = () => {
     navigate(`/spot/${symbol}`);
   };
 
+  const createSparkline = (symbol: string, price: number, change: number) => {
+    const length = 16;
+    const seed = symbol.split('').reduce((sum, char) => sum + char.charCodeAt(0), 0);
+    const amplitude = Math.max(Math.abs(change) / 100, 0.015);
+    const points = Array.from({ length }, (_, index) => {
+      const angle = (index + seed) * 0.35;
+      return price * (1 + Math.sin(angle) * amplitude);
+    });
+    const min = Math.min(...points);
+    const max = Math.max(...points);
+    const range = max - min || 1;
+    const coords = points.map((value, index) => {
+      const x = (index / (length - 1)) * 100;
+      const y = 32 - ((value - min) / range) * 32;
+      return [x, y];
+    });
+    const path = coords.map(([x, y], index) => `${index === 0 ? 'M' : 'L'}${x.toFixed(2)},${y.toFixed(2)}`).join(' ');
+    const area = `M0,32 ${coords.map(([x, y]) => `L${x.toFixed(2)},${y.toFixed(2)}`).join(' ')} L100,32 Z`;
+    return { path, area };
+  };
+
   const renderIcon = (base: string) => (
-    <svg width="24" height="24" style={{ marginRight: 10 }}>
+    <svg width="28" height="28">
       <use href={`#coin-${base.toLowerCase()}`} />
     </svg>
   );
 
   return (
     <div className="panel">
-      <div className="card-title" style={{ marginBottom: 16 }}>
+      <div className="card-title">
         <span>{t('markets')}</span>
-        <div style={{ display: 'flex', gap: 8 }}>
-          <button className={`btn ${filter === 'all' ? 'btn-buy' : ''}`} onClick={() => setFilter('all')}>
-            All
+        <div className="tab-bar">
+          <button type="button" className={filter === 'all' ? 'active' : ''} onClick={() => setFilter('all')}>
+            {t('all', { defaultValue: 'All' })}
           </button>
-          <button className={`btn ${filter === 'gainers' ? 'btn-buy' : ''}`} onClick={() => setFilter('gainers')}>
+          <button type="button" className={filter === 'gainers' ? 'active' : ''} onClick={() => setFilter('gainers')}>
             {t('topGainers')}
           </button>
-          <button className={`btn ${filter === 'losers' ? 'btn-sell' : ''}`} onClick={() => setFilter('losers')}>
+          <button type="button" className={filter === 'losers' ? 'active' : ''} onClick={() => setFilter('losers')}>
             {t('topLosers')}
           </button>
         </div>
@@ -58,53 +78,64 @@ const MarketList = () => {
         placeholder={t('search') ?? 'Search'}
         value={query}
         onChange={event => setQuery(event.target.value)}
-        style={{ marginBottom: 12 }}
+        style={{ marginBottom: 16 }}
+        aria-label={t('search') ?? 'Search markets'}
       />
-      <div style={{ maxHeight: 420, overflowY: 'auto' }}>
-        <table className="table">
-          <thead>
-            <tr>
-              <th style={{ textAlign: 'left' }}>{t('markets')}</th>
-              <th style={{ textAlign: 'right' }}>{t('price')}</th>
-              <th style={{ textAlign: 'right' }}>{t('change')}</th>
-              <th style={{ textAlign: 'right' }}>{t('volume')}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <AnimatePresence initial={false}>
-              {filteredMarkets.map(market => (
-                <motion.tr
-                  key={market.symbol}
-                  layout
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.18 }}
-                  onClick={() => onRowClick(market.symbol)}
-                  style={{
-                    cursor: 'pointer',
-                    background: selectedMarket?.symbol === market.symbol ? 'rgba(234, 179, 8, 0.1)' : 'transparent'
+      <div className="market-grid" role="list">
+        {filteredMarkets.length === 0 &&
+          Array.from({ length: 6 }).map((_, index) => <div key={index} className="skel" aria-hidden="true" />)}
+        {filteredMarkets.map(market => {
+          const trend = market.chgPct >= 0 ? 'up' : 'down';
+          const sparkline = createSparkline(market.symbol, market.last, market.chgPct);
+          return (
+            <article
+              key={market.symbol}
+              className={`market-card ${selectedMarket?.symbol === market.symbol ? 'is-active' : ''}`}
+              role="button"
+              tabIndex={0}
+              onClick={() => onRowClick(market.symbol)}
+              onKeyDown={event => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault();
+                  onRowClick(market.symbol);
+                }
+              }}
+            >
+              <div className="market-card-header">
+                <div className="pair-meta">
+                  {renderIcon(market.base)}
+                  <div>
+                    <div style={{ fontWeight: 600 }}>{market.base}/{market.quote}</div>
+                    <small style={{ color: 'var(--muted)' }}>{market.symbol}</small>
+                  </div>
+                </div>
+                <span className="market-change" data-trend={trend}>
+                  {trend === 'up' ? '↑' : '↓'} {formatPercent(market.chgPct)}
+                </span>
+              </div>
+              <div className="market-card-body">
+                <span className="market-price">{formatNumber(market.last, market.last > 100 ? 2 : 4)}</span>
+                <svg className="sparkline" viewBox="0 0 100 32" preserveAspectRatio="none" aria-hidden="true">
+                  <path className="sparkline-area" d={sparkline.area} fill={trend === 'up' ? 'var(--success)' : 'var(--danger)'} />
+                  <path d={sparkline.path} stroke={trend === 'up' ? 'var(--success)' : 'var(--danger)'} />
+                </svg>
+              </div>
+              <div className="market-card-footer">
+                <span>{t('volume')}: {formatNumber(market.vol, 2)}</span>
+                <button
+                  type="button"
+                  className="btn btn-cta"
+                  onClick={event => {
+                    event.stopPropagation();
+                    onRowClick(market.symbol);
                   }}
                 >
-                  <td>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                      {renderIcon(market.base)}
-                      <div style={{ display: 'flex', flexDirection: 'column' }}>
-                        <span style={{ fontWeight: 600 }}>{market.base}/{market.quote}</span>
-                        <small style={{ color: 'var(--subtext)' }}>{market.symbol}</small>
-                      </div>
-                    </div>
-                  </td>
-                  <td style={{ textAlign: 'right' }}>{formatNumber(market.last, market.last > 100 ? 2 : 4)}</td>
-                  <td style={{ textAlign: 'right', color: market.chgPct >= 0 ? 'var(--green)' : 'var(--red)' }}>
-                    {formatPercent(market.chgPct)}
-                  </td>
-                  <td style={{ textAlign: 'right' }}>{formatNumber(market.vol, 2)}</td>
-                </motion.tr>
-              ))}
-            </AnimatePresence>
-          </tbody>
-        </table>
+                  {t('trade')}
+                </button>
+              </div>
+            </article>
+          );
+        })}
       </div>
     </div>
   );

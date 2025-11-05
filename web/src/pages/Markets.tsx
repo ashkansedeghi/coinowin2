@@ -3,7 +3,7 @@ import Portfolio from '@components/Portfolio';
 
 const MarketsPage = () => {
   return (
-    <div className="market-grid">
+    <div className="market-layout">
       <MarketList />
       <Portfolio />
     </div>

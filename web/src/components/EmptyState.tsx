@@ -8,7 +8,7 @@ const EmptyState = () => {
         <use href="#coin-btc" />
       </svg>
       <h2 style={{ margin: 0 }}>{t('chooseMarket')}</h2>
-      <p style={{ color: 'var(--subtext)' }}>{t('networkNotice')}</p>
+      <p style={{ color: 'var(--muted)' }}>{t('networkNotice')}</p>
     </div>
   );
 };

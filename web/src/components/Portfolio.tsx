@@ -25,7 +25,15 @@ const Portfolio = ({ withActions = false, onAction }: PortfolioProps) => {
     <div className="panel">
       <div className="card-title">
         <span>{t('portfolioValue')}</span>
-        <span className="badge">${formatNumber(totalValue, 2)}</span>
+        <small>{t('updatedJustNow', { defaultValue: '• synced just now' })}</small>
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+        <div>
+          <div style={{ fontSize: 28, fontWeight: 700 }}>${formatNumber(totalValue, 2)}</div>
+          <div style={{ color: 'var(--muted)', fontSize: 12 }}>
+            {t('balancesAcrossWallets', { defaultValue: 'Spot + Funding balances' })}
+          </div>
+        </div>
       </div>
       <div className="wallet-grid">
         {wallet.map(asset => (
@@ -41,27 +49,27 @@ const Portfolio = ({ withActions = false, onAction }: PortfolioProps) => {
               </svg>
               <div>
                 <strong>{asset.symbol}</strong>
-                <div style={{ color: 'var(--subtext)', fontSize: 12 }}>{asset.name}</div>
+                <div style={{ color: 'var(--muted)', fontSize: 12 }}>{asset.name}</div>
               </div>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 12 }}>
               <span>{t('balance')}</span>
               <span>{formatNumber(asset.balance)}</span>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--subtext)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--muted)' }}>
               <span>{t('available')}</span>
               <span>{formatNumber(asset.available)}</span>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--subtext)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--muted)' }}>
               <span>{t('locked')}</span>
               <span>{formatNumber(asset.locked)}</span>
             </div>
             {withActions && (
               <div style={{ display: 'flex', gap: 10, marginTop: 12 }}>
-                <button className="btn btn-buy" type="button" onClick={() => onAction?.('deposit', asset.symbol)}>
+                <button className="btn btn-success" type="button" onClick={() => onAction?.('deposit', asset.symbol)}>
                   {t('deposit')}
                 </button>
-                <button className="btn btn-sell" type="button" onClick={() => onAction?.('withdraw', asset.symbol)}>
+                <button className="btn btn-danger" type="button" onClick={() => onAction?.('withdraw', asset.symbol)}>
                   {t('withdraw')}
                 </button>
               </div>

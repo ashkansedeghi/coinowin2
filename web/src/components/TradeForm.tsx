@@ -3,15 +3,16 @@ import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { useTrading } from '@context/TradingContext';
 import type { OrderSide, OrderType } from '@lib/types';
+import { useUI } from '@context/UIContext';
 
 const TradeForm = () => {
   const { t } = useTranslation();
   const { selectedMarket, placeOrder } = useTrading();
+  const { showToast } = useUI();
   const [type, setType] = useState<OrderType>('limit');
   const [side, setSide] = useState<OrderSide>('buy');
   const [price, setPrice] = useState('');
   const [qty, setQty] = useState('0.01');
-  const [feedback, setFeedback] = useState<string | null>(null);
 
   useEffect(() => {
     if (selectedMarket) {
@@ -25,7 +26,7 @@ const TradeForm = () => {
     if (!selectedMarket) return;
     const numericQty = Number(qty);
     if (!numericQty || numericQty <= 0) {
-      setFeedback(t('invalidQty'));
+      showToast(t('invalidQty'), 'error');
       return;
     }
     const order = await placeOrder({
@@ -35,7 +36,7 @@ const TradeForm = () => {
       price: type === 'limit' ? Number(price) : undefined,
       qty: numericQty
     });
-    setFeedback(`${order.side.toUpperCase()} ${order.symbol} • ${order.status.toUpperCase()}`);
+    showToast(`${order.side.toUpperCase()} ${order.symbol} • ${order.status.toUpperCase()}`, 'success');
   };
 
   return (
@@ -48,33 +49,45 @@ const TradeForm = () => {
     >
       <div className="card-title">
         <span>{t('spot')}</span>
-        <div className="tab-bar">
-          <button type="button" className={type === 'market' ? 'active' : ''} onClick={() => setType('market')}>
+        <div className="tab-bar" role="tablist">
+          <button
+            type="button"
+            className={type === 'market' ? 'active' : ''}
+            onClick={() => setType('market')}
+            role="tab"
+            aria-selected={type === 'market'}
+          >
             {t('market')}
           </button>
-          <button type="button" className={type === 'limit' ? 'active' : ''} onClick={() => setType('limit')}>
+          <button
+            type="button"
+            className={type === 'limit' ? 'active' : ''}
+            onClick={() => setType('limit')}
+            role="tab"
+            aria-selected={type === 'limit'}
+          >
             {t('limit')}
           </button>
         </div>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12, marginBottom: 12 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12, marginBottom: 16 }}>
         <button
           type="button"
-          className={`btn btn-buy ${side === 'buy' ? '' : 'muted'}`}
+          className={`btn btn-success ${side === 'buy' ? '' : 'btn-muted'}`}
           onClick={() => setSide('buy')}
         >
           {t('buy')}
         </button>
         <button
           type="button"
-          className={`btn btn-sell ${side === 'sell' ? '' : 'muted'}`}
+          className={`btn btn-danger ${side === 'sell' ? '' : 'btn-muted'}`}
           onClick={() => setSide('sell')}
         >
           {t('sell')}
         </button>
       </div>
       <label style={{ display: 'block', marginBottom: 12 }}>
-        <span style={{ display: 'block', marginBottom: 6, color: 'var(--subtext)' }}>{t('price')}</span>
+        <span style={{ display: 'block', marginBottom: 6, color: 'var(--muted)' }}>{t('price')}</span>
         <input
           className="input"
           value={price}
@@ -82,18 +95,27 @@ const TradeForm = () => {
           disabled={type === 'market'}
         />
       </label>
-      <label style={{ display: 'block', marginBottom: 12 }}>
-        <span style={{ display: 'block', marginBottom: 6, color: 'var(--subtext)' }}>{t('amount')}</span>
+      <label style={{ display: 'block', marginBottom: 16 }}>
+        <span style={{ display: 'block', marginBottom: 6, color: 'var(--muted)' }}>{t('amount')}</span>
         <input className="input" value={qty} onChange={event => setQty(event.target.value)} />
       </label>
-      <button type="submit" className={side === 'buy' ? 'btn btn-buy' : 'btn btn-sell'}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, color: 'var(--muted)', fontSize: 12 }}>
+        <span>{t('estTotal', { defaultValue: 'Est. total' })}</span>
+        <strong style={{ color: 'var(--text)' }}>
+          {selectedMarket ? `${formatEstimatedTotal(Number(price), Number(qty), selectedMarket.quote)}` : '—'}
+        </strong>
+      </div>
+      <button type="submit" className="btn btn-cta">
         {t('submit')}
       </button>
-      {feedback && (
-        <p style={{ marginTop: 12, color: 'var(--brand)' }}>{feedback}</p>
-      )}
     </motion.form>
   );
+};
+
+const formatEstimatedTotal = (price: number, qty: number, currency: string) => {
+  if (!price || !qty) return '—';
+  const total = price * qty;
+  return `${total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${currency}`;
 };
 
 export default TradeForm;

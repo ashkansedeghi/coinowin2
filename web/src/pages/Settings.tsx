@@ -13,7 +13,7 @@ const SettingsPage = () => {
       <div className="settings-grid">
         <div className="panel" style={{ background: 'rgba(255,255,255,0.02)' }}>
           <h3>{t('theme')}</h3>
-          <p style={{ color: 'var(--subtext)' }}>{theme === 'dark' ? t('dark') : t('light')}</p>
+          <p style={{ color: 'var(--muted)' }}>{theme === 'dark' ? t('dark') : t('light')}</p>
           <button className="btn" style={{ background: 'var(--brand)', color: '#0b0f10' }} onClick={toggleTheme}>
             {t('light')} / {t('dark')}
           </button>

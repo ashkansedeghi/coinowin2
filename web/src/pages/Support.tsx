@@ -27,7 +27,7 @@ const SupportPage = () => {
               <strong>{item.question}</strong>
               <span>{open === index ? '−' : '+'}</span>
             </div>
-            {open === index && <p style={{ marginTop: 12, color: 'var(--subtext)' }}>{item.answer}</p>}
+            {open === index && <p style={{ marginTop: 12, color: 'var(--muted)' }}>{item.answer}</p>}
           </div>
         ))}
       </div>
