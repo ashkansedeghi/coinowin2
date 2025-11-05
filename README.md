@@ -54,3 +54,7 @@ This project is released under the MIT License. See [LICENSE](./LICENSE) for det
 ## Disclaimer
 
 CoinoWin is an offline demonstration only. All balances, markets, and orders are synthetic and should not be used for real trading or financial decisions.
+
+## GitHub workflow tips
+
+- اگر یک Pull Request قبل از دریافت تایید Merge شد یا بسته شد، راهنمای [مدیریت Pull Requestهای Merge شده بدون تایید](docs/pr-approval.md) را دنبال کنید تا شاخه را بازیابی کنید، تایید جدید بگیرید و قوانین Branch Protection را تنظیم کنید.
