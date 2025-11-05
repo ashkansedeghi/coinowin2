@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState, type CSSProperties } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useTrading } from '@context/TradingContext';
@@ -93,6 +93,8 @@ const MarketList = () => {
   const { t, i18n } = useTranslation();
   const [query, setQuery] = useState('');
   const [sortState, setSortState] = useState<{ key: SortKey; dir: SortDir }>({ key: 'volume', dir: 'desc' });
+  const priceHistoryRef = useRef<Map<string, number>>(new Map());
+  const [priceFlashes, setPriceFlashes] = useState<Record<string, 'up' | 'down'>>({});
 
   const baseRows = useMemo(() => {
     return markets.map(market => {
@@ -134,6 +136,48 @@ const MarketList = () => {
       } as TableMarket;
     });
   }, [baseRows]);
+
+  useEffect(() => {
+    const visibleSymbols = new Set(rowsWithPercent.map(row => row.symbol));
+    priceHistoryRef.current.forEach((_, symbol) => {
+      if (!visibleSymbols.has(symbol)) {
+        priceHistoryRef.current.delete(symbol);
+      }
+    });
+
+    const updates: Array<[string, 'up' | 'down']> = [];
+    rowsWithPercent.forEach(row => {
+      const prevPrice = priceHistoryRef.current.get(row.symbol);
+      if (prevPrice !== undefined && prevPrice !== row.price) {
+        updates.push([row.symbol, row.price > prevPrice ? 'up' : 'down']);
+      }
+      priceHistoryRef.current.set(row.symbol, row.price);
+    });
+
+    if (!updates.length || typeof window === 'undefined') {
+      return;
+    }
+
+    setPriceFlashes(prev => {
+      const next = { ...prev };
+      updates.forEach(([symbol, direction]) => {
+        next[symbol] = direction;
+      });
+      return next;
+    });
+
+    const timer = window.setTimeout(() => {
+      setPriceFlashes(prev => {
+        const next = { ...prev };
+        updates.forEach(([symbol]) => {
+          delete next[symbol];
+        });
+        return next;
+      });
+    }, 450);
+
+    return () => window.clearTimeout(timer);
+  }, [rowsWithPercent]);
 
   type RankedMarket = TableMarket & { rank: number };
 
@@ -423,6 +467,7 @@ const MarketList = () => {
                 const depthPlusPct = maxDepthPlus ? Math.min(100, (row.depthPlus / maxDepthPlus) * 100) : 0;
                 const depthMinusPct = maxDepthMinus ? Math.min(100, (row.depthMinus / maxDepthMinus) * 100) : 0;
                 const trend = row.change >= 0 ? 'up' : 'down';
+                const priceFlash = priceFlashes[row.symbol];
                 return (
                   <tr
                     key={row.symbol}
@@ -457,7 +502,10 @@ const MarketList = () => {
                     <td className="sx-col-pair">
                       <span className="sx-pair">{row.pair}</span>
                     </td>
-                    <td className="sx-col-price sx-num" data-trend={trend}>
+                    <td
+                      className={`sx-col-price sx-num${priceFlash ? ` sx-flash-${priceFlash}` : ''}`}
+                      data-trend={trend}
+                    >
                       <span className="sx-price">{formatUSD(row.price, locale)}</span>
                       <span className="sx-price-change">{formatPercent(row.change)}</span>
                     </td>
