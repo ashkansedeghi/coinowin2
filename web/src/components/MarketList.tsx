@@ -138,6 +138,54 @@ const MarketList = () => {
   }, [baseRows]);
 
   useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    const root = document.documentElement;
+    const header = document.querySelector<HTMLElement>('.main-header');
+    const ticker = document.querySelector<HTMLElement>('.ticker-tape');
+    const content = document.querySelector<HTMLElement>('.content-scroll');
+
+    const parseSize = (value: string | null) => {
+      if (!value) {
+        return 0;
+      }
+      const parsed = Number.parseFloat(value);
+      return Number.isFinite(parsed) ? parsed : 0;
+    };
+
+    const updateOffset = () => {
+      const headerHeight = header?.offsetHeight ?? 0;
+      const tickerHeight = ticker?.offsetHeight ?? 0;
+      const paddingTop = content ? parseSize(window.getComputedStyle(content).paddingTop) : 0;
+      const offset = Math.max(0, headerHeight + tickerHeight - paddingTop);
+      root.style.setProperty('--market-thead-offset', `${offset}px`);
+    };
+
+    updateOffset();
+
+    let resizeObserver: ResizeObserver | undefined;
+    if (typeof ResizeObserver !== 'undefined') {
+      resizeObserver = new ResizeObserver(updateOffset);
+      if (header) {
+        resizeObserver.observe(header);
+      }
+      if (ticker) {
+        resizeObserver.observe(ticker);
+      }
+    }
+
+    window.addEventListener('resize', updateOffset);
+
+    return () => {
+      window.removeEventListener('resize', updateOffset);
+      resizeObserver?.disconnect();
+      root.style.removeProperty('--market-thead-offset');
+    };
+  }, []);
+
+  useEffect(() => {
     const visibleSymbols = new Set(rowsWithPercent.map(row => row.symbol));
     priceHistoryRef.current.forEach((_, symbol) => {
       if (!visibleSymbols.has(symbol)) {
